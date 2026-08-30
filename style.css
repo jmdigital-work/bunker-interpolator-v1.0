@@ -1,0 +1,331 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: "Times New Roman", Times, serif;
+  color: #111;
+}
+
+.app {
+  padding: 14px;
+}
+
+.sheet {
+  width: min(100%, 832px);
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid #111;
+  position: relative;
+  min-height: 445px;
+}
+
+.main-panel {
+  width: 77%;
+  min-height: 442px;
+  padding: 4px 18px 20px;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.15;
+}
+
+header h2 {
+  margin: 3px 0 0;
+  font-size: 15px;
+  line-height: 1.15;
+}
+
+.calculator {
+  width: 100%;
+  max-width: 545px;
+  margin: 46px auto 0;
+  position: relative;
+}
+
+.trim-label {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.trim-row {
+  width: 330px;
+  margin-left: 122px;
+  display: grid;
+  grid-template-columns: repeat(3, 110px);
+}
+
+.grid-area {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 95px 110px 330px;
+  align-items: stretch;
+}
+
+.depth-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  justify-self: center;
+  align-self: center;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.depth-column,
+.value-grid {
+  display: grid;
+  grid-template-rows: repeat(3, 53px);
+}
+
+.value-grid {
+  grid-template-columns: repeat(3, 110px);
+}
+
+.input-cell,
+.data-cell,
+.result-cell {
+  width: 110px;
+  height: 53px;
+  border: 1px solid #111;
+  border-radius: 0;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  outline: none;
+}
+
+.depth-column .input-cell {
+  width: 110px;
+}
+
+.input-cell:focus,
+.data-cell:focus {
+  box-shadow: inset 0 0 0 2px #247d9f;
+  position: relative;
+  z-index: 2;
+}
+
+.white {
+  background: #fff;
+}
+
+.blue {
+  background: #b9e0ef;
+}
+
+.data-cell {
+  color: #111;
+}
+
+.result-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7c4a8;
+  color: #e60000;
+}
+
+.target-result {
+  font-size: 15px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 330px;
+  margin: 38px 0 0 122px;
+}
+
+button {
+  width: 108px;
+  height: 36px;
+  border-radius: 7px;
+  border: 2px solid #07506d;
+  background: #176c8e;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 1px rgba(0,0,0,.15);
+}
+
+button:hover {
+  filter: brightness(1.08);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.instructions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 23%;
+  min-height: 442px;
+  border-left: 2px solid #111;
+  padding: 43px 8px 10px 4px;
+  background: #fafafa;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.instructions h3 {
+  margin: 0 0 26px;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.instructions p {
+  margin: 0 0 27px;
+}
+
+.instructions .note {
+  margin-top: 2px;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: -23px;
+  width: 100%;
+  font-size: 13px;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+footer a {
+  color: #2a7398;
+}
+
+.brand {
+  position: absolute;
+  right: 0;
+  font-style: normal;
+  font-size: 10px;
+}
+
+@media (max-width: 760px) {
+  body {
+    background: #fff;
+  }
+
+  .app {
+    padding: 0;
+  }
+
+  .sheet {
+    width: 100%;
+    min-height: 100vh;
+    border: 0;
+    margin: 0;
+  }
+
+  .main-panel {
+    width: 100%;
+    min-height: auto;
+    padding: 14px 10px 28px;
+  }
+
+  header h1 {
+    font-size: 20px;
+  }
+
+  header h2 {
+    font-size: 14px;
+  }
+
+  .calculator {
+    max-width: 100%;
+    margin-top: 48px;
+  }
+
+  .trim-row {
+    width: min(330px, 100%);
+    margin: 0 auto;
+    grid-template-columns: repeat(3, minmax(0, 110px));
+  }
+
+  .grid-area {
+    width: min(535px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: 42px minmax(0, 110px) repeat(3, minmax(0, 1fr));
+  }
+
+  .depth-label {
+    grid-column: 1;
+  }
+
+  .depth-column {
+    grid-column: 2;
+  }
+
+  .value-grid {
+    grid-column: 3 / 6;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .input-cell,
+  .data-cell,
+  .result-cell,
+  .depth-column .input-cell {
+    width: 100%;
+    height: 53px;
+  }
+
+  .buttons {
+    width: min(330px, 100%);
+    margin: 34px auto 0;
+  }
+
+  .instructions {
+    position: static;
+    width: 100%;
+    min-height: 0;
+    border-left: 0;
+    border-top: 2px solid #111;
+    padding: 20px 16px;
+    font-size: 14px;
+  }
+
+  .instructions h3 {
+    margin-bottom: 16px;
+  }
+
+  .instructions p {
+    margin-bottom: 18px;
+  }
+
+  footer {
+    position: static;
+    width: auto;
+    padding: 12px 10px 18px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  footer .brand {
+    position: static;
+    display: block;
+    margin-top: 4px;
+  }
+}
