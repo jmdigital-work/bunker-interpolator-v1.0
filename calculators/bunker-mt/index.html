@@ -17,7 +17,7 @@
 
   <meta
     name="description"
-    content="MarineCalc Bunker MT Calculator — convert bunker volume to mass."
+    content="MarineCalc Bunker MT Calculator — simplified shipboard bunker mass calculation."
   >
 
   <title>Bunker (MT) Calculator | MarineCalc</title>
@@ -29,182 +29,152 @@
 
 <body>
 
-  <main class="calculator-page">
+<main class="app">
 
 
-    <!-- MARINECALC HEADER -->
+  <!-- HEADER -->
 
-    <header class="marine-header">
-
-      <a
-        href="../../index.html"
-        class="brand"
-      >
-
-        <span class="brand-icon">
-          ⚓
-        </span>
-
-        <span>
-
-          <strong>
-            MARINECALC
-          </strong>
-
-          <small>
-            Marine Engineering Tools
-          </small>
-
-        </span>
-
-      </a>
-
-    </header>
-
-
-    <!-- BACK -->
+  <header class="marine-header">
 
     <a
       href="../../index.html"
-      class="back-button"
+      class="brand"
     >
-      ← Back to MarineCalc
-    </a>
 
+      <span class="brand-icon">
+        ⚓
+      </span>
 
-    <!-- TITLE -->
+      <span>
 
-    <section class="calculator-heading">
+        <strong>
+          MARINECALC
+        </strong>
 
-      <div class="tool-icon">
-        ⛽
-      </div>
-
-      <div>
-
-        <h1>
-          Bunker (MT) Calculator
-        </h1>
-
-        <p>
-          Volume → temperature-corrected mass
-        </p>
-
-        <span class="pro-badge">
-          PRO
-        </span>
-
-      </div>
-
-    </section>
-
-
-    <!-- CALCULATOR -->
-
-    <section class="calculator-card">
-
-
-      <!-- FUEL TYPE -->
-
-      <div class="form-group">
-
-        <label for="fuelType">
-          Fuel Type
-        </label>
-
-        <select id="fuelType">
-
-          <option value="HFO">
-            HFO
-          </option>
-
-          <option value="VLSFO">
-            VLSFO
-          </option>
-
-          <option value="MGO">
-            MGO
-          </option>
-
-          <option value="MDO">
-            MDO
-          </option>
-
-          <option value="LNG">
-            LNG
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <!-- ACTUAL VOLUME -->
-
-      <div class="form-group">
-
-        <label for="actualVolume">
-          Actual Volume
-          <span>m³</span>
-        </label>
-
-        <input
-          id="actualVolume"
-          type="number"
-          step="any"
-          min="0"
-          inputmode="decimal"
-          placeholder="Enter volume"
-        >
-
-      </div>
-
-
-      <!-- DENSITY -->
-
-      <div class="form-group">
-
-        <label for="density15">
-          Density @ 15°C
-          <span>kg/m³</span>
-        </label>
-
-        <input
-          id="density15"
-          type="number"
-          step="any"
-          min="0"
-          inputmode="decimal"
-          placeholder="Enter BDN density"
-        >
-
-        <small class="field-help">
-          Enter the density stated on the Bunker Delivery Note.
+        <small>
+          Marine Engineering Tools
         </small>
 
+      </span>
+
+    </a>
+
+  </header>
+
+
+  <!-- BACK -->
+
+  <a
+    href="../../index.html"
+    class="back-button"
+  >
+    ← Back to MarineCalc
+  </a>
+
+
+  <!-- TITLE -->
+
+  <section class="page-heading">
+
+    <div class="tool-icon">
+      ⛽
+    </div>
+
+    <div>
+
+      <h1>
+        Bunker (MT) Calculator
+      </h1>
+
+      <p>
+        Simplified shipboard bunker mass calculation.
+      </p>
+
+      <span class="pro-badge">
+        PRO
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- CALCULATOR -->
+
+  <section class="calculator-card">
+
+
+    <!-- FUEL SPECIFICATION -->
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <span>⚙️</span>
+
+        <h2>
+          Fuel Specification
+        </h2>
+
       </div>
 
 
-      <!-- TEMPERATURE -->
+      <div class="two-column">
 
-      <div class="form-group">
 
-        <label for="temperature">
-          Fuel Temperature
-          <span>°C</span>
-        </label>
+        <!-- DENSITY -->
 
-        <input
-          id="temperature"
-          type="number"
-          step="any"
-          inputmode="decimal"
-          placeholder="Enter temperature"
-        >
+        <div class="form-group">
+
+          <label for="density15">
+
+            Density of Fuel Oil @ 15°C
+
+            <span>
+              kg/m³
+            </span>
+
+          </label>
+
+          <input
+            id="density15"
+            type="number"
+            step="any"
+            min="0"
+            inputmode="decimal"
+            placeholder="991.0000"
+          >
+
+          <small class="help">
+            Enter the density stated on the Bunker Delivery Note.
+          </small>
+
+        </div>
+
+
+        <!-- TEMPERATURE -->
+
+        <div class="form-group">
+
+          <label for="temperature">
+
+            Fuel Temperature
+
+            <span>
+              °C
+            </span>
+
+          </label>
+
+          <input
+            id="temperature"
+            type="number"
+            step="any"
+            inputmode="decimal"
+            placeholder="50.0000"
+          >
+
+        </div>
 
       </div>
 
@@ -218,7 +188,7 @@
           Correction Coefficient
 
           <span>
-            —
+            Default
           </span>
 
         </label>
@@ -232,7 +202,7 @@
           inputmode="decimal"
         >
 
-        <small class="field-help">
+        <small class="help">
 
           Default: 0.00064.
           Editable simplified shipboard calculation coefficient.
@@ -241,8 +211,52 @@
 
       </div>
 
+    </section>
 
-      <!-- CALCULATE -->
+
+    <!-- ACTUAL VOLUME -->
+
+    <section class="section volume-section">
+
+      <div class="section-title">
+
+        <span>📏</span>
+
+        <h2>
+          Actual Volume
+        </h2>
+
+      </div>
+
+
+      <div class="volume-input">
+
+        <input
+          id="actualVolume"
+          type="number"
+          step="any"
+          min="0"
+          inputmode="decimal"
+          placeholder="99.0000"
+        >
+
+        <span>
+          m³
+        </span>
+
+      </div>
+
+      <small class="help">
+        Enter the known bunker volume obtained from sounding,
+        tank table, or another source.
+      </small>
+
+    </section>
+
+
+    <!-- BUTTONS -->
+
+    <div class="action-buttons">
 
       <button
         id="calculateButton"
@@ -252,127 +266,169 @@
         CALCULATE
       </button>
 
-
-      <!-- ERROR -->
-
-      <div
-        id="errorMessage"
-        class="error-message"
-        role="alert"
-      ></div>
-
-
-      <!-- RESULTS -->
-
-      <section
-        id="resultSection"
-        class="result-section"
-        aria-live="polite"
+      <button
+        id="clearButton"
+        class="clear-button"
+        type="button"
       >
+        CLEAR
+      </button>
 
-        <div class="result-row">
+    </div>
 
-          <span>
-            Temperature-Corrected Density
+
+    <!-- ERROR -->
+
+    <div
+      id="errorMessage"
+      class="error-message"
+      role="alert"
+    ></div>
+
+
+    <!-- RESULT -->
+
+    <section class="result-section">
+
+
+      <div class="result-heading">
+
+        <span>
+          ●
+        </span>
+
+        <h2>
+          RESULT
+        </h2>
+
+      </div>
+
+
+      <!-- TCD -->
+
+      <div class="tcd-result">
+
+        <span>
+          TEMPERATURE-CORRECTED DENSITY
+        </span>
+
+        <strong>
+
+          <span id="correctedDensity">
+            —
           </span>
 
-          <strong>
+          kg/m³
 
-            <span id="correctedDensity">
-              —
-            </span>
+        </strong>
 
-            kg/m³
-
-          </strong>
-
-        </div>
+      </div>
 
 
-        <div class="main-result">
+      <!-- MASS -->
 
-          <span>
-            Bunker Mass
+      <div class="mass-result">
+
+        <span>
+          BUNKER MASS
+        </span>
+
+        <strong>
+
+          <span id="bunkerMass">
+            —
           </span>
 
-          <strong>
+          MT
 
-            <span id="bunkerMass">
-              —
-            </span>
+        </strong>
 
-            MT
-
-          </strong>
-
-        </div>
-
-      </section>
+      </div>
 
 
     </section>
 
 
-    <!-- CALCULATION NOTE -->
+    <!-- CALCULATION -->
 
-    <section class="calculation-note">
+    <section class="calculation-section">
 
-      <h2>
-        Calculation Method
-      </h2>
+      <div class="section-title">
+
+        <span>
+          🧮
+        </span>
+
+        <h2>
+          Calculation
+        </h2>
+
+      </div>
+
 
       <p>
-        Temperature-corrected density is calculated from
-        density at 15°C using the editable correction coefficient.
+        Temperature-Corrected Density:
       </p>
 
-      <div class="formula">
-
-        ρ<sub>T</sub> =
-        ρ<sub>15</sub> ×
-        [1 − C × (T − 15)]
-
-      </div>
 
       <div class="formula">
 
-        MT =
-        V × ρ<sub>T</sub> ÷ 1000
+        (Density of Fuel Oil @ 15°C)
+        × [1 − {(T − 15) × 0.00064}]
 
       </div>
 
-      <p class="note-text">
 
-        <strong>Note:</strong>
-        The default coefficient of 0.00064 is provided as a
-        simplified shipboard calculation default. It is editable
-        and is not presented as a universally correct coefficient
+      <p>
+        Bunker Mass:
+      </p>
+
+
+      <div class="formula">
+
+        Actual Volume × Temperature-Corrected Density ÷ 1000
+
+      </div>
+
+
+      <div class="note">
+
+        <strong>
+          Note:
+        </strong>
+
+        The default coefficient of 0.00064 is a simplified
+        shipboard calculation default. It is editable and is
+        not presented as a universally correct coefficient
         for every fuel type.
 
-      </p>
+      </div>
 
     </section>
 
 
-    <!-- FOOTER -->
-
-    <footer>
-
-      <span>
-        MarineCalc
-      </span>
-
-      <span>
-        Bunker (MT) Calculator • PRO
-      </span>
-
-    </footer>
+  </section>
 
 
-  </main>
+  <!-- FOOTER -->
+
+  <footer>
+
+    <span>
+      MarineCalc
+    </span>
+
+    <span>
+      Bunker (MT) Calculator • PRO
+    </span>
+
+  </footer>
 
 
-  <script src="script.js"></script>
+</main>
+
+
+<script src="script.js"></script>
 
 </body>
 
