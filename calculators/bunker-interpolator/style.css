@@ -1,0 +1,1100 @@
+/* =========================================================
+   MARINECALC
+   BUNKER INTERPOLATOR
+   Responsive / Shared Grid Layout
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+  --label-column: 95px;
+  --depth-column: 110px;
+  --data-column: 110px;
+
+  --navy: #0b3d5c;
+  --blue: #b9e0ef;
+  --button: #176c8e;
+  --button-border: #07506d;
+  --orange: #f7c4a8;
+
+  --border: #111;
+  --soft-border: #c9d8df;
+
+  --text: #10212b;
+  --muted: #63727a;
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #edf6f9 0%,
+      #ffffff 45%
+    );
+
+  color: var(--text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.calculator-page {
+  width: 100%;
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding:
+    18px
+    18px
+    30px;
+}
+
+
+/* =========================================================
+   MARINECALC HEADER
+   ========================================================= */
+
+.marine-header {
+  padding-bottom: 14px;
+
+  border-bottom:
+    1px solid
+    var(--soft-border);
+}
+
+.brand {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--navy);
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--navy);
+
+  color: #fff;
+
+  font-size: 19px;
+}
+
+.brand strong {
+  display: block;
+
+  font-size: 16px;
+
+  letter-spacing: 1px;
+}
+
+.brand small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.back-button {
+  display: inline-block;
+
+  margin-top: 18px;
+
+  color: var(--button);
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   CALCULATOR HEADING
+   ========================================================= */
+
+.calculator-heading {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin:
+    22px
+    0
+    24px;
+}
+
+.tool-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #eaf5f9;
+
+  font-size: 25px;
+}
+
+.calculator-heading h1 {
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 22px;
+}
+
+.calculator-heading p {
+  margin:
+    4px
+    0
+    7px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+.free-badge {
+  display: inline-block;
+
+  padding:
+    3px
+    8px;
+
+  border-radius: 20px;
+
+  background: #e5f5ec;
+
+  color: #18794e;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .5px;
+}
+
+
+/* =========================================================
+   CALCULATOR CONTAINER
+   ========================================================= */
+
+.calculator-container {
+  display: flex;
+
+  gap: 20px;
+
+  padding: 22px;
+
+  background: #fff;
+
+  border:
+    1px solid
+    var(--soft-border);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 6px 22px
+    rgba(19, 55, 70, 0.08);
+}
+
+
+/* =========================================================
+   CALCULATOR
+   =========================================================
+
+   IMPORTANT:
+
+   The table uses one shared geometry:
+
+       95px  = Ullage/Depth label
+       110px = Ullage/Depth values
+       110px = Data column 1
+       110px = Data column 2
+       110px = Data column 3
+
+   Total = 535px
+
+   The Trim row starts exactly where
+   the three data columns start.
+   ========================================================= */
+
+.calculator {
+  width: calc(
+    var(--label-column) +
+    var(--depth-column) +
+    (var(--data-column) * 3)
+  );
+
+  max-width: 100%;
+
+  margin:
+    46px
+    auto
+    0;
+
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   TRIM LABEL
+   ========================================================= */
+
+.trim-label {
+  position: absolute;
+
+  top: -22px;
+
+  left: calc(
+    var(--label-column) +
+    var(--depth-column)
+  );
+
+  width:
+    calc(
+      var(--data-column) * 3
+    );
+
+  text-align: center;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 16px;
+
+  font-style: italic;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   TRIM ROW
+   ========================================================= */
+
+.trim-row {
+  margin-left: calc(
+    var(--label-column) +
+    var(--depth-column)
+  );
+
+  width:
+    calc(
+      var(--data-column) * 3
+    );
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      var(--data-column)
+    );
+}
+
+
+/* =========================================================
+   INPUT / DATA / RESULT CELLS
+   ========================================================= */
+
+.input-cell,
+.data-cell,
+.result-cell {
+  width: 100%;
+  height: 53px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 0;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  text-align: center;
+
+  outline: none;
+}
+
+
+/* Remove number spinners */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+}
+
+
+/* Focus */
+
+.input-cell:focus,
+.data-cell:focus {
+  position: relative;
+
+  z-index: 2;
+
+  box-shadow:
+    inset 0 0 0 2px #247d9f;
+}
+
+
+/* =========================================================
+   CELL COLORS
+   ========================================================= */
+
+.white {
+  background: #fff;
+}
+
+.blue {
+  background: var(--blue);
+}
+
+
+/* =========================================================
+   MAIN GRID
+   =========================================================
+
+   EXACT SAME COLUMN STRUCTURE:
+
+       Column 1 = Ullage/Depth label
+       Column 2 = Ullage/Depth values
+       Columns 3-5 = sounding data
+   ========================================================= */
+
+.grid-area {
+  width: 100%;
+
+  margin-top: 12px;
+
+  display: grid;
+
+  grid-template-columns:
+    var(--label-column)
+    var(--depth-column)
+    repeat(
+      3,
+      var(--data-column)
+    );
+}
+
+
+/* =========================================================
+   DEPTH LABEL
+   ========================================================= */
+
+.depth-label {
+  grid-column: 1;
+
+  writing-mode: vertical-rl;
+
+  transform: rotate(180deg);
+
+  justify-self: center;
+
+  align-self: center;
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 14px;
+
+  font-style: italic;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   DEPTH COLUMN
+   ========================================================= */
+
+.depth-column {
+  grid-column: 2;
+
+  display: grid;
+
+  grid-template-rows:
+    repeat(
+      3,
+      53px
+    );
+}
+
+.depth-column .input-cell {
+  width: 100%;
+}
+
+
+/* =========================================================
+   SOUNDING DATA GRID
+   ========================================================= */
+
+.value-grid {
+  grid-column: 3 / 6;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      var(--data-column)
+    );
+
+  grid-template-rows:
+    repeat(
+      3,
+      53px
+    );
+}
+
+
+/* =========================================================
+   DATA CELLS
+   ========================================================= */
+
+.data-cell {
+  color: #111;
+}
+
+
+/* =========================================================
+   CALCULATED RESULT CELLS
+   ========================================================= */
+
+.result-cell {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: var(--orange);
+
+  color: #e60000;
+}
+
+.target-result {
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.buttons {
+  width:
+    calc(
+      var(--data-column) * 3
+    );
+
+  margin-top: 38px;
+
+  margin-left:
+    calc(
+      var(--label-column) +
+      var(--depth-column)
+    );
+
+  display: flex;
+
+  justify-content: space-between;
+}
+
+.buttons button {
+  width: 108px;
+  height: 36px;
+
+  border:
+    2px solid
+    var(--button-border);
+
+  border-radius: 7px;
+
+  background: var(--button);
+
+  color: #fff;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 1px 1px
+    rgba(0, 0, 0, 0.15);
+}
+
+.buttons button:hover {
+  filter: brightness(1.08);
+}
+
+.buttons button:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   INSTRUCTIONS PANEL
+   ========================================================= */
+
+.instructions {
+  flex: 1;
+
+  padding-left: 18px;
+
+  border-left:
+    1px solid
+    var(--soft-border);
+
+  font-family:
+    "Times New Roman",
+    Times,
+    serif;
+
+  font-size: 13px;
+
+  line-height: 1.35;
+}
+
+.instructions h3 {
+  margin:
+    0
+    0
+    20px;
+
+  color: var(--navy);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 12px;
+
+  letter-spacing: 1px;
+}
+
+.instructions p {
+  margin:
+    0
+    0
+    20px;
+}
+
+.instructions .note {
+  margin-top: 5px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 18px;
+
+  padding:
+    0
+    4px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .calculator-container {
+    gap: 15px;
+  }
+
+  .instructions {
+    padding-left: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  :root {
+    --mobile-label-column: 42px;
+    --mobile-depth-column: 110px;
+  }
+
+
+  /* -------------------------------------------------------
+     Page
+     ------------------------------------------------------- */
+
+  body {
+    background: #fff;
+  }
+
+  .calculator-page {
+    width: 100%;
+
+    padding:
+      14px
+      10px
+      25px;
+  }
+
+
+  /* -------------------------------------------------------
+     Header
+     ------------------------------------------------------- */
+
+  .marine-header {
+    padding-bottom: 12px;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+
+    font-size: 17px;
+  }
+
+  .brand strong {
+    font-size: 14px;
+  }
+
+
+  /* -------------------------------------------------------
+     Heading
+     ------------------------------------------------------- */
+
+  .calculator-heading {
+    margin:
+      18px
+      0
+      18px;
+  }
+
+  .tool-icon {
+    width: 46px;
+    height: 46px;
+
+    font-size: 22px;
+  }
+
+  .calculator-heading h1 {
+    font-size: 19px;
+  }
+
+
+  /* -------------------------------------------------------
+     Calculator container
+     ------------------------------------------------------- */
+
+  .calculator-container {
+    display: block;
+
+    padding:
+      14px;
+
+    overflow: hidden;
+  }
+
+
+  /* -------------------------------------------------------
+     Calculator
+
+     IMPORTANT:
+     The calculator remains based on
+     the same shared-grid geometry.
+     ------------------------------------------------------- */
+
+  .calculator {
+    width: 100%;
+
+    max-width: 535px;
+
+    margin:
+      48px
+      auto
+      0;
+  }
+
+
+  /* -------------------------------------------------------
+     Trim label
+     ------------------------------------------------------- */
+
+  .trim-label {
+    left:
+      calc(
+        var(--mobile-label-column) +
+        var(--mobile-depth-column)
+      );
+
+    width:
+      calc(
+        100% -
+        var(--mobile-label-column) -
+        var(--mobile-depth-column)
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     Trim row
+
+     EXACT SAME STARTING POINT
+     AND WIDTH AS DATA COLUMNS.
+     ------------------------------------------------------- */
+
+  .trim-row {
+    width:
+      calc(
+        100% -
+        var(--mobile-label-column) -
+        var(--mobile-depth-column)
+      );
+
+    margin-left:
+      calc(
+        var(--mobile-label-column) +
+        var(--mobile-depth-column)
+      );
+
+    margin-right: 0;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+  .trim-row .input-cell {
+    width: 100%;
+  }
+
+
+  /* -------------------------------------------------------
+     Main grid
+     ------------------------------------------------------- */
+
+  .grid-area {
+    width: 100%;
+
+    max-width: 535px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    display: grid;
+
+    grid-template-columns:
+      var(--mobile-label-column)
+      var(--mobile-depth-column)
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     Depth label
+     ------------------------------------------------------- */
+
+  .depth-label {
+    grid-column: 1;
+  }
+
+
+  /* -------------------------------------------------------
+     Depth values
+     ------------------------------------------------------- */
+
+  .depth-column {
+    grid-column: 2;
+
+    display: grid;
+
+    grid-template-rows:
+      repeat(
+        3,
+        53px
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     Data grid
+     ------------------------------------------------------- */
+
+  .value-grid {
+    grid-column: 3 / 6;
+
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+
+    grid-template-rows:
+      repeat(
+        3,
+        53px
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     Cells
+     ------------------------------------------------------- */
+
+  .input-cell,
+  .data-cell,
+  .result-cell,
+  .depth-column .input-cell {
+    width: 100%;
+    height: 53px;
+  }
+
+
+  /* -------------------------------------------------------
+     Buttons
+     ------------------------------------------------------- */
+
+  .buttons {
+    width:
+      calc(
+        100% -
+        var(--mobile-label-column) -
+        var(--mobile-depth-column)
+      );
+
+    margin-left:
+      calc(
+        var(--mobile-label-column) +
+        var(--mobile-depth-column)
+      );
+
+    margin-right: 0;
+
+    margin-top: 34px;
+
+    display: flex;
+
+    justify-content: space-between;
+  }
+
+
+  /* -------------------------------------------------------
+     Instructions
+     ------------------------------------------------------- */
+
+  .instructions {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding:
+      20px
+      2px
+      2px;
+
+    border-left: 0;
+
+    border-top:
+      2px solid
+      var(--soft-border);
+
+    font-size: 14px;
+  }
+
+  .instructions h3 {
+    margin-bottom: 16px;
+  }
+
+  .instructions p {
+    margin-bottom: 18px;
+  }
+
+
+  /* -------------------------------------------------------
+     Footer
+     ------------------------------------------------------- */
+
+  footer {
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding:
+      12px
+      4px
+      18px;
+
+    line-height: 1.4;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  :root {
+    --mobile-label-column: 36px;
+    --mobile-depth-column: 82px;
+  }
+
+  .calculator-page {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .calculator-container {
+    padding: 10px;
+  }
+
+  .calculator-heading h1 {
+    font-size: 18px;
+  }
+
+  .calculator-heading p {
+    font-size: 11px;
+  }
+
+  .input-cell,
+  .data-cell,
+  .result-cell {
+    font-size: 14px;
+  }
+
+  .depth-label {
+    font-size: 12px;
+  }
+
+  .buttons button {
+    width: 100px;
+  }
+
+}
+
+
+/* =========================================================
+   LANDSCAPE MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .calculator {
+    margin-top: 42px;
+  }
+
+}

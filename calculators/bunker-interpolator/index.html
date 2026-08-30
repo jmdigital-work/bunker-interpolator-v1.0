@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+
+  <meta
+    name="theme-color"
+    content="#0b3d5c"
+  />
+
+  <meta
+    name="description"
+    content="Bunker Interpolator — MarineCalc free marine engineering calculator."
+  />
+
+  <title>Bunker Interpolator | MarineCalc</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <main class="calculator-page">
+
+    <!-- MARINECALC HEADER -->
+    <header class="marine-header">
+
+      <a
+        href="../../index.html"
+        class="brand"
+      >
+        <span class="brand-icon">⚓</span>
+
+        <span>
+          <strong>MARINECALC</strong>
+          <small>Marine Engineering Tools</small>
+        </span>
+      </a>
+
+    </header>
+
+
+    <!-- BACK BUTTON -->
+    <a
+      href="../../index.html"
+      class="back-button"
+    >
+      ← Back to MarineCalc
+    </a>
+
+
+    <!-- CALCULATOR TITLE -->
+    <section class="calculator-heading">
+
+      <div class="tool-icon">
+        🛢️
+      </div>
+
+      <div>
+
+        <h1>
+          Bunker Interpolator
+        </h1>
+
+        <p>
+          Tank volume interpolation
+        </p>
+
+        <span class="free-badge">
+          FREE
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- EXISTING CALCULATOR -->
+    <section class="calculator-container">
+
+      <div class="calculator">
+
+        <div class="trim-label">
+          Trim
+        </div>
+
+        <div class="trim-row">
+
+          <input
+            id="trimLow"
+            class="input-cell blue"
+            type="number"
+            step="any"
+            value="1.00"
+            aria-label="Lower trim"
+          />
+
+          <input
+            id="trimTarget"
+            class="input-cell white"
+            type="number"
+            step="any"
+            value="1.50"
+            aria-label="Target trim"
+          />
+
+          <input
+            id="trimHigh"
+            class="input-cell blue"
+            type="number"
+            step="any"
+            value="2.00"
+            aria-label="Upper trim"
+          />
+
+        </div>
+
+
+        <div class="grid-area">
+
+          <div class="depth-label">
+            Ullage/Depth
+          </div>
+
+
+          <div class="depth-column">
+
+            <input
+              id="depthLow"
+              class="input-cell blue"
+              type="number"
+              step="any"
+              value="10"
+              aria-label="Lower ullage/depth"
+            />
+
+            <input
+              id="depthTarget"
+              class="input-cell white"
+              type="number"
+              step="any"
+              value="20"
+              aria-label="Target ullage/depth"
+            />
+
+            <input
+              id="depthHigh"
+              class="input-cell blue"
+              type="number"
+              step="any"
+              value="30"
+              aria-label="Upper ullage/depth"
+            />
+
+          </div>
+
+
+          <div class="value-grid">
+
+            <input
+              id="v11"
+              class="data-cell blue"
+              type="number"
+              step="any"
+              value="34.00"
+            />
+
+            <div id="r12" class="result-cell"></div>
+
+            <input
+              id="v13"
+              class="data-cell blue"
+              type="number"
+              step="any"
+              value="36.00"
+            />
+
+
+            <div id="r21" class="result-cell"></div>
+
+            <div
+              id="r22"
+              class="result-cell target-result"
+            ></div>
+
+            <div id="r23" class="result-cell"></div>
+
+
+            <input
+              id="v31"
+              class="data-cell blue"
+              type="number"
+              step="any"
+              value="44.00"
+            />
+
+            <div id="r32" class="result-cell"></div>
+
+            <input
+              id="v33"
+              class="data-cell blue"
+              type="number"
+              step="any"
+              value="46.00"
+            />
+
+          </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+          <button id="calculate">
+            CALCULATE
+          </button>
+
+          <button id="clear">
+            CLEAR
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- INSTRUCTIONS -->
+      <aside class="instructions">
+
+        <h3>
+          INSTRUCTIONS
+        </h3>
+
+        <p>
+          <strong>1st Step:</strong>
+          Fill up data in white cells
+          (Trim &amp; Ullage/Depth) from your
+          actual sounding.
+        </p>
+
+        <p>
+          <strong>2nd Step:</strong>
+          From your Tank Sounding Table,
+          enter "data" needed in light blue cells.
+        </p>
+
+        <p>
+          <strong>3rd Step:</strong>
+          Click "CALCULATE".
+        </p>
+
+        <p class="note">
+          <strong>Note:</strong>
+          Click "CLEAR" to reset values for
+          new interpolation.
+        </p>
+
+      </aside>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+      <span>
+        MarineCalc
+      </span>
+
+      <span>
+        Bunker Interpolator • FREE
+      </span>
+
+    </footer>
+
+  </main>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>

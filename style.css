@@ -1,796 +1,405 @@
-/* =========================================================
-   BUNKER INTERPOLATOR V1.0
-   Responsive / Shared Grid Layout
-   ========================================================= */
-
-:root {
-  --label-column: 95px;
-  --depth-column: 110px;
-  --data-column: 110px;
-
-  --blue: #b9e0ef;
-  --orange: #f7c4a8;
-  --button: #176c8e;
-  --button-border: #07506d;
-
-  --border: #111;
-}
-
-/* =========================================================
-   GLOBAL
-   ========================================================= */
-
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --navy: #0b3d5c;
+  --navy-dark: #072d43;
+  --blue: #176c8e;
+  --light-blue: #eaf5f9;
+  --border: #c9d8df;
+  --text: #10212b;
+  --muted: #63727a;
+  --green: #18794e;
+  --orange: #b96822;
+  --gray: #7b858a;
+}
+
 html {
-  width: 100%;
   min-height: 100%;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f5f5f5;
-  color: #111;
-  font-family: "Times New Roman", Times, serif;
+
+  background:
+    linear-gradient(
+      180deg,
+      #edf6f9 0%,
+      #ffffff 35%
+    );
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: var(--text);
 }
 
-/* =========================================================
-   MAIN APP / SHEET
-   ========================================================= */
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
 .app {
   width: 100%;
-  padding: 14px;
-}
+  max-width: 680px;
+  min-height: 100vh;
 
-.sheet {
-  width: min(100%, 832px);
-  min-height: 445px;
   margin: 0 auto;
 
-  position: relative;
-
-  background: #fff;
-  border: 2px solid var(--border);
+  padding:
+    24px
+    18px
+    30px;
 }
 
-/* =========================================================
-   MAIN CALCULATOR PANEL
-   ========================================================= */
 
-.main-panel {
-  width: 77%;
-  min-height: 442px;
-
-  padding: 4px 18px 20px;
-}
-
-/* =========================================================
+/* =========================
    HEADER
-   ========================================================= */
+========================= */
 
-header {
-  text-align: center;
-}
-
-header h1 {
-  margin: 0;
-
-  font-size: 21px;
-  line-height: 1.15;
-}
-
-header h2 {
-  margin: 3px 0 0;
-
-  font-size: 15px;
-  line-height: 1.15;
-}
-
-/* =========================================================
-   CALCULATOR
-   ========================================================= */
-
-.calculator {
-  /*
-    This is the important part.
-
-    The calculator contains:
-      95px  = Ullage/Depth label
-      110px = Ullage/Depth values
-      330px = three data columns
-
-    The Trim row uses the same geometry.
-  */
-
-  width: calc(
-    var(--label-column) +
-    var(--depth-column) +
-    (var(--data-column) * 3)
-  );
-
-  max-width: 100%;
-
-  margin: 46px auto 0;
-
-  position: relative;
-}
-
-/* =========================================================
-   TRIM LABEL
-   ========================================================= */
-
-.trim-label {
-  position: absolute;
-
-  top: -22px;
-
-  /*
-    Center the label over the three data columns,
-    not over the entire calculator.
-  */
-
-  left: calc(
-    var(--label-column) +
-    var(--depth-column)
-  );
-
-  width: calc(var(--data-column) * 3);
-
+.app-header {
   text-align: center;
 
-  font-size: 16px;
-  font-style: italic;
-  font-weight: bold;
+  padding:
+    20px
+    10px
+    30px;
 }
 
-/* =========================================================
-   TRIM ROW
-   ========================================================= */
+.anchor {
+  width: 58px;
+  height: 58px;
 
-.trim-row {
-  /*
-    Start exactly where the three data columns below start.
-  */
+  margin: 0 auto 12px;
 
-  margin-left: calc(
-    var(--label-column) +
-    var(--depth-column)
-  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  width: calc(var(--data-column) * 3);
+  border-radius: 50%;
 
-  display: grid;
+  background: var(--navy);
 
-  grid-template-columns:
-    repeat(3, var(--data-column));
-}
+  color: white;
 
-/* =========================================================
-   INPUT / DATA / RESULT CELLS
-   ========================================================= */
-
-.input-cell,
-.data-cell,
-.result-cell {
-  width: 100%;
-  height: 53px;
-
-  border: 1px solid var(--border);
-  border-radius: 0;
-
-  font-family: "Times New Roman", Times, serif;
-  font-size: 15px;
-  font-weight: bold;
-
-  text-align: center;
-
-  outline: none;
-}
-
-/* Remove number spinners */
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  appearance: textfield;
-}
-
-/* Focus */
-
-.input-cell:focus,
-.data-cell:focus {
-  position: relative;
-  z-index: 2;
+  font-size: 29px;
 
   box-shadow:
-    inset 0 0 0 2px #247d9f;
+    0 5px 16px
+    rgba(11, 61, 92, 0.20);
 }
 
-/* =========================================================
-   CELL COLORS
-   ========================================================= */
+.app-header h1 {
+  margin: 0;
 
-.white {
-  background: #fff;
+  color: var(--navy);
+
+  font-size: 30px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
 }
 
-.blue {
-  background: var(--blue);
-}
+.app-header p {
+  margin: 7px 0 0;
 
-/* =========================================================
-   MAIN GRID
-   ========================================================= */
-
-.grid-area {
-  /*
-    EXACT SAME COLUMN STRUCTURE AS THE TRIM ROW:
-
-      Column 1 = Ullage/Depth label
-      Column 2 = Ullage/Depth values
-      Columns 3-5 = sounding data
-  */
-
-  width: 100%;
-
-  margin-top: 12px;
-
-  display: grid;
-
-  grid-template-columns:
-    var(--label-column)
-    var(--depth-column)
-    repeat(3, var(--data-column));
-}
-
-/* =========================================================
-   DEPTH LABEL
-   ========================================================= */
-
-.depth-label {
-  grid-column: 1;
-
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-
-  justify-self: center;
-  align-self: center;
+  color: var(--muted);
 
   font-size: 14px;
-  font-style: italic;
-  font-weight: bold;
 }
 
-/* =========================================================
-   DEPTH COLUMN
-   ========================================================= */
 
-.depth-column {
-  grid-column: 2;
+/* =========================
+   SECTION
+========================= */
 
-  display: grid;
+.calculator-section h2 {
+  margin:
+    0
+    0
+    14px
+    4px;
 
-  grid-template-rows:
-    repeat(3, 53px);
+  color: var(--muted);
+
+  font-size: 12px;
+
+  letter-spacing: 1.5px;
 }
 
-.depth-column .input-cell {
+
+/* =========================
+   CALCULATOR CARDS
+========================= */
+
+.calculator-card {
   width: 100%;
+
+  min-height: 122px;
+
+  margin-bottom: 14px;
+
+  padding: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 5px 18px
+    rgba(19, 55, 70, 0.07);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-/* =========================================================
-   SOUNDING DATA GRID
-   ========================================================= */
+.calculator-card:hover {
+  transform: translateY(-2px);
 
-.value-grid {
-  grid-column: 3 / 6;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, var(--data-column));
-
-  grid-template-rows:
-    repeat(3, 53px);
+  box-shadow:
+    0 8px 24px
+    rgba(19, 55, 70, 0.12);
 }
 
-/* =========================================================
-   DATA CELLS
-   ========================================================= */
-
-.data-cell {
-  color: #111;
+.calculator-card:active {
+  transform: scale(0.99);
 }
 
-/* =========================================================
-   CALCULATED RESULT CELLS
-   ========================================================= */
 
-.result-cell {
+/* =========================
+   CARD ICON
+========================= */
+
+.card-icon {
+  width: 52px;
+  height: 52px;
+
+  flex: 0 0 52px;
+
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  background: var(--orange);
+  border-radius: 14px;
 
-  color: #e60000;
+  background: var(--light-blue);
+
+  font-size: 26px;
 }
 
-.target-result {
-  font-size: 15px;
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.card-content {
+  flex: 1;
 }
 
-/* =========================================================
-   BUTTONS
-   ========================================================= */
+.card-content h3 {
+  margin: 0 0 7px;
 
-.buttons {
-  width: calc(var(--data-column) * 3);
+  color: var(--text);
 
-  margin-top: 38px;
+  font-size: 17px;
 
-  margin-left: calc(
-    var(--label-column) +
-    var(--depth-column)
-  );
+  font-weight: 700;
+}
+
+.card-content p {
+  margin: 0 0 12px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+  display: inline-block;
+
+  padding:
+    4px
+    9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+.badge.free {
+  background: #e5f5ec;
+  color: var(--green);
+}
+
+.badge.pro {
+  background: #fff0e5;
+  color: var(--orange);
+}
+
+.badge.soon {
+  background: #eef0f1;
+  color: var(--gray);
+}
+
+
+/* =========================
+   ARROW
+========================= */
+
+.card-arrow {
+  color: var(--blue);
+
+  font-size: 25px;
+
+  font-weight: 300;
+}
+
+.soon-card .card-arrow {
+  display: none;
+}
+
+
+/* =========================
+   PRO CARD
+========================= */
+
+.pro-card {
+  cursor: default;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #fffaf6
+    );
+}
+
+
+/* =========================
+   COMING SOON
+========================= */
+
+.soon-card {
+  opacity: 0.72;
+
+  cursor: default;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.app-footer {
+  margin-top: 34px;
+
+  padding:
+    20px
+    10px;
 
   display: flex;
 
-  justify-content: space-between;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 11px;
 }
 
-button {
-  width: 108px;
-  height: 36px;
+.app-footer strong {
+  color: var(--navy);
 
-  border: 2px solid var(--button-border);
-  border-radius: 7px;
-
-  background: var(--button);
-
-  color: #fff;
-
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 1px 1px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
 }
 
-button:hover {
-  filter: brightness(1.08);
-}
 
-button:active {
-  transform: translateY(1px);
-}
-
-/* =========================================================
-   INSTRUCTIONS PANEL
-   ========================================================= */
-
-.instructions {
-  position: absolute;
-
-  right: 0;
-  top: 0;
-
-  width: 23%;
-  min-height: 442px;
-
-  border-left: 2px solid var(--border);
-
-  padding: 43px 8px 10px 4px;
-
-  background: #fafafa;
-
-  font-size: 14px;
-  line-height: 1.2;
-}
-
-.instructions h3 {
-  margin: 0 0 26px;
-
-  font-size: 16px;
-  font-weight: normal;
-}
-
-.instructions p {
-  margin: 0 0 27px;
-}
-
-.instructions .note {
-  margin-top: 2px;
-}
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer {
-  position: absolute;
-
-  left: 0;
-  bottom: -23px;
-
-  width: 100%;
-
-  font-size: 13px;
-  font-style: italic;
-
-  white-space: nowrap;
-}
-
-footer a {
-  color: #2a7398;
-}
-
-.brand {
-  position: absolute;
-
-  right: 0;
-
-  font-size: 10px;
-  font-style: normal;
-}
-
-/* =========================================================
-   TABLET / SMALL DESKTOP
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-  .sheet {
-    width: 100%;
-  }
-
-  .main-panel {
-    width: 77%;
-  }
-
-}
-
-/* =========================================================
+/* =========================
    MOBILE
-   ========================================================= */
+========================= */
 
-@media (max-width: 760px) {
-
-  /*
-    On mobile we switch to flexible columns.
-
-    The key idea is:
-
-      42px  = Ullage/Depth label
-      110px = Ullage/Depth value
-      remaining width = 3 equal data columns
-
-    The Trim row uses the EXACT SAME remaining width.
-  */
-
-  :root {
-    --mobile-label-column: 42px;
-    --mobile-depth-column: 110px;
-  }
-
-  /* -------------------------------------------------------
-     Page
-     ------------------------------------------------------- */
-
-  body {
-    background: #fff;
-  }
+@media (max-width: 480px) {
 
   .app {
-    width: 100%;
-    padding: 0;
+    padding:
+      16px
+      13px
+      24px;
   }
 
-  .sheet {
-    width: 100%;
-    min-height: 100vh;
-
-    margin: 0;
-
-    border: 0;
+  .app-header {
+    padding:
+      18px
+      8px
+      27px;
   }
 
-  /* -------------------------------------------------------
-     Main panel
-     ------------------------------------------------------- */
-
-  .main-panel {
-    width: 100%;
-    min-height: auto;
-
-    padding: 14px 10px 28px;
+  .app-header h1 {
+    font-size: 27px;
   }
 
-  /* -------------------------------------------------------
-     Header
-     ------------------------------------------------------- */
+  .calculator-card {
+    min-height: 116px;
 
-  header h1 {
-    font-size: 20px;
+    padding: 16px;
+
+    gap: 12px;
+
+    border-radius: 14px;
   }
 
-  header h2 {
-    font-size: 14px;
+  .card-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-basis: 46px;
+
+    font-size: 23px;
   }
 
-  /* -------------------------------------------------------
-     Calculator
-     ------------------------------------------------------- */
-
-  .calculator {
-    width: 100%;
-    max-width: 535px;
-
-    margin: 48px auto 0;
+  .card-content h3 {
+    font-size: 15px;
   }
 
-  /* -------------------------------------------------------
-     Trim label
-     ------------------------------------------------------- */
-
-  .trim-label {
-    left: calc(
-      var(--mobile-label-column) +
-      var(--mobile-depth-column)
-    );
-
-    width: calc(
-      100% -
-      var(--mobile-label-column) -
-      var(--mobile-depth-column)
-    );
-  }
-
-  /* -------------------------------------------------------
-     Trim row
-
-     IMPORTANT:
-     This uses exactly the same horizontal starting point
-     and width as the three data columns below.
-     ------------------------------------------------------- */
-
-  .trim-row {
-    width: calc(
-      100% -
-      var(--mobile-label-column) -
-      var(--mobile-depth-column)
-    );
-
-    margin-left: calc(
-      var(--mobile-label-column) +
-      var(--mobile-depth-column)
-    );
-
-    margin-right: 0;
-
-    display: grid;
-
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-  }
-
-  .trim-row .input-cell {
-    width: 100%;
-  }
-
-  /* -------------------------------------------------------
-     Main grid
-     ------------------------------------------------------- */
-
-  .grid-area {
-    width: 100%;
-    max-width: 535px;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    display: grid;
-
-    grid-template-columns:
-      var(--mobile-label-column)
-      var(--mobile-depth-column)
-      repeat(3, minmax(0, 1fr));
-  }
-
-  /* -------------------------------------------------------
-     Depth label
-     ------------------------------------------------------- */
-
-  .depth-label {
-    grid-column: 1;
-  }
-
-  /* -------------------------------------------------------
-     Depth values
-     ------------------------------------------------------- */
-
-  .depth-column {
-    grid-column: 2;
-
-    display: grid;
-
-    grid-template-rows:
-      repeat(3, 53px);
-  }
-
-  /* -------------------------------------------------------
-     Data grid
-
-     These three columns automatically divide the available
-     screen width equally.
-     ------------------------------------------------------- */
-
-  .value-grid {
-    grid-column: 3 / 6;
-
-    display: grid;
-
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-
-    grid-template-rows:
-      repeat(3, 53px);
-  }
-
-  /* -------------------------------------------------------
-     Cells
-     ------------------------------------------------------- */
-
-  .input-cell,
-  .data-cell,
-  .result-cell,
-  .depth-column .input-cell {
-    width: 100%;
-    height: 53px;
-  }
-
-  /* -------------------------------------------------------
-     Buttons
-     ------------------------------------------------------- */
-
-  .buttons {
-    width: calc(
-      100% -
-      var(--mobile-label-column) -
-      var(--mobile-depth-column)
-    );
-
-    margin-left: calc(
-      var(--mobile-label-column) +
-      var(--mobile-depth-column)
-    );
-
-    margin-right: 0;
-
-    margin-top: 34px;
-
-    display: flex;
-
-    justify-content: space-between;
-  }
-
-  /* -------------------------------------------------------
-     Instructions
-
-     Move below the calculator on mobile.
-     ------------------------------------------------------- */
-
-  .instructions {
-    position: static;
-
-    width: 100%;
-    min-height: 0;
-
-    border-left: 0;
-    border-top: 2px solid var(--border);
-
-    padding: 20px 16px;
-
-    font-size: 14px;
-  }
-
-  .instructions h3 {
-    margin-bottom: 16px;
-  }
-
-  .instructions p {
-    margin-bottom: 18px;
-  }
-
-  /* -------------------------------------------------------
-     Footer
-     ------------------------------------------------------- */
-
-  footer {
-    position: static;
-
-    width: auto;
-
-    padding: 12px 10px 18px;
-
-    white-space: normal;
-
-    line-height: 1.4;
-  }
-
-  footer .brand {
-    position: static;
-
-    display: block;
-
-    margin-top: 4px;
-  }
-}
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 400px) {
-
-  :root {
-    --mobile-label-column: 36px;
-    --mobile-depth-column: 82px;
-  }
-
-  .main-panel {
-    padding-left: 6px;
-    padding-right: 6px;
-  }
-
-  header h1 {
-    font-size: 18px;
-  }
-
-  header h2 {
-    font-size: 13px;
-  }
-
-  .input-cell,
-  .data-cell,
-  .result-cell {
-    font-size: 14px;
-  }
-
-  .depth-label {
+  .card-content p {
     font-size: 12px;
   }
 
-  .buttons button {
-    width: 100px;
-  }
-
-}
-
-/* =========================================================
-   LANDSCAPE MOBILE
-   ========================================================= */
-
-@media (max-width: 900px) and (orientation: landscape) {
-
-  .main-panel {
-    padding-top: 10px;
-  }
-
-  .calculator {
-    margin-top: 42px;
+  .card-arrow {
+    font-size: 22px;
   }
 
 }
