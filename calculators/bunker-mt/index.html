@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b3d5c"
+  >
+
+  <meta
+    name="description"
+    content="MarineCalc Bunker MT Calculator — convert bunker volume to mass."
+  >
+
+  <title>Bunker (MT) Calculator | MarineCalc</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+  <main class="calculator-page">
+
+
+    <!-- MARINECALC HEADER -->
+
+    <header class="marine-header">
+
+      <a
+        href="../../index.html"
+        class="brand"
+      >
+
+        <span class="brand-icon">
+          ⚓
+        </span>
+
+        <span>
+
+          <strong>
+            MARINECALC
+          </strong>
+
+          <small>
+            Marine Engineering Tools
+          </small>
+
+        </span>
+
+      </a>
+
+    </header>
+
+
+    <!-- BACK -->
+
+    <a
+      href="../../index.html"
+      class="back-button"
+    >
+      ← Back to MarineCalc
+    </a>
+
+
+    <!-- TITLE -->
+
+    <section class="calculator-heading">
+
+      <div class="tool-icon">
+        ⛽
+      </div>
+
+      <div>
+
+        <h1>
+          Bunker (MT) Calculator
+        </h1>
+
+        <p>
+          Volume → temperature-corrected mass
+        </p>
+
+        <span class="pro-badge">
+          PRO
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- CALCULATOR -->
+
+    <section class="calculator-card">
+
+
+      <!-- FUEL TYPE -->
+
+      <div class="form-group">
+
+        <label for="fuelType">
+          Fuel Type
+        </label>
+
+        <select id="fuelType">
+
+          <option value="HFO">
+            HFO
+          </option>
+
+          <option value="VLSFO">
+            VLSFO
+          </option>
+
+          <option value="MGO">
+            MGO
+          </option>
+
+          <option value="MDO">
+            MDO
+          </option>
+
+          <option value="LNG">
+            LNG
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- ACTUAL VOLUME -->
+
+      <div class="form-group">
+
+        <label for="actualVolume">
+          Actual Volume
+          <span>m³</span>
+        </label>
+
+        <input
+          id="actualVolume"
+          type="number"
+          step="any"
+          min="0"
+          inputmode="decimal"
+          placeholder="Enter volume"
+        >
+
+      </div>
+
+
+      <!-- DENSITY -->
+
+      <div class="form-group">
+
+        <label for="density15">
+          Density @ 15°C
+          <span>kg/m³</span>
+        </label>
+
+        <input
+          id="density15"
+          type="number"
+          step="any"
+          min="0"
+          inputmode="decimal"
+          placeholder="Enter BDN density"
+        >
+
+        <small class="field-help">
+          Enter the density stated on the Bunker Delivery Note.
+        </small>
+
+      </div>
+
+
+      <!-- TEMPERATURE -->
+
+      <div class="form-group">
+
+        <label for="temperature">
+          Fuel Temperature
+          <span>°C</span>
+        </label>
+
+        <input
+          id="temperature"
+          type="number"
+          step="any"
+          inputmode="decimal"
+          placeholder="Enter temperature"
+        >
+
+      </div>
+
+
+      <!-- COEFFICIENT -->
+
+      <div class="form-group coefficient-group">
+
+        <label for="coefficient">
+
+          Correction Coefficient
+
+          <span>
+            —
+          </span>
+
+        </label>
+
+        <input
+          id="coefficient"
+          type="number"
+          step="0.00001"
+          min="0"
+          value="0.00064"
+          inputmode="decimal"
+        >
+
+        <small class="field-help">
+
+          Default: 0.00064.
+          Editable simplified shipboard calculation coefficient.
+
+        </small>
+
+      </div>
+
+
+      <!-- CALCULATE -->
+
+      <button
+        id="calculateButton"
+        class="calculate-button"
+        type="button"
+      >
+        CALCULATE
+      </button>
+
+
+      <!-- ERROR -->
+
+      <div
+        id="errorMessage"
+        class="error-message"
+        role="alert"
+      ></div>
+
+
+      <!-- RESULTS -->
+
+      <section
+        id="resultSection"
+        class="result-section"
+        aria-live="polite"
+      >
+
+        <div class="result-row">
+
+          <span>
+            Temperature-Corrected Density
+          </span>
+
+          <strong>
+
+            <span id="correctedDensity">
+              —
+            </span>
+
+            kg/m³
+
+          </strong>
+
+        </div>
+
+
+        <div class="main-result">
+
+          <span>
+            Bunker Mass
+          </span>
+
+          <strong>
+
+            <span id="bunkerMass">
+              —
+            </span>
+
+            MT
+
+          </strong>
+
+        </div>
+
+      </section>
+
+
+    </section>
+
+
+    <!-- CALCULATION NOTE -->
+
+    <section class="calculation-note">
+
+      <h2>
+        Calculation Method
+      </h2>
+
+      <p>
+        Temperature-corrected density is calculated from
+        density at 15°C using the editable correction coefficient.
+      </p>
+
+      <div class="formula">
+
+        ρ<sub>T</sub> =
+        ρ<sub>15</sub> ×
+        [1 − C × (T − 15)]
+
+      </div>
+
+      <div class="formula">
+
+        MT =
+        V × ρ<sub>T</sub> ÷ 1000
+
+      </div>
+
+      <p class="note-text">
+
+        <strong>Note:</strong>
+        The default coefficient of 0.00064 is provided as a
+        simplified shipboard calculation default. It is editable
+        and is not presented as a universally correct coefficient
+        for every fuel type.
+
+      </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+      <span>
+        MarineCalc
+      </span>
+
+      <span>
+        Bunker (MT) Calculator • PRO
+      </span>
+
+    </footer>
+
+
+  </main>
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
