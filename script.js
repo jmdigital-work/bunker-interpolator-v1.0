@@ -6,15 +6,43 @@ const ids = [
 
 const $ = (id) => document.getElementById(id);
 
+/*
+  Read a numeric input.
+
+  Blank input cells are treated as zero.
+*/
 function number(id) {
-  return parseFloat($(id).value);
+  const input = $(id);
+  const value = input.value.trim();
+
+  if (value === "") {
+    return 0;
+  }
+
+  return parseFloat(value);
 }
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
+/*
+  Make blank input cells visibly become 0.00.
+*/
+function fillBlankInputsWithZero() {
+  ids.forEach((id) => {
+    const input = $(id);
+
+    if (input.value.trim() === "") {
+      input.value = "0.00";
+    }
+  });
+}
+
 function calculate() {
+  // Convert all blank blue/white cells to visible 0.00.
+  fillBlankInputsWithZero();
+
   const tl = number("trimLow");
   const tt = number("trimTarget");
   const th = number("trimHigh");
@@ -28,15 +56,29 @@ function calculate() {
   const v31 = number("v31");
   const v33 = number("v33");
 
-  const values = [tl, tt, th, dl, dt, dh, v11, v13, v31, v33];
-
-  if (values.some((v) => !Number.isFinite(v))) {
-    alert("Please complete all white and light-blue cells.");
+  if (
+    !Number.isFinite(tl) ||
+    !Number.isFinite(tt) ||
+    !Number.isFinite(th) ||
+    !Number.isFinite(dl) ||
+    !Number.isFinite(dt) ||
+    !Number.isFinite(dh) ||
+    !Number.isFinite(v11) ||
+    !Number.isFinite(v13) ||
+    !Number.isFinite(v31) ||
+    !Number.isFinite(v33)
+  ) {
+    alert("Please enter valid numbers.");
     return;
   }
 
-  if (tl === th || dl === dh) {
-    alert("Lower and upper Trim/Ullage values must be different.");
+  if (tl === th) {
+    alert("Lower and upper Trim values must be different.");
+    return;
+  }
+
+  if (dl === dh) {
+    alert("Lower and upper Ullage/Depth values must be different.");
     return;
   }
 
@@ -48,7 +90,7 @@ function calculate() {
   const bottom = lerp(v31, v33, tx);
   const target = lerp(top, bottom, dy);
 
-  // The five interpolated cells shown in the reference design.
+  // Display calculated values.
   setResult("r12", top);
   setResult("r21", lerp(v11, v31, dy));
   setResult("r22", target);
@@ -61,18 +103,9 @@ function setResult(id, value) {
 }
 
 function clearAll() {
-  $("trimLow").value = "";
-  $("trimTarget").value = "";
-  $("trimHigh").value = "";
-
-  $("depthLow").value = "";
-  $("depthTarget").value = "";
-  $("depthHigh").value = "";
-
-  $("v11").value = "";
-  $("v13").value = "";
-  $("v31").value = "";
-  $("v33").value = "";
+  ids.forEach((id) => {
+    $(id).value = "";
+  });
 
   ["r12", "r21", "r22", "r23", "r32"].forEach((id) => {
     $(id).textContent = "";
@@ -82,5 +115,5 @@ function clearAll() {
 $("calculate").addEventListener("click", calculate);
 $("clear").addEventListener("click", clearAll);
 
-// Show the example calculation immediately, matching the reference image.
+// Show the example calculation immediately.
 calculate();

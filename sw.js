@@ -1,4 +1,4 @@
-const CACHE_NAME = "bunker-interpolator-v2";
+const CACHE_NAME = "bunker-interpolator-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
