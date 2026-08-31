@@ -1,4 +1,4 @@
-# Bunker Interpolator V1.0 — PWA
+# MarineCalc V1.0 — PWA
 
 This version is a Progressive Web App (PWA).
 
