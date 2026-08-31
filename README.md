@@ -1,49 +1,103 @@
-# Bunker Interpolator V1.0 — PWA
+# MarineCalc V1.0 — Progressive Web App
 
-This version is a Progressive Web App (PWA).
+MarineCalc is a mobile-first Progressive Web App (PWA) designed for marine engineers and shipboard use.
 
-## Run locally
+It provides practical calculation tools that can be accessed from a web browser and installed on supported devices as an app.
 
-Open the folder in VS Code and use **Live Server**. A service worker normally requires `localhost` or HTTPS, so opening the HTML directly with `file://` will not enable offline/PWA features.
+## Current Calculators
 
-## Publish it for everybody
+### 🛢️ Bunker Interpolator
 
-The simplest route is **GitHub Pages**:
+**FREE**
 
-1. Create a GitHub repository, for example `bunker-interpolator`.
-2. Upload all files in this folder.
-3. In GitHub, go to **Settings → Pages**.
-4. Select **Deploy from a branch**.
-5. Choose the `main` branch and `/ (root)`.
-6. Save.
-7. GitHub will give you a public HTTPS address.
+Interpolates bunker tank volume from:
 
-Once served over HTTPS, users can open the calculator in their browser and, on supported devices/browsers, choose **Install app / Add to Home Screen**.
+- Trim
+- Ullage / depth
+- Tank sounding table data
 
-## PWA files
+This calculator is intended for quick shipboard bunker quantity interpolation.
 
-- `manifest.webmanifest` — app name, icon, display mode, theme.
-- `sw.js` — caches the app so it can work offline after the first successful load.
-- `icons/` — install icons.
-- `index.html` — registers the service worker.
+### ⛽ Bunker (MT) Calculator
 
-## Important
+**PRO**
 
-If you change the app files after deployment, increase the cache version in `sw.js`, for example:
+A standalone simplified shipboard calculator for converting known bunker volume into metric tonnes.
 
-`bunker-interpolator-v2`
+Calculation flow:
 
-That tells browsers to replace the old cached app.
+**Actual Volume → Temperature-Corrected Density → Bunker Mass**
 
-## Suggested production path
+Inputs include:
 
-GitHub Pages is fine for a free public calculator. If you later want:
-- a custom domain such as `bunkerinterpolator.com`
-- analytics
-- multiple calculators
-- saved tank tables
-- user accounts
-- a backend/database
-- a "Share this tank table" feature
+- Fuel type
+- Actual volume
+- Density @ 15°C
+- Fuel temperature
+- Correction coefficient
 
-then we can move the same frontend to a production host and add those features without rebuilding the calculator from scratch.
+The default correction coefficient is **0.00064** and remains editable.
+
+### 🕛 Noon Calculation
+
+**PRO**
+
+Shipboard noon calculation tool covering:
+
+- Main shaft total revolution
+- Average RPM
+- Propeller constant
+- Propeller distance
+- Propeller speed
+- LOG speed
+- OG speed
+- Slip by LOG distance
+- Slip by OG distance
+- Slip by LOG speed
+- Slip by OG speed
+
+The calculator allows manual entry of Propeller ConstantREV and Propeller Distance where required.
+
+## FREE and PRO Access
+
+MarineCalc follows a free + paid model.
+
+### FREE
+
+The Bunker Interpolator is available for free.
+
+### PRO
+
+PRO calculators are intended to be unlocked through MarineCalc PRO access.
+
+The initial commercial model will use a **one-time Lifetime purchase**.
+
+Subscription billing may be introduced later.
+
+## Project Structure
+
+```text
+MarineCalc
+│
+├── calculators/
+│   ├── bunker-interpolator/
+│   │   ├── index.html
+│   │   ├── script.js
+│   │   └── style.css
+│   │
+│   ├── bunker-mt/
+│   │   ├── index.html
+│   │   ├── script.js
+│   │   └── style.css
+│   │
+│   └── noon-calculation/
+│       ├── index.html
+│       ├── script.js
+│       └── style.css
+│
+├── icons/
+├── index.html
+├── manifest.webmanifest
+├── style.css
+├── sw.js
+└── README.md
