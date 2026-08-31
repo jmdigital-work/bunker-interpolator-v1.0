@@ -1,0 +1,1191 @@
+/* =========================================================
+   MARINECALC
+   NOON CALCULATION
+   ========================================================= */
+
+:root {
+
+  --navy: #0B3D5C;
+  --navy-dark: #101A2E;
+
+  --blue: #176C8E;
+  --blue-light: #5EA9DD;
+  --blue-soft: #172E58;
+
+  --light-blue: #EAF5F9;
+
+  --border: #C9D8DF;
+
+  --text: #10212B;
+  --muted: #63727A;
+
+  --white: #FFFFFF;
+
+  --orange: #B96822;
+  --light-orange: #FFF0E5;
+
+  --danger: #B42318;
+
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  min-height: 100%;
+}
+
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #EDF6F9 0%,
+      #FFFFFF 65%
+    );
+
+  color: var(--text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+}
+
+
+button,
+input {
+  font-family: inherit;
+}
+
+
+button {
+  cursor: pointer;
+}
+
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app {
+
+  width: 100%;
+
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding:
+    18px
+    18px
+    30px;
+
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.marine-header {
+
+  padding-bottom: 14px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+}
+
+
+.brand {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--navy);
+
+}
+
+
+.brand-icon {
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--navy);
+
+  color: #FFFFFF;
+
+  font-size: 19px;
+
+}
+
+
+.brand strong {
+
+  display: block;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+}
+
+
+.brand small {
+
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.back-button {
+
+  display: inline-block;
+
+  margin-top: 18px;
+
+  color: var(--blue);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+}
+
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
+
+.page-heading {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin:
+    22px
+    0
+    20px;
+
+}
+
+
+.tool-icon {
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: var(--light-blue);
+
+  color: var(--navy);
+
+  font-size: 24px;
+
+}
+
+
+.page-heading h1 {
+
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 23px;
+
+  line-height: 1.2;
+
+}
+
+
+.page-heading p {
+
+  margin:
+    4px
+    0
+    7px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.4;
+
+}
+
+
+.pro-badge {
+
+  display: inline-block;
+
+  padding:
+    4px
+    9px;
+
+  border-radius: 20px;
+
+  background: var(--light-orange);
+
+  color: var(--orange);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .6px;
+
+}
+
+
+/* =========================================================
+   CALCULATOR CARD
+   ========================================================= */
+
+.calculator-card {
+
+  margin-bottom: 16px;
+
+  padding: 21px;
+
+  background: #FFFFFF;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 6px 22px
+    rgba(19, 55, 70, 0.07);
+
+}
+
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.section-heading {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 10px;
+
+  margin-bottom: 15px;
+
+}
+
+
+.section-icon {
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: var(--light-blue);
+
+  font-size: 16px;
+
+}
+
+
+.section-heading h2 {
+
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 15px;
+
+  line-height: 1.25;
+
+}
+
+
+.section-heading span {
+
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   INPUT GUIDE
+   ========================================================= */
+
+.input-guide {
+
+  margin-bottom: 16px;
+
+  padding:
+    10px
+    12px;
+
+  border-left:
+    3px solid
+    var(--blue);
+
+  border-radius: 5px;
+
+  background: var(--light-blue);
+
+}
+
+
+.input-guide strong {
+
+  display: block;
+
+  color: var(--navy);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .6px;
+
+}
+
+
+.input-guide p {
+
+  margin:
+    4px
+    0
+    0;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  line-height: 1.45;
+
+}
+
+
+/* =========================================================
+   INPUT GRID
+   ========================================================= */
+
+.input-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 13px;
+
+  margin-bottom: 15px;
+
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+.form-group {
+
+  margin-bottom: 15px;
+
+}
+
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+
+.form-group label {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin-bottom: 7px;
+
+  color: var(--text);
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+}
+
+
+.form-group label span {
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  font-weight: 400;
+
+}
+
+
+.form-group input {
+
+  width: 100%;
+
+  height: 45px;
+
+  padding:
+    0
+    11px;
+
+  border:
+    1px solid
+    #AEBFC7;
+
+  border-radius: 7px;
+
+  background: #FFFFFF;
+
+  color: var(--text);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  outline: none;
+
+}
+
+
+.form-group input:focus {
+
+  border-color: var(--blue);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(23, 108, 142, 0.12);
+
+}
+
+
+.help-text {
+
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  line-height: 1.45;
+
+}
+
+
+/* =========================================================
+   RADIO / MODE SELECTOR
+   ========================================================= */
+
+.mode-selector {
+
+  margin:
+    15px
+    0;
+
+  padding:
+    11px
+    12px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 8px;
+
+  background: #F7FAFB;
+
+}
+
+
+.mode-title {
+
+  margin-bottom: 9px;
+
+  color: var(--navy);
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+}
+
+
+.radio-option {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-right: 18px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+}
+
+
+.radio-option input {
+
+  accent-color: var(--blue);
+
+}
+
+
+/* =========================================================
+   HIDDEN
+   ========================================================= */
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   CARRIED VALUES
+   ========================================================= */
+
+.carried-values {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 9px;
+
+  margin:
+    0
+    0
+    14px;
+
+}
+
+
+.carried-values > div {
+
+  padding:
+    10px
+    11px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 7px;
+
+  background: #F7FAFB;
+
+}
+
+
+.carried-values span {
+
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: .3px;
+
+}
+
+
+.carried-values strong {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--blue);
+
+  font-size: 15px;
+
+}
+
+
+.carried-values small {
+
+  display: block;
+
+  margin-top: 3px;
+
+  color: #849198;
+
+  font-size: 8px;
+
+  line-height: 1.3;
+
+}
+
+
+/* =========================================================
+   CALCULATE BUTTON
+   ========================================================= */
+
+.calculate-button {
+
+  width: 100%;
+
+  height: 45px;
+
+  border:
+    2px solid
+    #07506D;
+
+  border-radius: 7px;
+
+  background: var(--blue);
+
+  color: #FFFFFF;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+}
+
+
+.calculate-button:hover {
+  filter: brightness(1.07);
+}
+
+
+.calculate-button:active {
+  transform: translateY(1px);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-message {
+
+  min-height: 0;
+
+  margin-top: 8px;
+
+  color: var(--danger);
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+}
+
+
+/* =========================================================
+   OUTPUT CARD
+   ========================================================= */
+
+.output-card {
+
+  margin-top: 16px;
+
+  padding:
+    15px
+    15px
+    8px;
+
+  background: var(--navy-dark);
+
+  border:
+    1px solid
+    #263955;
+
+  border-radius: 10px;
+
+  color: #FFFFFF;
+
+}
+
+
+.output-label {
+
+  margin-bottom: 10px;
+
+  color: var(--blue-light);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: .65px;
+
+}
+
+
+.output-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding:
+    9px
+    0;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.07);
+
+}
+
+
+.output-row:last-child {
+  border-bottom: 0;
+}
+
+
+.output-row > span {
+
+  color: #91A2B4;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+}
+
+
+.output-row strong {
+
+  color: #FFFFFF;
+
+  font-size: 15px;
+
+  text-align: right;
+
+  white-space: nowrap;
+
+}
+
+
+.output-row strong.primary-output {
+
+  color: var(--blue-light);
+
+  font-size: 18px;
+
+}
+
+
+/* =========================================================
+   SLIP CARD
+   ========================================================= */
+
+.slip-card {
+
+  margin-top: 11px;
+
+  padding:
+    15px
+    15px
+    8px;
+
+  background: var(--navy-dark);
+
+  border:
+    1px solid
+    #263955;
+
+  border-radius: 10px;
+
+}
+
+
+.slip-card .output-label {
+
+  color: #D69A54;
+
+}
+
+
+/* =========================================================
+   REFERENCE CARD
+   ========================================================= */
+
+.reference-card {
+
+  padding: 20px;
+
+  background: #FFFFFF;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px
+    rgba(19, 55, 70, 0.05);
+
+}
+
+
+/* =========================================================
+   FORMULAS
+   ========================================================= */
+
+.formula-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+}
+
+
+.formula-item {
+
+  display: grid;
+
+  grid-template-columns:
+    145px
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+
+.formula-item > span {
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+}
+
+
+.formula-item code {
+
+  display: block;
+
+  padding:
+    7px
+    9px;
+
+  border-radius: 4px;
+
+  background: var(--blue-soft);
+
+  color: #D7E5F3;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 8.5px;
+
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+
+}
+
+
+/* =========================================================
+   SOURCE NOTE
+   ========================================================= */
+
+.source-note {
+
+  margin-top: 15px;
+
+  padding:
+    10px
+    11px;
+
+  border-left:
+    3px solid
+    var(--blue);
+
+  background: var(--light-blue);
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  line-height: 1.5;
+
+}
+
+
+.source-note strong {
+  color: var(--navy);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 18px;
+
+  padding:
+    0
+    4px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .app {
+
+    padding:
+      14px
+      10px
+      25px;
+
+  }
+
+
+  .calculator-card,
+  .reference-card {
+
+    padding: 16px;
+
+    border-radius: 13px;
+
+  }
+
+
+  .page-heading h1 {
+    font-size: 19px;
+  }
+
+
+  .tool-icon {
+
+    width: 46px;
+    height: 46px;
+
+    font-size: 21px;
+
+  }
+
+
+  .input-grid {
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+  }
+
+
+  .carried-values {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .radio-option {
+
+    display: flex;
+
+    margin:
+      7px
+      0;
+
+  }
+
+
+  .formula-item {
+
+    grid-template-columns: 1fr;
+
+    gap: 4px;
+
+  }
+
+
+  .formula-item code {
+
+    font-size: 8px;
+
+  }
+
+
+  .output-row {
+
+    align-items: flex-start;
+
+  }
+
+
+  footer {
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .app {
+
+    padding-left: 7px;
+
+    padding-right: 7px;
+
+  }
+
+
+  .calculator-card,
+  .reference-card {
+
+    padding: 13px;
+
+  }
+
+
+  .output-row strong {
+
+    font-size: 13px;
+
+  }
+
+
+  .output-row strong.primary-output {
+
+    font-size: 16px;
+
+  }
+
+}
