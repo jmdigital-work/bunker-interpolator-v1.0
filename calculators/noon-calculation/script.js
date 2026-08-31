@@ -118,7 +118,7 @@ function calculateRPM() {
 
   setText(
     "averageRpm",
-    calculatedAverageRpm.toFixed(4)
+    calculatedAverageRpm.toFixed(2)
   );
 
 
@@ -164,7 +164,7 @@ function calculateRPM() {
         ÷
         (${format(time, 2)} × 60)
         =
-        ${format(calculatedAverageRpm, 4)}
+        ${format(calculatedAverageRpm, 2)}
         RPM
       </strong>
 
@@ -220,7 +220,7 @@ function calculateConstant() {
 
   setText(
     "calculatedConstantRev",
-    calculatedConstantRev.toFixed(6)
+    calculatedConstantRev.toFixed(10)
   );
 
 
@@ -264,7 +264,7 @@ function calculateConstant() {
         ${format(pitchMeters, 6)}
         ÷ 1852
         =
-        ${format(calculatedConstantRev, 6)}
+        ${format(calculatedConstantRev, 10)}
         Nm/rev
       </strong>
 
@@ -435,31 +435,31 @@ function calculatePropeller() {
 
   setText(
     "selectedConstantRev",
-    constantRev.toFixed(6)
+    constantRev.toFixed(10)
   );
 
 
   setText(
     "constantRev",
-    constantRev.toFixed(6)
+    constantRev.toFixed(10)
   );
 
 
   setText(
     "constantRpm",
-    constantRpm.toFixed(5)
+    constantRpm.toFixed(10)
   );
 
 
   setText(
     "propellerDistance",
-    distance.toFixed(4)
+    distance.toFixed(2)
   );
 
 
   setText(
     "propellerSpeed",
-    speed.toFixed(4)
+    speed.toFixed(2)
   );
 
 
@@ -498,7 +498,7 @@ function calculatePropeller() {
       </span>
 
       <strong>
-        ${format(constantRev, 6)}
+        ${format(constantRev, 10)}
         Nm/rev
       </strong>
 
@@ -516,10 +516,10 @@ function calculatePropeller() {
       </code>
 
       <strong>
-        ${format(constantRev, 6)}
+        ${format(constantRev, 10)}
         × 60
         =
-        ${format(constantRpm, 5)}
+        ${format(constantRpm, 10)}
       </strong>
 
     </div>
@@ -536,11 +536,11 @@ function calculatePropeller() {
       </code>
 
       <strong>
-        ${format(constantRev, 6)}
+        ${format(constantRev, 10)}
         ×
         ${format(calculatedTotalRevolution, 0)}
         =
-        ${format(distance, 4)}
+        ${format(distance, 2)}
         Nm
       </strong>
 
@@ -558,11 +558,11 @@ function calculatePropeller() {
       </code>
 
       <strong>
-        ${format(constantRpm, 5)}
+        ${format(constantRpm, 10)}
         ×
-        ${format(calculatedAverageRpm, 4)}
+        ${format(calculatedAverageRpm, 2)}
         =
-        ${format(speed, 4)}
+        ${format(speed, 2)}
         Knots
       </strong>
 
@@ -599,7 +599,7 @@ function updateCarriedValues() {
 
     setText(
       "propAverageRpm",
-      `${calculatedAverageRpm.toFixed(4)} RPM`
+      `${calculatedAverageRpm.toFixed(2)} RPM`
     );
 
   } else {
@@ -616,7 +616,7 @@ function updateCarriedValues() {
 
     setText(
       "selectedConstantRev",
-      selectedConstantRev.toFixed(6)
+      selectedConstantRev.toFixed(10)
     );
 
   } else {
@@ -633,7 +633,7 @@ function updateCarriedValues() {
 
     setText(
       "speedPropellerDistance",
-      `${calculatedPropellerDistance.toFixed(4)} Nm`
+      `${calculatedPropellerDistance.toFixed(2)} Nm`
     );
 
   } else {
@@ -650,7 +650,7 @@ function updateCarriedValues() {
 
     setText(
       "speedPropellerSpeed",
-      `${calculatedPropellerSpeed.toFixed(4)} Knots`
+      `${calculatedPropellerSpeed.toFixed(2)} Knots`
     );
 
   } else {
@@ -808,7 +808,7 @@ function calculateSpeedSlip() {
 
     setText(
       "speedPropellerDistance",
-      `${propellerDistanceForSlip.toFixed(4)} Nm`
+      `${propellerDistanceForSlip.toFixed(2)} Nm`
     );
 
 
@@ -838,7 +838,7 @@ function calculateSpeedSlip() {
 
     setText(
       "speedPropellerDistance",
-      `${propellerDistanceForSlip.toFixed(4)} Nm`
+      `${propellerDistanceForSlip.toFixed(2)} Nm`
     );
 
 
@@ -915,19 +915,19 @@ function calculateSpeedSlip() {
 
   setText(
     "logSpeed",
-    logSpeedValue.toFixed(4)
+    logSpeedValue.toFixed(2)
   );
 
 
   setText(
     "ogSpeed",
-    ogSpeedValue.toFixed(4)
+    ogSpeedValue.toFixed(2)
   );
 
 
   setText(
     "speedPropellerSpeedOutput",
-    calculatedPropellerSpeed.toFixed(4)
+    calculatedPropellerSpeed.toFixed(2)
   );
 
 
@@ -937,25 +937,25 @@ function calculateSpeedSlip() {
 
   setText(
     "slipLogDistance",
-    slipLogDistanceValue.toFixed(4)
+    slipLogDistanceValue.toFixed(2)
   );
 
 
   setText(
     "slipOgDistance",
-    slipOgDistanceValue.toFixed(4)
+    slipOgDistanceValue.toFixed(2)
   );
 
 
   setText(
     "slipLogSpeed",
-    slipLogSpeedValue.toFixed(4)
+    slipLogSpeedValue.toFixed(2)
   );
 
 
   setText(
     "slipOgSpeed",
-    slipOgSpeedValue.toFixed(4)
+    slipOgSpeedValue.toFixed(2)
   );
 
 
@@ -997,11 +997,11 @@ function calculateSpeedSlip() {
       </code>
 
       <strong>
-        ${format(logDistanceValue, 4)}
+        ${format(logDistanceValue, 2)}
         ÷
-        ${format(time, 4)}
+        ${format(time, 2)}
         =
-        ${format(logSpeedValue, 4)}
+        ${format(logSpeedValue, 2)}
         Knots
       </strong>
 
@@ -1019,11 +1019,11 @@ function calculateSpeedSlip() {
       </code>
 
       <strong>
-        ${format(ogDistanceValue, 4)}
+        ${format(ogDistanceValue, 2)}
         ÷
-        ${format(time, 4)}
+        ${format(time, 2)}
         =
-        ${format(ogSpeedValue, 4)}
+        ${format(ogSpeedValue, 2)}
         Knots
       </strong>
 
@@ -1042,15 +1042,15 @@ function calculateSpeedSlip() {
 
       <strong>
         (
-        ${format(propellerDistanceForSlip, 4)}
+        ${format(propellerDistanceForSlip, 2)}
         −
-        ${format(logDistanceValue, 4)}
+        ${format(logDistanceValue, 2)}
         )
         ÷
-        ${format(propellerDistanceForSlip, 4)}
+        ${format(propellerDistanceForSlip, 2)}
         × 100
         =
-        ${format(slipLogDistanceValue, 4)}
+        ${format(slipLogDistanceValue, 2)}
         %
       </strong>
 
@@ -1069,15 +1069,15 @@ function calculateSpeedSlip() {
 
       <strong>
         (
-        ${format(propellerDistanceForSlip, 4)}
+        ${format(propellerDistanceForSlip, 2)}
         −
-        ${format(ogDistanceValue, 4)}
+        ${format(ogDistanceValue, 2)}
         )
         ÷
-        ${format(propellerDistanceForSlip, 4)}
+        ${format(propellerDistanceForSlip, 2)}
         × 100
         =
-        ${format(slipOgDistanceValue, 4)}
+        ${format(slipOgDistanceValue, 2)}
         %
       </strong>
 
@@ -1096,15 +1096,15 @@ function calculateSpeedSlip() {
 
       <strong>
         (
-        ${format(calculatedPropellerSpeed, 4)}
+        ${format(calculatedPropellerSpeed, 2)}
         −
-        ${format(logSpeedValue, 4)}
+        ${format(logSpeedValue, 2)}
         )
         ÷
-        ${format(calculatedPropellerSpeed, 4)}
+        ${format(calculatedPropellerSpeed, 2)}
         × 100
         =
-        ${format(slipLogSpeedValue, 4)}
+        ${format(slipLogSpeedValue, 2)}
         %
       </strong>
 
@@ -1123,15 +1123,15 @@ function calculateSpeedSlip() {
 
       <strong>
         (
-        ${format(calculatedPropellerSpeed, 4)}
+        ${format(calculatedPropellerSpeed, 2)}
         −
-        ${format(ogSpeedValue, 4)}
+        ${format(ogSpeedValue, 2)}
         )
         ÷
-        ${format(calculatedPropellerSpeed, 4)}
+        ${format(calculatedPropellerSpeed, 2)}
         × 100
         =
-        ${format(slipOgSpeedValue, 4)}
+        ${format(slipOgSpeedValue, 2)}
         %
       </strong>
 

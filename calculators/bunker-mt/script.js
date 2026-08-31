@@ -249,12 +249,12 @@ function calculateBunkerMass() {
   */
 
   auditDensity.textContent =
-    density.toFixed(4) +
+    density.toFixed(1) +
     " kg/m³";
 
 
   auditTemperature.textContent =
-    temp.toFixed(4) +
+    temp.toFixed(2) +
     " °C";
 
 
@@ -263,7 +263,7 @@ function calculateBunkerMass() {
 
 
   auditVolume.textContent =
-    volume.toFixed(4) +
+    volume.toFixed(2) +
     " m³";
 
 
@@ -274,9 +274,9 @@ function calculateBunkerMass() {
   */
 
   auditTcdCalculation.textContent =
-    density.toFixed(4) +
+    density.toFixed(1) +
     " × [1 − {(" +
-    temp.toFixed(4) +
+    temp.toFixed(2) +
     " − 15) × " +
     correction +
     "}]";
@@ -293,7 +293,7 @@ function calculateBunkerMass() {
   */
 
   auditMassCalculation.textContent =
-    volume.toFixed(4) +
+    volume.toFixed(2) +
     " × " +
     corrected.toFixed(4) +
     " ÷ 1000";
