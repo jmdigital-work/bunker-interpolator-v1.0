@@ -3,90 +3,71 @@
    NOON CALCULATION
    ========================================================= */
 
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
 let calculatedTotalRevolution = null;
 let calculatedAverageRpm = null;
 
 let calculatedConstantRev = null;
-let calculatedConstantRpm = null;
 
+let selectedConstantRev = null;
+let calculatedConstantRpm = null;
 let calculatedPropellerDistance = null;
 let calculatedPropellerSpeed = null;
 
 
 /* =========================================================
-   HELPERS
+   HELPER FUNCTIONS
    ========================================================= */
 
 function numberValue(id) {
-
-  return Number(
-    document.getElementById(id).value
-  );
-
+  return Number(document.getElementById(id).value);
 }
 
 
 function isBlank(id) {
-
-  return (
-    document.getElementById(id).value.trim() === ""
-  );
-
+  return document.getElementById(id).value.trim() === "";
 }
 
 
 function setText(id, value) {
-
   document.getElementById(id).textContent = value;
-
 }
 
 
 function setError(id, message) {
-
   document.getElementById(id).textContent = message;
+}
 
+
+function format(value, decimals) {
+  return Number(value).toFixed(decimals);
 }
 
 
 /* =========================================================
-   MAIN SHAFT RPM
+   1. MAIN ENGINE RPM
    ========================================================= */
 
 function calculateRPM() {
 
   setError("rpmError", "");
 
-
   if (
     isBlank("counterPrevious") ||
     isBlank("counterPresent") ||
     isBlank("runningTime")
   ) {
-
     setError(
       "rpmError",
-      "Please enter all Main Shaft RPM inputs."
+      "Please enter all Main Engine RPM inputs."
     );
 
     return;
-
   }
 
 
-  const previous =
-    numberValue("counterPrevious");
-
-  const present =
-    numberValue("counterPresent");
-
-  const time =
-    numberValue("runningTime");
+  const previous = numberValue("counterPrevious");
+  const present = numberValue("counterPresent");
+  const time = numberValue("runningTime");
 
 
   if (
@@ -94,61 +75,40 @@ function calculateRPM() {
     !Number.isFinite(present) ||
     !Number.isFinite(time)
   ) {
-
     setError(
       "rpmError",
       "Please enter valid numerical values."
     );
 
     return;
-
   }
 
 
   if (present < previous) {
-
     setError(
       "rpmError",
       "Present Counter Reading cannot be less than Previous Counter Reading."
     );
 
     return;
-
   }
 
 
   if (time <= 0) {
-
     setError(
       "rpmError",
-      "Running Time must be greater than zero."
+      "Ship Running Time must be greater than zero."
     );
 
     return;
-
   }
 
 
-  /* ---------------------------------------------
-     Total Revolution
-     --------------------------------------------- */
-
-  calculatedTotalRevolution =
-    present - previous;
-
-
-  /* ---------------------------------------------
-     Average RPM
-     --------------------------------------------- */
+  calculatedTotalRevolution = present - previous;
 
   calculatedAverageRpm =
-    calculatedTotalRevolution /
-    (time * 60);
+    calculatedTotalRevolution / (time * 60);
 
-
-  /* ---------------------------------------------
-     Display
-     --------------------------------------------- */
 
   setText(
     "totalRevolution",
@@ -158,59 +118,248 @@ function calculateRPM() {
 
   setText(
     "averageRpm",
-    calculatedAverageRpm.toFixed(2)
-  );
-
-
-  /* ---------------------------------------------
-     Carry into Propeller
-     --------------------------------------------- */
-
-  setText(
-    "propTotalRevolution",
-    calculatedTotalRevolution.toFixed(0) + " rev"
-  );
-
-
-  setText(
-    "propAverageRpm",
-    calculatedAverageRpm.toFixed(2) + " RPM"
+    calculatedAverageRpm.toFixed(4)
   );
 
 
   updateCarriedValues();
 
+
+  document.getElementById("rpmAudit").innerHTML = `
+
+    <div class="audit-step">
+
+      <span>
+        M/E Total Revolution
+      </span>
+
+      <code>
+        Present RC − Previous RC
+      </code>
+
+      <strong>
+        ${format(present, 0)}
+        −
+        ${format(previous, 0)}
+        =
+        ${format(calculatedTotalRevolution, 0)}
+        rev
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        M/E RPM
+      </span>
+
+      <code>
+        M/E Total Revolution ÷ (Running Time × 60)
+      </code>
+
+      <strong>
+        ${format(calculatedTotalRevolution, 0)}
+        ÷
+        (${format(time, 2)} × 60)
+        =
+        ${format(calculatedAverageRpm, 4)}
+        RPM
+      </strong>
+
+    </div>
+
+  `;
 }
 
 
 /* =========================================================
-   CONSTANT MODE
+   2. PROPELLER CONSTANT
    ========================================================= */
 
-function getConstantMode() {
+function calculateConstant() {
+
+  setError("constantError", "");
+
+
+  if (isBlank("propellerPitch")) {
+
+    setError(
+      "constantError",
+      "Enter Propeller Pitch to calculate ConstantREV."
+    );
+
+    return;
+  }
+
+
+  const pitchMm = numberValue("propellerPitch");
+
+
+  if (
+    !Number.isFinite(pitchMm) ||
+    pitchMm <= 0
+  ) {
+
+    setError(
+      "constantError",
+      "Propeller Pitch must be greater than zero."
+    );
+
+    return;
+  }
+
+
+  const pitchMeters = pitchMm / 1000;
+
+
+  calculatedConstantRev =
+    pitchMeters / 1852;
+
+
+  setText(
+    "calculatedConstantRev",
+    calculatedConstantRev.toFixed(6)
+  );
+
+
+  updateCarriedValues();
+
+
+  document.getElementById("constantAudit").innerHTML = `
+
+    <div class="audit-step">
+
+      <span>
+        Convert pitch from mm to m
+      </span>
+
+      <code>
+        Pitch (mm) ÷ 1000
+      </code>
+
+      <strong>
+        ${format(pitchMm, 3)}
+        ÷ 1000
+        =
+        ${format(pitchMeters, 6)}
+        m
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        Propeller ConstantREV
+      </span>
+
+      <code>
+        Pitch (m) ÷ 1852
+      </code>
+
+      <strong>
+        ${format(pitchMeters, 6)}
+        ÷ 1852
+        =
+        ${format(calculatedConstantRev, 6)}
+        Nm/rev
+      </strong>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   CONSTANT SOURCE
+   ========================================================= */
+
+function getConstantSource() {
 
   return document.querySelector(
-    'input[name="constantMode"]:checked'
+    'input[name="constantSource"]:checked'
   ).value;
 
 }
 
 
-/* =========================================================
-   DISTANCE MODE
-   ========================================================= */
-
-function getDistanceMode() {
+function getSpeedDistanceSource() {
 
   return document.querySelector(
-    'input[name="distanceMode"]:checked'
+    'input[name="speedDistanceSource"]:checked'
   ).value;
 
 }
 
 
+function getSelectedConstant() {
+
+  const source = getConstantSource();
+
+
+  /*
+     USE CALCULATED CONSTANT
+  */
+
+  if (source === "calculated") {
+
+    if (calculatedConstantRev === null) {
+
+      setError(
+        "propellerError",
+        "Calculate the Propeller Constant first."
+      );
+
+      return null;
+    }
+
+    return calculatedConstantRev;
+  }
+
+
+  /*
+     USE EXISTING CONSTANT
+  */
+
+  if (isBlank("existingConstantRev")) {
+
+    setError(
+      "propellerError",
+      "Enter the existing Propeller ConstantREV."
+    );
+
+    return null;
+  }
+
+
+  const existing =
+    numberValue("existingConstantRev");
+
+
+  if (
+    !Number.isFinite(existing) ||
+    existing <= 0
+  ) {
+
+    setError(
+      "propellerError",
+      "Existing Propeller ConstantREV must be greater than zero."
+    );
+
+    return null;
+  }
+
+
+  return existing;
+}
+
+
 /* =========================================================
-   PROPELLER
+   3. PROPELLER DISTANCE & SPEED
    ========================================================= */
 
 function calculatePropeller() {
@@ -225,188 +374,49 @@ function calculatePropeller() {
 
     setError(
       "propellerError",
-      "Calculate Main Shaft RPM first."
+      "Calculate Main Engine RPM first."
     );
 
     return;
-
   }
 
 
-  const constantMode =
-    getConstantMode();
-
-  const distanceMode =
-    getDistanceMode();
+  const constantRev =
+    getSelectedConstant();
 
 
-  let constantRev;
-
-
-  /* =====================================================
-     CONSTANT REV
-     ===================================================== */
-
-  if (constantMode === "calculate") {
-
-    if (isBlank("propellerPitch")) {
-
-      setError(
-        "propellerError",
-        "Enter Propeller Pitch when calculating ConstantREV from Pitch."
-      );
-
-      return;
-
-    }
-
-
-    const pitchMm =
-      numberValue("propellerPitch");
-
-
-    if (
-      !Number.isFinite(pitchMm) ||
-      pitchMm <= 0
-    ) {
-
-      setError(
-        "propellerError",
-        "Propeller Pitch must be greater than zero."
-      );
-
-      return;
-
-    }
-
-
-    /*
-      Convert mm → m
-    */
-
-    const pitchMeters =
-      pitchMm / 1000;
-
-
-    /*
-      ConstantREV =
-      Pitch (m) / 1852
-    */
-
-    constantRev =
-      pitchMeters / 1852;
-
+  if (constantRev === null) {
+    return;
   }
 
 
-  else {
-
-    if (isBlank("manualConstantRev")) {
-
-      setError(
-        "propellerError",
-        "Enter the manual Propeller ConstantREV."
-      );
-
-      return;
-
-    }
-
-
-    constantRev =
-      numberValue("manualConstantRev");
-
-
-    if (
-      !Number.isFinite(constantRev) ||
-      constantRev <= 0
-    ) {
-
-      setError(
-        "propellerError",
-        "Propeller ConstantREV must be greater than zero."
-      );
-
-      return;
-
-    }
-
-  }
-
-
-  /* =====================================================
-     CONSTANT RPM
-     ===================================================== */
+  /*
+     ConstantREV → ConstantRPM
+  */
 
   const constantRpm =
     constantRev * 60;
 
 
-  /* =====================================================
-     PROPELLER DISTANCE
-     ===================================================== */
+  /*
+     Propeller Distance
+  */
 
-  let distance;
-
-
-  if (distanceMode === "calculate") {
-
-    distance =
-      constantRev *
-      calculatedTotalRevolution;
-
-  }
+  const distance =
+    constantRev *
+    calculatedTotalRevolution;
 
 
-  else {
-
-    if (isBlank("manualPropellerDistance")) {
-
-      setError(
-        "propellerError",
-        "Enter the manual Propeller Distance."
-      );
-
-      return;
-
-    }
-
-
-    distance =
-      numberValue("manualPropellerDistance");
-
-
-    if (
-      !Number.isFinite(distance) ||
-      distance < 0
-    ) {
-
-      setError(
-        "propellerError",
-        "Propeller Distance cannot be negative."
-      );
-
-      return;
-
-    }
-
-  }
-
-
-  /* =====================================================
-     PROPELLER SPEED
-     ===================================================== */
+  /*
+     Propeller Speed
+  */
 
   const speed =
     constantRpm *
     calculatedAverageRpm;
 
 
-  /* =====================================================
-     STORE
-     ===================================================== */
-
-  calculatedConstantRev =
+  selectedConstantRev =
     constantRev;
 
   calculatedConstantRpm =
@@ -419,9 +429,15 @@ function calculatePropeller() {
     speed;
 
 
-  /* =====================================================
-     DISPLAY
-     ===================================================== */
+  /*
+     DISPLAY RESULTS
+  */
+
+  setText(
+    "selectedConstantRev",
+    constantRev.toFixed(6)
+  );
+
 
   setText(
     "constantRev",
@@ -437,18 +453,122 @@ function calculatePropeller() {
 
   setText(
     "propellerDistance",
-    distance.toFixed(1)
+    distance.toFixed(4)
   );
 
 
   setText(
     "propellerSpeed",
-    speed.toFixed(2)
+    speed.toFixed(4)
   );
 
 
   updateCarriedValues();
 
+
+  const sourceText =
+    getConstantSource() === "existing"
+      ? "Existing ConstantREV entered by user"
+      : "Calculated ConstantREV from Propeller Constant section";
+
+
+  /*
+     AUDIT TRAIL
+  */
+
+  document.getElementById("propellerAudit").innerHTML = `
+
+    <div class="audit-step">
+
+      <span>
+        ConstantREV source
+      </span>
+
+      <strong>
+        ${sourceText}
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        Selected ConstantREV
+      </span>
+
+      <strong>
+        ${format(constantRev, 6)}
+        Nm/rev
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        ConstantRPM
+      </span>
+
+      <code>
+        ConstantREV × 60
+      </code>
+
+      <strong>
+        ${format(constantRev, 6)}
+        × 60
+        =
+        ${format(constantRpm, 5)}
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        Propeller Distance
+      </span>
+
+      <code>
+        ConstantREV × M/E Total Revolution
+      </code>
+
+      <strong>
+        ${format(constantRev, 6)}
+        ×
+        ${format(calculatedTotalRevolution, 0)}
+        =
+        ${format(distance, 4)}
+        Nm
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        Propeller Speed
+      </span>
+
+      <code>
+        ConstantRPM × M/E RPM
+      </code>
+
+      <strong>
+        ${format(constantRpm, 5)}
+        ×
+        ${format(calculatedAverageRpm, 4)}
+        =
+        ${format(speed, 4)}
+        Knots
+      </strong>
+
+    </div>
+
+  `;
 }
 
 
@@ -458,18 +578,65 @@ function calculatePropeller() {
 
 function updateCarriedValues() {
 
-  if (
-    calculatedPropellerDistance !== null
-  ) {
+  if (calculatedTotalRevolution !== null) {
 
     setText(
-      "speedPropellerDistance",
-      calculatedPropellerDistance.toFixed(1) +
-      " Nm"
+      "propTotalRevolution",
+      `${calculatedTotalRevolution.toFixed(0)} rev`
+    );
+
+  } else {
+
+    setText(
+      "propTotalRevolution",
+      "—"
     );
 
   }
-  else {
+
+
+  if (calculatedAverageRpm !== null) {
+
+    setText(
+      "propAverageRpm",
+      `${calculatedAverageRpm.toFixed(4)} RPM`
+    );
+
+  } else {
+
+    setText(
+      "propAverageRpm",
+      "—"
+    );
+
+  }
+
+
+  if (selectedConstantRev !== null) {
+
+    setText(
+      "selectedConstantRev",
+      selectedConstantRev.toFixed(6)
+    );
+
+  } else {
+
+    setText(
+      "selectedConstantRev",
+      "—"
+    );
+
+  }
+
+
+  if (calculatedPropellerDistance !== null) {
+
+    setText(
+      "speedPropellerDistance",
+      `${calculatedPropellerDistance.toFixed(4)} Nm`
+    );
+
+  } else {
 
     setText(
       "speedPropellerDistance",
@@ -479,18 +646,14 @@ function updateCarriedValues() {
   }
 
 
-  if (
-    calculatedPropellerSpeed !== null
-  ) {
+  if (calculatedPropellerSpeed !== null) {
 
     setText(
       "speedPropellerSpeed",
-      calculatedPropellerSpeed.toFixed(2) +
-      " Knots"
+      `${calculatedPropellerSpeed.toFixed(4)} Knots`
     );
 
-  }
-  else {
+  } else {
 
     setText(
       "speedPropellerSpeed",
@@ -503,7 +666,7 @@ function updateCarriedValues() {
 
 
 /* =========================================================
-   SPEED & SLIP
+   4. LOG/OG SPEED & SLIP
    ========================================================= */
 
 function calculateSpeedSlip() {
@@ -522,14 +685,10 @@ function calculateSpeedSlip() {
     );
 
     return;
-
   }
 
 
-  if (
-    calculatedPropellerDistance === null ||
-    calculatedPropellerSpeed === null
-  ) {
+  if (calculatedPropellerSpeed === null) {
 
     setError(
       "speedSlipError",
@@ -537,7 +696,6 @@ function calculateSpeedSlip() {
     );
 
     return;
-
   }
 
 
@@ -545,11 +703,10 @@ function calculateSpeedSlip() {
 
     setError(
       "speedSlipError",
-      "Running Time is required."
+      "Ship Running Time is required."
     );
 
     return;
-
   }
 
 
@@ -575,7 +732,6 @@ function calculateSpeedSlip() {
     );
 
     return;
-
   }
 
 
@@ -590,7 +746,6 @@ function calculateSpeedSlip() {
     );
 
     return;
-
   }
 
 
@@ -598,53 +753,141 @@ function calculateSpeedSlip() {
 
     setError(
       "speedSlipError",
-      "Running Time must be greater than zero."
+      "Ship Running Time must be greater than zero."
     );
 
     return;
+  }
+
+
+  let propellerDistanceForSlip;
+
+
+  /*
+     CALCULATED OR MANUAL PROPELLER DISTANCE
+  */
+
+  if (getSpeedDistanceSource() === "manual") {
+
+    if (
+      isBlank(
+        "manualSpeedPropellerDistance"
+      )
+    ) {
+
+      setError(
+        "speedSlipError",
+        "Enter the manual Propeller Distance."
+      );
+
+      return;
+    }
+
+
+    propellerDistanceForSlip =
+      numberValue(
+        "manualSpeedPropellerDistance"
+      );
+
+
+    if (
+      !Number.isFinite(
+        propellerDistanceForSlip
+      ) ||
+      propellerDistanceForSlip <= 0
+    ) {
+
+      setError(
+        "speedSlipError",
+        "Manual Propeller Distance must be greater than zero."
+      );
+
+      return;
+    }
+
+
+    setText(
+      "speedPropellerDistance",
+      `${propellerDistanceForSlip.toFixed(4)} Nm`
+    );
+
+
+    document.getElementById(
+      "speedDistanceSourceNote"
+    ).textContent =
+      "manually entered by user";
+
+  } else {
+
+    if (
+      calculatedPropellerDistance === null
+    ) {
+
+      setError(
+        "speedSlipError",
+        "Calculate the Propeller section first."
+      );
+
+      return;
+    }
+
+
+    propellerDistanceForSlip =
+      calculatedPropellerDistance;
+
+
+    setText(
+      "speedPropellerDistance",
+      `${propellerDistanceForSlip.toFixed(4)} Nm`
+    );
+
+
+    document.getElementById(
+      "speedDistanceSourceNote"
+    ).textContent =
+      "from Propeller calculation";
 
   }
 
 
-  /* =====================================================
-     SPEED
-     ===================================================== */
+  /*
+     LOG / OG SPEED
+  */
 
   const logSpeedValue =
     logDistanceValue / time;
-
 
   const ogSpeedValue =
     ogDistanceValue / time;
 
 
-  /* =====================================================
+  /*
      SLIP BY DISTANCE
-     ===================================================== */
+  */
 
   const slipLogDistanceValue =
     (
       (
-        calculatedPropellerDistance -
+        propellerDistanceForSlip -
         logDistanceValue
       ) /
-      calculatedPropellerDistance
+      propellerDistanceForSlip
     ) * 100;
 
 
   const slipOgDistanceValue =
     (
       (
-        calculatedPropellerDistance -
+        propellerDistanceForSlip -
         ogDistanceValue
       ) /
-      calculatedPropellerDistance
+      propellerDistanceForSlip
     ) * 100;
 
 
-  /* =====================================================
+  /*
      SLIP BY SPEED
-     ===================================================== */
+  */
 
   const slipLogSpeedValue =
     (
@@ -666,97 +909,260 @@ function calculateSpeedSlip() {
     ) * 100;
 
 
-  /* =====================================================
-     DISPLAY SPEED
-     ===================================================== */
+  /*
+     DISPLAY SPEED RESULTS
+  */
 
   setText(
     "logSpeed",
-    logSpeedValue.toFixed(2)
+    logSpeedValue.toFixed(4)
   );
 
 
   setText(
     "ogSpeed",
-    ogSpeedValue.toFixed(2)
+    ogSpeedValue.toFixed(4)
   );
 
 
   setText(
     "speedPropellerSpeedOutput",
-    calculatedPropellerSpeed.toFixed(2)
+    calculatedPropellerSpeed.toFixed(4)
   );
 
 
-  /* =====================================================
-     DISPLAY SLIP BY DISTANCE
-     ===================================================== */
+  /*
+     DISPLAY SLIP RESULTS
+  */
 
   setText(
     "slipLogDistance",
-    slipLogDistanceValue.toFixed(2)
+    slipLogDistanceValue.toFixed(4)
   );
 
 
   setText(
     "slipOgDistance",
-    slipOgDistanceValue.toFixed(2)
+    slipOgDistanceValue.toFixed(4)
   );
 
 
-  /* =====================================================
-     DISPLAY SLIP BY SPEED
-     ===================================================== */
-
   setText(
     "slipLogSpeed",
-    slipLogSpeedValue.toFixed(2)
+    slipLogSpeedValue.toFixed(4)
   );
 
 
   setText(
     "slipOgSpeed",
-    slipOgSpeedValue.toFixed(2)
+    slipOgSpeedValue.toFixed(4)
   );
 
+
+  const distanceSourceText =
+    getSpeedDistanceSource() === "manual"
+      ? "Manual Propeller Distance"
+      : "Calculated Propeller Distance";
+
+
+  /*
+     AUDIT TRAIL
+  */
+
+  document.getElementById(
+    "speedSlipAudit"
+  ).innerHTML = `
+
+    <div class="audit-step">
+
+      <span>
+        Propeller Distance source
+      </span>
+
+      <strong>
+        ${distanceSourceText}
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        LOG Speed
+      </span>
+
+      <code>
+        LOG Distance ÷ Running Time
+      </code>
+
+      <strong>
+        ${format(logDistanceValue, 4)}
+        ÷
+        ${format(time, 4)}
+        =
+        ${format(logSpeedValue, 4)}
+        Knots
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        OG Speed
+      </span>
+
+      <code>
+        OG Distance ÷ Running Time
+      </code>
+
+      <strong>
+        ${format(ogDistanceValue, 4)}
+        ÷
+        ${format(time, 4)}
+        =
+        ${format(ogSpeedValue, 4)}
+        Knots
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        SLIP (LOG Distance)
+      </span>
+
+      <code>
+        (Propeller Distance − LOG Distance) ÷ Propeller Distance × 100
+      </code>
+
+      <strong>
+        (
+        ${format(propellerDistanceForSlip, 4)}
+        −
+        ${format(logDistanceValue, 4)}
+        )
+        ÷
+        ${format(propellerDistanceForSlip, 4)}
+        × 100
+        =
+        ${format(slipLogDistanceValue, 4)}
+        %
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        SLIP (OG Distance)
+      </span>
+
+      <code>
+        (Propeller Distance − OG Distance) ÷ Propeller Distance × 100
+      </code>
+
+      <strong>
+        (
+        ${format(propellerDistanceForSlip, 4)}
+        −
+        ${format(ogDistanceValue, 4)}
+        )
+        ÷
+        ${format(propellerDistanceForSlip, 4)}
+        × 100
+        =
+        ${format(slipOgDistanceValue, 4)}
+        %
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        SLIP (LOG Speed)
+      </span>
+
+      <code>
+        (Propeller Speed − LOG Speed) ÷ Propeller Speed × 100
+      </code>
+
+      <strong>
+        (
+        ${format(calculatedPropellerSpeed, 4)}
+        −
+        ${format(logSpeedValue, 4)}
+        )
+        ÷
+        ${format(calculatedPropellerSpeed, 4)}
+        × 100
+        =
+        ${format(slipLogSpeedValue, 4)}
+        %
+      </strong>
+
+    </div>
+
+
+    <div class="audit-step">
+
+      <span>
+        SLIP (OG Speed)
+      </span>
+
+      <code>
+        (Propeller Speed − OG Speed) ÷ Propeller Speed × 100
+      </code>
+
+      <strong>
+        (
+        ${format(calculatedPropellerSpeed, 4)}
+        −
+        ${format(ogSpeedValue, 4)}
+        )
+        ÷
+        ${format(calculatedPropellerSpeed, 4)}
+        × 100
+        =
+        ${format(slipOgSpeedValue, 4)}
+        %
+      </strong>
+
+    </div>
+
+  `;
 }
 
 
 /* =========================================================
-   CONSTANT MODE UI
+   UI — CONSTANT SOURCE
    ========================================================= */
 
 document
   .querySelectorAll(
-    'input[name="constantMode"]'
+    'input[name="constantSource"]'
   )
-  .forEach(function(radio) {
+  .forEach((radio) => {
 
     radio.addEventListener(
       "change",
-      function() {
+      function () {
 
-        const manualContainer =
-          document.getElementById(
-            "manualConstantContainer"
+        document
+          .getElementById(
+            "existingConstantContainer"
+          )
+          .classList.toggle(
+            "hidden",
+            this.value !== "existing"
           );
-
-
-        if (this.value === "manual") {
-
-          manualContainer.classList.remove(
-            "hidden"
-          );
-
-        }
-
-        else {
-
-          manualContainer.classList.add(
-            "hidden"
-          );
-
-        }
 
       }
     );
@@ -765,40 +1171,27 @@ document
 
 
 /* =========================================================
-   DISTANCE MODE UI
+   UI — SPEED/SLIP DISTANCE SOURCE
    ========================================================= */
 
 document
   .querySelectorAll(
-    'input[name="distanceMode"]'
+    'input[name="speedDistanceSource"]'
   )
-  .forEach(function(radio) {
+  .forEach((radio) => {
 
     radio.addEventListener(
       "change",
-      function() {
+      function () {
 
-        const manualContainer =
-          document.getElementById(
-            "manualDistanceContainer"
+        document
+          .getElementById(
+            "manualSpeedDistanceContainer"
+          )
+          .classList.toggle(
+            "hidden",
+            this.value !== "manual"
           );
-
-
-        if (this.value === "manual") {
-
-          manualContainer.classList.remove(
-            "hidden"
-          );
-
-        }
-
-        else {
-
-          manualContainer.classList.add(
-            "hidden"
-          );
-
-        }
 
       }
     );
@@ -811,7 +1204,9 @@ document
    ========================================================= */
 
 document
-  .getElementById("calculateRpmButton")
+  .getElementById(
+    "calculateRpmButton"
+  )
   .addEventListener(
     "click",
     calculateRPM
@@ -819,7 +1214,19 @@ document
 
 
 document
-  .getElementById("calculatePropellerButton")
+  .getElementById(
+    "calculateConstantButton"
+  )
+  .addEventListener(
+    "click",
+    calculateConstant
+  );
+
+
+document
+  .getElementById(
+    "calculatePropellerButton"
+  )
   .addEventListener(
     "click",
     calculatePropeller
@@ -827,7 +1234,9 @@ document
 
 
 document
-  .getElementById("calculateSpeedSlipButton")
+  .getElementById(
+    "calculateSpeedSlipButton"
+  )
   .addEventListener(
     "click",
     calculateSpeedSlip
@@ -835,19 +1244,15 @@ document
 
 
 /* =========================================================
-   ENTER KEY
+   ENTER KEY SUPPORT
    ========================================================= */
 
 document.addEventListener(
   "keydown",
-  function(event) {
+  (event) => {
 
-    if (
-      event.key !== "Enter"
-    ) {
-
+    if (event.key !== "Enter") {
       return;
-
     }
 
 
@@ -856,28 +1261,30 @@ document.addEventListener(
 
 
     if (
-      active.id === "counterPrevious" ||
-      active.id === "counterPresent" ||
-      active.id === "runningTime"
+      [
+        "counterPrevious",
+        "counterPresent",
+        "runningTime"
+      ].includes(active.id)
     ) {
 
       calculateRPM();
 
-    }
+    } else if (
+      active.id === "propellerPitch"
+    ) {
 
+      calculateConstant();
 
-    else if (
-      active.id === "propellerPitch" ||
-      active.id === "manualConstantRev" ||
-      active.id === "manualPropellerDistance"
+    } else if (
+      active.id === "existingConstantRev"
     ) {
 
       calculatePropeller();
 
-    }
-
-
-    else if (
+    } else if (
+      active.id ===
+      "manualSpeedPropellerDistance" ||
       active.id === "logDistance" ||
       active.id === "ogDistance"
     ) {

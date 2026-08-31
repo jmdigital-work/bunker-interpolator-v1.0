@@ -36,6 +36,11 @@ const correctedDensity =
 const bunkerMass =
   document.getElementById("bunkerMass");
 
+
+/* =========================================================
+   AUDIT TRAIL ELEMENTS
+   ========================================================= */
+
 const auditDensity =
   document.getElementById("auditDensity");
 
@@ -58,10 +63,11 @@ const auditMassCalculation =
   document.getElementById("auditMassCalculation");
 
 const auditMassResult =
-  document.getElementById("auditMassResult");  
+  document.getElementById("auditMassResult");
+
 
 /* =========================================================
-   CALCULATE
+   CALCULATE BUNKER MASS
    ========================================================= */
 
 function calculateBunkerMass() {
@@ -85,7 +91,6 @@ function calculateBunkerMass() {
     );
 
     return;
-
   }
 
 
@@ -120,7 +125,6 @@ function calculateBunkerMass() {
     );
 
     return;
-
   }
 
 
@@ -138,7 +142,6 @@ function calculateBunkerMass() {
     );
 
     return;
-
   }
 
 
@@ -146,14 +149,15 @@ function calculateBunkerMass() {
      Validate temperature
      --------------------------------------------- */
 
-  if (!Number.isFinite(temp)) {
+  if (
+    !Number.isFinite(temp)
+  ) {
 
     showError(
       "Please enter a valid fuel temperature."
     );
 
     return;
-
   }
 
 
@@ -171,12 +175,13 @@ function calculateBunkerMass() {
     );
 
     return;
-
   }
 
 
   /* =================================================
      TEMPERATURE-CORRECTED DENSITY
+
+     Formula:
 
      (Density of Fuel Oil @ 15°C)
      × [1 − {(T − 15) × C}]
@@ -207,12 +212,13 @@ function calculateBunkerMass() {
     );
 
     return;
-
   }
 
 
   /* =================================================
      BUNKER MASS
+
+     Formula:
 
      Actual Volume × Corrected Density ÷ 1000
      ================================================= */
@@ -223,9 +229,9 @@ function calculateBunkerMass() {
     1000;
 
 
-  /* ---------------------------------------------
-     Display
-     --------------------------------------------- */
+  /* =================================================
+     DISPLAY RESULTS
+     ================================================= */
 
   correctedDensity.textContent =
     corrected.toFixed(4);
@@ -233,45 +239,68 @@ function calculateBunkerMass() {
   bunkerMass.textContent =
     massMT.toFixed(4);
 
-/* =================================================
-   AUDIT TRAIL
-   ================================================= */
 
-auditDensity.textContent =
-  density.toFixed(4) + " kg/m³";
+  /* =================================================
+     AUDIT TRAIL
+     ================================================= */
 
-auditTemperature.textContent =
-  temp.toFixed(4) + " °C";
+  /*
+     Input values
+  */
 
-auditCoefficient.textContent =
-  correction;
-
-auditVolume.textContent =
-  volume.toFixed(4) + " m³";
+  auditDensity.textContent =
+    density.toFixed(4) +
+    " kg/m³";
 
 
-auditTcdCalculation.textContent =
-  density.toFixed(4) +
-  " × [1 − {(" +
-  temp.toFixed(4) +
-  " − 15) × " +
-  correction +
-  "}]";
+  auditTemperature.textContent =
+    temp.toFixed(4) +
+    " °C";
 
 
-auditTcdResult.textContent =
-  corrected.toFixed(4);
+  auditCoefficient.textContent =
+    correction;
 
 
-auditMassCalculation.textContent =
-  volume.toFixed(4) +
-  " × " +
-  corrected.toFixed(4) +
-  " ÷ 1000";
+  auditVolume.textContent =
+    volume.toFixed(4) +
+    " m³";
 
 
-auditMassResult.textContent =
-  massMT.toFixed(4);    
+  /*
+     Temperature-Corrected Density
+
+     Density × [1 − {(T − 15) × coefficient}]
+  */
+
+  auditTcdCalculation.textContent =
+    density.toFixed(4) +
+    " × [1 − {(" +
+    temp.toFixed(4) +
+    " − 15) × " +
+    correction +
+    "}]";
+
+
+  auditTcdResult.textContent =
+    corrected.toFixed(4);
+
+
+  /*
+     Bunker Mass
+
+     Volume × Corrected Density ÷ 1000
+  */
+
+  auditMassCalculation.textContent =
+    volume.toFixed(4) +
+    " × " +
+    corrected.toFixed(4) +
+    " ÷ 1000";
+
+
+  auditMassResult.textContent =
+    massMT.toFixed(4);
 }
 
 
@@ -303,6 +332,10 @@ clearButton.addEventListener(
   "click",
   function () {
 
+    /* ---------------------------------------------
+       Clear inputs
+       --------------------------------------------- */
+
     actualVolume.value = "";
 
     density15.value = "";
@@ -312,34 +345,55 @@ clearButton.addEventListener(
     coefficient.value = "0.00064";
 
 
-    correctedDensity.textContent = "—";
+    /* ---------------------------------------------
+       Clear results
+       --------------------------------------------- */
 
-    bunkerMass.textContent = "—";
+    correctedDensity.textContent =
+      "—";
+
+    bunkerMass.textContent =
+      "—";
 
 
-    /* Reset calculation audit trail */
+    /* ---------------------------------------------
+       Reset audit trail
+       --------------------------------------------- */
 
-    auditDensity.textContent = "—";
+    auditDensity.textContent =
+      "—";
 
-    auditTemperature.textContent = "—";
+    auditTemperature.textContent =
+      "—";
 
-    auditCoefficient.textContent = "—";
+    auditCoefficient.textContent =
+      "—";
 
-    auditVolume.textContent = "—";
+    auditVolume.textContent =
+      "—";
 
-    auditTcdCalculation.textContent = "—";
+    auditTcdCalculation.textContent =
+      "—";
 
-    auditTcdResult.textContent = "—";
+    auditTcdResult.textContent =
+      "—";
 
-    auditMassCalculation.textContent = "—";
+    auditMassCalculation.textContent =
+      "—";
 
-    auditMassResult.textContent = "—";
+    auditMassResult.textContent =
+      "—";
 
+
+    /* ---------------------------------------------
+       Clear error
+       --------------------------------------------- */
 
     clearError();
 
   }
 );
+
 
 /* =========================================================
    CALCULATE BUTTON

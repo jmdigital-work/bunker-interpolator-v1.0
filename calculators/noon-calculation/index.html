@@ -1,1018 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="theme-color"
-    content="#0B3D5C"
-  >
-
-  <meta
-    name="description"
-    content="MarineCalc Noon Calculation for marine engineers."
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0B3D5C">
+  <meta name="description" content="MarineCalc Noon Calculation for marine engineers.">
   <title>Noon Calculation | MarineCalc</title>
-
   <link rel="stylesheet" href="style.css">
-
 </head>
 
-
 <body>
-
 <main class="app">
 
-
-  <!-- HEADER -->
-
   <header class="marine-header">
-
     <a href="../../index.html" class="brand">
-
       <span class="brand-icon">⚓</span>
-
       <span>
-
         <strong>MARINECALC</strong>
-
         <small>Marine Engineering Tools</small>
-
       </span>
-
     </a>
-
   </header>
 
-
-  <!-- BACK -->
-
-  <a
-    href="../../index.html"
-    class="back-button"
-  >
-    ← Back to MarineCalc
-  </a>
-
-
-  <!-- PAGE TITLE -->
+  <a href="../../index.html" class="back-button">← Back to MarineCalc</a>
 
   <section class="page-heading">
-
-    <div class="tool-icon">
-      🕛
-    </div>
-
+    <div class="tool-icon">🕛</div>
     <div>
-
       <h1>Noon Calculation</h1>
-
-      <p>
-        Main shaft RPM, propeller speed, ship speed and slip.
-      </p>
-
-      <span class="pro-badge">
-        PRO
-      </span>
-
+      <p>Main engine RPM, propeller performance, LOG/OG speed and slip.</p>
+      <span class="pro-badge">PRO</span>
     </div>
-
   </section>
 
-
-  <!-- =====================================================
-       1. MAIN SHAFT RPM
-       ===================================================== -->
-
+  <!-- 1. MAIN ENGINE RPM -->
   <section class="calculator-card">
-
     <div class="section-heading">
-
-      <div class="section-icon">
-        ⚙️
-      </div>
-
+      <div class="section-icon">⚙️</div>
       <div>
-
-        <h2>Main Shaft RPM</h2>
-
-        <span>
-          Counter readings → Total Revolution → Average RPM
-        </span>
-
+        <h2>1. Main Engine RPM</h2>
+        <span>Counter readings → M/E Total Revolution → M/E RPM</span>
       </div>
-
     </div>
-
 
     <div class="input-guide">
-
       <strong>ⓘ MANUAL INPUT</strong>
-
-      <p>
-        Counter readings: obtain from engine-room RC records.
-        Running time: obtain from noon / engine-room records.
-      </p>
-
+      <p>Counter readings: obtain from engine-room RC records. Running time: obtain from noon / engine-room records.</p>
     </div>
-
 
     <div class="input-grid">
-
       <div class="form-group">
-
-        <label for="counterPrevious">
-          Previous Counter Reading
-        </label>
-
-        <input
-          id="counterPrevious"
-          type="number"
-          min="0"
-          step="any"
-          inputmode="decimal"
-          placeholder="1112439"
-        >
-
+        <label for="counterPrevious">Previous RC Reading</label>
+        <input id="counterPrevious" type="number" min="0" step="any" inputmode="decimal" placeholder="1112439">
       </div>
-
-
       <div class="form-group">
-
-        <label for="counterPresent">
-          Present Counter Reading
-        </label>
-
-        <input
-          id="counterPresent"
-          type="number"
-          min="0"
-          step="any"
-          inputmode="decimal"
-          placeholder="1209939"
-        >
-
+        <label for="counterPresent">Present RC Reading</label>
+        <input id="counterPresent" type="number" min="0" step="any" inputmode="decimal" placeholder="1209939">
       </div>
-
-
       <div class="form-group">
-
-        <label for="runningTime">
-
-          Running Time
-
-          <span>hours</span>
-
-        </label>
-
-        <input
-          id="runningTime"
-          type="number"
-          min="0"
-          step="any"
-          inputmode="decimal"
-          placeholder="25"
-        >
-
+        <label for="runningTime">Ship Running Time <span>hours</span></label>
+        <input id="runningTime" type="number" min="0" step="any" inputmode="decimal" placeholder="25">
       </div>
-
     </div>
 
-
-    <button
-      id="calculateRpmButton"
-      class="calculate-button"
-      type="button"
-    >
-      CALCULATE RPM
-    </button>
-
-
-    <div
-      id="rpmError"
-      class="error-message"
-      role="alert"
-    ></div>
-
+    <button id="calculateRpmButton" class="calculate-button" type="button">CALCULATE M/E RPM</button>
+    <div id="rpmError" class="error-message" role="alert"></div>
 
     <div class="output-card">
-
-      <div class="output-label">
-        CALCULATED
-      </div>
-
-
+      <div class="output-label">CALCULATED RESULT</div>
       <div class="output-row">
-
-        <span>
-          Total Revolution
-        </span>
-
-        <strong>
-          <span id="totalRevolution">—</span>
-          rev
-        </strong>
-
+        <span>M/E Total Revolution</span>
+        <strong><span id="totalRevolution">—</span> rev</strong>
       </div>
-
-
       <div class="output-row">
-
-        <span>
-          Average RPM
-        </span>
-
-        <strong class="primary-output">
-          <span id="averageRpm">—</span>
-          RPM
-        </strong>
-
+        <span>M/E RPM</span>
+        <strong class="primary-output"><span id="averageRpm">—</span> RPM</strong>
       </div>
-
     </div>
 
+    <details class="audit-trail">
+      <summary>CALCULATION AUDIT TRAIL</summary>
+      <div id="rpmAudit" class="audit-content">
+        <p>Calculate M/E RPM to display the calculation.</p>
+      </div>
+    </details>
   </section>
 
-
-
-  <!-- =====================================================
-       2. PROPELLER
-       ===================================================== -->
-
+  <!-- 2. PROPELLER CONSTANT -->
   <section class="calculator-card">
-
     <div class="section-heading">
-
-      <div class="section-icon">
-        ⚓
-      </div>
-
+      <div class="section-icon">⚓</div>
       <div>
-
-        <h2>Propeller</h2>
-
-        <span>
-          Pitch / Constant → Distance & Speed
-        </span>
-
+        <h2>2. Propeller Constant</h2>
+        <span>Calculate Constant<sub>REV</sub> when it is not already known</span>
       </div>
-
     </div>
-
 
     <div class="input-guide">
-
-      <strong>ⓘ MANUAL INPUT</strong>
-
-      <p>
-        Use the pitch specified by your vessel's
-        propeller particulars.
-      </p>
-
+      <strong>ⓘ REFERENCE</strong>
+      <p>Propeller Constant<sub>REV</sub> is normally available from vessel / propeller particulars. Use this section only when the constant needs to be calculated from pitch.</p>
     </div>
-
-
-    <!-- PITCH -->
 
     <div class="form-group">
-
-      <label for="propellerPitch">
-
-        Propeller Pitch
-
-        <span>mm</span>
-
-      </label>
-
-      <input
-        id="propellerPitch"
-        type="number"
-        min="0"
-        step="any"
-        inputmode="decimal"
-        placeholder="3791"
-      >
-
-      <small class="help-text">
-        Use the pitch specified by your vessel's
-        propeller particulars.
-      </small>
-
+      <label for="propellerPitch">Propeller Pitch <span>mm</span></label>
+      <input id="propellerPitch" type="number" min="0" step="any" inputmode="decimal" placeholder="3791">
+      <small class="help-text">Use the pitch specified by your vessel's propeller particulars.</small>
     </div>
 
-
-    <!-- CONSTANT REV MODE -->
-
-    <div class="mode-selector">
-
-      <div class="mode-title">
-        Propeller Constant<sub>REV</sub>
-      </div>
-
-      <label class="radio-option">
-
-        <input
-          type="radio"
-          name="constantMode"
-          value="calculate"
-          checked
-        >
-
-        <span>
-          Calculate from Pitch
-        </span>
-
-      </label>
-
-
-      <label class="radio-option">
-
-        <input
-          type="radio"
-          name="constantMode"
-          value="manual"
-        >
-
-        <span>
-          Enter Manually
-        </span>
-
-      </label>
-
-    </div>
-
-
-    <!-- MANUAL CONSTANT -->
-
-    <div
-      id="manualConstantContainer"
-      class="form-group hidden"
-    >
-
-      <label for="manualConstantRev">
-
-        Propeller Constant<sub>REV</sub>
-
-        <span>Nm/rev</span>
-
-      </label>
-
-      <input
-        id="manualConstantRev"
-        type="number"
-        min="0"
-        step="any"
-        inputmode="decimal"
-        placeholder="0.002047"
-      >
-
-      <small class="help-text">
-        Enter the established constant from your vessel's
-        propeller particulars or calculation records.
-      </small>
-
-    </div>
-
-
-    <!-- CARRIED VALUES -->
-
-    <div class="carried-values">
-
-      <div>
-
-        <span>Total Revolution</span>
-
-        <strong id="propTotalRevolution">
-          —
-        </strong>
-
-        <small>
-          from Main Shaft RPM
-        </small>
-
-      </div>
-
-
-      <div>
-
-        <span>Average RPM</span>
-
-        <strong id="propAverageRpm">
-          —
-        </strong>
-
-        <small>
-          from Main Shaft RPM
-        </small>
-
-      </div>
-
-    </div>
-
-
-    <!-- PROP DISTANCE MODE -->
-
-    <div class="mode-selector">
-
-      <div class="mode-title">
-        Propeller Distance
-      </div>
-
-      <label class="radio-option">
-
-        <input
-          type="radio"
-          name="distanceMode"
-          value="calculate"
-          checked
-        >
-
-        <span>
-          Calculate
-        </span>
-
-      </label>
-
-
-      <label class="radio-option">
-
-        <input
-          type="radio"
-          name="distanceMode"
-          value="manual"
-        >
-
-        <span>
-          Enter Manually
-        </span>
-
-      </label>
-
-    </div>
-
-
-    <!-- MANUAL DISTANCE -->
-
-    <div
-      id="manualDistanceContainer"
-      class="form-group hidden"
-    >
-
-      <label for="manualPropellerDistance">
-
-        Propeller Distance
-
-        <span>Nm</span>
-
-      </label>
-
-      <input
-        id="manualPropellerDistance"
-        type="number"
-        min="0"
-        step="any"
-        inputmode="decimal"
-        placeholder="367.500"
-      >
-
-      <small class="help-text">
-        Enter the established propeller distance
-        from your vessel's calculation or records.
-      </small>
-
-    </div>
-
-
-    <button
-      id="calculatePropellerButton"
-      class="calculate-button"
-      type="button"
-    >
-      CALCULATE PROPELLER
-    </button>
-
-
-    <div
-      id="propellerError"
-      class="error-message"
-      role="alert"
-    ></div>
-
-
-    <!-- OUTPUT -->
+    <button id="calculateConstantButton" class="calculate-button" type="button">CALCULATE CONSTANT<sub>REV</sub></button>
+    <div id="constantError" class="error-message" role="alert"></div>
 
     <div class="output-card">
-
-      <div class="output-label">
-        CALCULATED
-      </div>
-
-
+      <div class="output-label">CALCULATED RESULT</div>
       <div class="output-row">
-
-        <span>
-          Propeller Constant<sub>REV</sub>
-        </span>
-
-        <strong>
-          <span id="constantRev">—</span>
-          Nm/rev
-        </strong>
-
+        <span>Propeller Constant<sub>REV</sub></span>
+        <strong class="primary-output"><span id="calculatedConstantRev">—</span> Nm/rev</strong>
       </div>
-
-
-      <div class="output-row">
-
-        <span>
-          Propeller Constant<sub>RPM</sub>
-        </span>
-
-        <strong>
-          <span id="constantRpm">—</span>
-        </strong>
-
-      </div>
-
-
-      <div class="output-row">
-
-        <span>
-          Propeller Distance
-        </span>
-
-        <strong class="primary-output">
-          <span id="propellerDistance">—</span>
-          Nm
-        </strong>
-
-      </div>
-
-
-      <div class="output-row">
-
-        <span>
-          Propeller Speed
-        </span>
-
-        <strong class="primary-output">
-          <span id="propellerSpeed">—</span>
-          Knots
-        </strong>
-
-      </div>
-
     </div>
 
+    <details class="audit-trail">
+      <summary>CALCULATION AUDIT TRAIL</summary>
+      <div id="constantAudit" class="audit-content">
+        <p>Calculate Constant<sub>REV</sub> to display the calculation.</p>
+      </div>
+    </details>
   </section>
 
-
-
-  <!-- =====================================================
-       3. SPEED & SLIP
-       ===================================================== -->
-
+  <!-- 3. PROPELLER DISTANCE & SPEED -->
   <section class="calculator-card">
-
     <div class="section-heading">
-
-      <div class="section-icon">
-        🚢
-      </div>
-
+      <div class="section-icon">🌀</div>
       <div>
-
-        <h2>Speed & Slip</h2>
-
-        <span>
-          LOG / OG distance → Speed → Slip
-        </span>
-
+        <h2>3. Propeller Distance &amp; Speed</h2>
+        <span>Select the Constant<sub>REV</sub> used for the calculation</span>
       </div>
-
     </div>
-
 
     <div class="input-guide">
-
-      <strong>ⓘ MANUAL INPUT</strong>
-
-      <p>
-        LOG Distance: obtain from the ship's log / log records.
-        OG Distance: obtain from the deck officer's observed
-        or recorded distance.
-      </p>
-
+      <strong>ⓘ CONSTANT<sub>REV</sub></strong>
+      <p>Use the established Constant<sub>REV</sub> from vessel particulars, or use the Constant<sub>REV</sub> calculated in Section 2.</p>
     </div>
 
+    <div class="mode-selector">
+      <div class="mode-title">Constant<sub>REV</sub> Source</div>
 
-    <!-- DISTANCE INPUTS -->
+      <label class="radio-option">
+        <input type="radio" name="constantSource" value="existing" checked>
+        <span>Use Existing Constant<sub>REV</sub></span>
+      </label>
 
-    <div class="input-grid">
-
-      <div class="form-group">
-
-        <label for="logDistance">
-
-          LOG Distance
-
-          <span>Nm</span>
-
-        </label>
-
-        <input
-          id="logDistance"
-          type="number"
-          min="0"
-          step="any"
-          inputmode="decimal"
-          placeholder="350.000"
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="ogDistance">
-
-          OG Distance
-
-          <span>Nm</span>
-
-        </label>
-
-        <input
-          id="ogDistance"
-          type="number"
-          min="0"
-          step="any"
-          inputmode="decimal"
-          placeholder="352.000"
-        >
-
-      </div>
-
+      <label class="radio-option">
+        <input type="radio" name="constantSource" value="calculated">
+        <span>Use Calculated Constant<sub>REV</sub></span>
+      </label>
     </div>
 
-
-    <!-- CARRIED PROPELLER VALUES -->
+    <div id="existingConstantContainer" class="form-group">
+      <label for="existingConstantRev">Existing Constant<sub>REV</sub> <span>Nm/rev</span></label>
+      <input id="existingConstantRev" type="number" min="0" step="any" inputmode="decimal" placeholder="0.002047">
+      <small class="help-text">Enter the established constant from your vessel's propeller particulars or calculation records.</small>
+    </div>
 
     <div class="carried-values">
-
       <div>
-
-        <span>Propeller Distance</span>
-
-        <strong id="speedPropellerDistance">
-          —
-        </strong>
-
-        <small>
-          from Propeller calculation
-        </small>
-
+        <span>M/E Total Revolution</span>
+        <strong id="propTotalRevolution">—</strong>
+        <small>from Main Engine RPM</small>
       </div>
-
-
       <div>
-
-        <span>Propeller Speed</span>
-
-        <strong id="speedPropellerSpeed">
-          —
-        </strong>
-
-        <small>
-          from Propeller calculation
-        </small>
-
+        <span>M/E RPM</span>
+        <strong id="propAverageRpm">—</strong>
+        <small>from Main Engine RPM</small>
       </div>
-
+      <div>
+        <span>Selected Constant<sub>REV</sub></span>
+        <strong id="selectedConstantRev">—</strong>
+        <small>used for this calculation</small>
+      </div>
     </div>
 
-
-    <button
-      id="calculateSpeedSlipButton"
-      class="calculate-button"
-      type="button"
-    >
-      CALCULATE SPEED & SLIP
-    </button>
-
-
-    <div
-      id="speedSlipError"
-      class="error-message"
-      role="alert"
-    ></div>
-
-
-    <!-- SPEED OUTPUT -->
+    <button id="calculatePropellerButton" class="calculate-button" type="button">CALCULATE PROPELLER</button>
+    <div id="propellerError" class="error-message" role="alert"></div>
 
     <div class="output-card">
-
-      <div class="output-label">
-        SPEED — CALCULATED
-      </div>
-
-
+      <div class="output-label">CALCULATED RESULT</div>
       <div class="output-row">
-
-        <span>
-          LOG (Speed)
-        </span>
-
-        <strong>
-          <span id="logSpeed">—</span>
-          Knots
-        </strong>
-
+        <span>Propeller Constant<sub>REV</sub></span>
+        <strong><span id="constantRev">—</span> Nm/rev</strong>
       </div>
-
-
       <div class="output-row">
-
-        <span>
-          OG (Speed)
-        </span>
-
-        <strong>
-          <span id="ogSpeed">—</span>
-          Knots
-        </strong>
-
+        <span>Propeller Constant<sub>RPM</sub></span>
+        <strong><span id="constantRpm">—</span></strong>
       </div>
-
-
       <div class="output-row">
-
-        <span>
-          Prop. (Speed)
-        </span>
-
-        <strong>
-          <span id="speedPropellerSpeedOutput">—</span>
-          Knots
-        </strong>
-
+        <span>Propeller Distance</span>
+        <strong class="primary-output"><span id="propellerDistance">—</span> Nm</strong>
       </div>
-
+      <div class="output-row">
+        <span>Propeller Speed</span>
+        <strong class="primary-output"><span id="propellerSpeed">—</span> Knots</strong>
+      </div>
     </div>
 
-
-    <!-- SLIP BY DISTANCE -->
-
-    <div class="slip-card">
-
-      <div class="output-label">
-        SLIP BY DISTANCE
+    <details class="audit-trail">
+      <summary>CALCULATION AUDIT TRAIL</summary>
+      <div id="propellerAudit" class="audit-content">
+        <p>Calculate Propeller to display the calculation.</p>
       </div>
-
-
-      <div class="output-row">
-
-        <span>
-          SLIP (LOG Distance)
-        </span>
-
-        <strong class="primary-output">
-          <span id="slipLogDistance">—</span>
-          %
-        </strong>
-
-      </div>
-
-
-      <div class="output-row">
-
-        <span>
-          SLIP (OG Distance)
-        </span>
-
-        <strong class="primary-output">
-          <span id="slipOgDistance">—</span>
-          %
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <!-- SLIP BY SPEED -->
-
-    <div class="slip-card">
-
-      <div class="output-label">
-        SLIP BY SPEED
-      </div>
-
-
-      <div class="output-row">
-
-        <span>
-          SLIP (LOG Speed)
-        </span>
-
-        <strong class="primary-output">
-          <span id="slipLogSpeed">—</span>
-          %
-        </strong>
-
-      </div>
-
-
-      <div class="output-row">
-
-        <span>
-          SLIP (OG Speed)
-        </span>
-
-        <strong class="primary-output">
-          <span id="slipOgSpeed">—</span>
-          %
-        </strong>
-
-      </div>
-
-    </div>
-
+    </details>
   </section>
 
-
-
-  <!-- =====================================================
-       FORMULA REFERENCE
-       ===================================================== -->
-
-  <section class="reference-card">
-
+  <!-- 4. LOG/OG SPEED & SLIP -->
+  <section class="calculator-card">
     <div class="section-heading">
-
-      <div class="section-icon">
-        🧮
-      </div>
-
+      <div class="section-icon">🚢</div>
       <div>
-
-        <h2>Formula Reference</h2>
-
-        <span>
-          Formulas used in this Noon Calculation
-        </span>
-
+        <h2>4. LOG/OG Speed &amp; Slip</h2>
+        <span>LOG / OG distance → speed → slip</span>
       </div>
-
     </div>
 
+    <div class="input-guide">
+      <strong>ⓘ MANUAL INPUT</strong>
+      <p>LOG Distance: obtain from the ship's log / log records. OG Distance: obtain from the deck officer's observed or recorded distance.</p>
+    </div>
+
+    <div class="input-grid">
+      <div class="form-group">
+        <label for="logDistance">LOG Distance <span>Nm</span></label>
+        <input id="logDistance" type="number" min="0" step="any" inputmode="decimal" placeholder="350.000">
+      </div>
+      <div class="form-group">
+        <label for="ogDistance">OG Distance <span>Nm</span></label>
+        <input id="ogDistance" type="number" min="0" step="any" inputmode="decimal" placeholder="352.000">
+      </div>
+    </div>
+
+    <div class="mode-selector">
+      <div class="mode-title">Propeller Distance Source</div>
+
+      <label class="radio-option">
+        <input type="radio" name="speedDistanceSource" value="calculated" checked>
+        <span>Use Calculated Propeller Distance</span>
+      </label>
+
+      <label class="radio-option">
+        <input type="radio" name="speedDistanceSource" value="manual">
+        <span>Enter Propeller Distance Manually</span>
+      </label>
+    </div>
+
+    <div id="manualSpeedDistanceContainer" class="form-group hidden">
+      <label for="manualSpeedPropellerDistance">Propeller Distance <span>Nm</span></label>
+      <input id="manualSpeedPropellerDistance" type="number" min="0" step="any" inputmode="decimal" placeholder="367.500">
+      <small class="help-text">Use an established propeller distance from vessel records or another approved calculation.</small>
+    </div>
+
+    <div class="carried-values">
+      <div>
+        <span>Propeller Distance</span>
+        <strong id="speedPropellerDistance">—</strong>
+        <small id="speedDistanceSourceNote">from Propeller calculation</small>
+      </div>
+      <div>
+        <span>Propeller Speed</span>
+        <strong id="speedPropellerSpeed">—</strong>
+        <small>from Propeller calculation</small>
+      </div>
+    </div>
+
+    <button id="calculateSpeedSlipButton" class="calculate-button" type="button">CALCULATE LOG/OG SPEED &amp; SLIP</button>
+    <div id="speedSlipError" class="error-message" role="alert"></div>
+
+    <div class="output-card">
+      <div class="output-label">SPEED — CALCULATED</div>
+      <div class="output-row">
+        <span>LOG Speed</span>
+        <strong><span id="logSpeed">—</span> Knots</strong>
+      </div>
+      <div class="output-row">
+        <span>OG Speed</span>
+        <strong><span id="ogSpeed">—</span> Knots</strong>
+      </div>
+      <div class="output-row">
+        <span>Propeller Speed</span>
+        <strong class="primary-output"><span id="speedPropellerSpeedOutput">—</span> Knots</strong>
+      </div>
+    </div>
+
+    <div class="slip-card">
+      <div class="output-label">SLIP BY DISTANCE</div>
+      <div class="output-row">
+        <span>SLIP (LOG Distance)</span>
+        <strong class="primary-output"><span id="slipLogDistance">—</span> %</strong>
+      </div>
+      <div class="output-row">
+        <span>SLIP (OG Distance)</span>
+        <strong class="primary-output"><span id="slipOgDistance">—</span> %</strong>
+      </div>
+    </div>
+
+    <div class="slip-card">
+      <div class="output-label">SLIP BY SPEED</div>
+      <div class="output-row">
+        <span>SLIP (LOG Speed)</span>
+        <strong class="primary-output"><span id="slipLogSpeed">—</span> %</strong>
+      </div>
+      <div class="output-row">
+        <span>SLIP (OG Speed)</span>
+        <strong class="primary-output"><span id="slipOgSpeed">—</span> %</strong>
+      </div>
+    </div>
+
+    <details class="audit-trail">
+      <summary>CALCULATION AUDIT TRAIL</summary>
+      <div id="speedSlipAudit" class="audit-content">
+        <p>Calculate LOG/OG Speed &amp; Slip to display the calculation.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- FORMULA REFERENCE -->
+  <section class="reference-card">
+    <div class="section-heading">
+      <div class="section-icon">🧮</div>
+      <div>
+        <h2>Formula Reference</h2>
+        <span>Formulas used in this Noon Calculation</span>
+      </div>
+    </div>
 
     <div class="formula-list">
-
-
       <div class="formula-item">
-
-        <span>Total Revolution</span>
-
-        <code>
-          Present Counter − Previous Counter
-        </code>
-
+        <span>M/E Total Revolution</span>
+        <code>Present RC − Previous RC</code>
       </div>
-
-
       <div class="formula-item">
-
-        <span>Average RPM</span>
-
-        <code>
-          Total Revolution ÷ (Running Time × 60)
-        </code>
-
+        <span>M/E RPM</span>
+        <code>M/E Total Revolution ÷ (Running Time × 60)</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Constant<sub>REV</sub></span>
-
-        <code>
-          Propeller Pitch (m) ÷ 1852
-        </code>
-
+        <code>Propeller Pitch (m) ÷ 1852</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Constant<sub>RPM</sub></span>
-
-        <code>
-          ConstantREV × 60
-        </code>
-
+        <code>Constant<sub>REV</sub> × 60</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Propeller Distance</span>
-
-        <code>
-          ConstantREV × Total Revolution
-        </code>
-
+        <code>Constant<sub>REV</sub> × M/E Total Revolution</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Propeller Speed</span>
-
-        <code>
-          ConstantRPM × Average RPM
-        </code>
-
+        <code>Constant<sub>RPM</sub> × M/E RPM</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>LOG / OG Speed</span>
-
-        <code>
-          Distance ÷ Running Time
-        </code>
-
+        <code>Distance ÷ Running Time</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Slip by Distance</span>
-
-        <code>
-          (Propeller Distance − Ship Distance)
-          ÷ Propeller Distance × 100
-        </code>
-
+        <code>(Propeller Distance − Ship Distance) ÷ Propeller Distance × 100</code>
       </div>
-
-
       <div class="formula-item">
-
         <span>Slip by Speed</span>
-
-        <code>
-          (Propeller Speed − Ship Speed)
-          ÷ Propeller Speed × 100
-        </code>
-
+        <code>(Propeller Speed − Ship Speed) ÷ Propeller Speed × 100</code>
       </div>
-
     </div>
-
 
     <div class="source-note">
-
       <strong>Reference:</strong>
-
-      Formulas and terminology follow the supplied
-      Noon Calculation reference material.
-
+      Formulas and terminology follow the supplied Noon Calculation reference material.
     </div>
-
   </section>
 
-
-  <!-- FOOTER -->
-
   <footer>
-
-    <span>
-      MarineCalc
-    </span>
-
-    <span>
-      Noon Calculation • PRO
-    </span>
-
+    <span>MarineCalc</span>
+    <span>Noon Calculation • PRO</span>
   </footer>
-
 
 </main>
 
-
 <script src="script.js"></script>
-
 </body>
-
 </html>

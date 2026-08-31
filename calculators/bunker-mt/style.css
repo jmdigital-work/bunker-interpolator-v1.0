@@ -182,7 +182,7 @@ a {
 
   color: var(--muted);
 
-  font-size: 10px;
+  font-size: 11px;
 
 }
 
@@ -199,7 +199,7 @@ a {
 
   color: var(--blue);
 
-  font-size: 13px;
+  font-size: 16px;
 
   font-weight: 700;
 
@@ -274,7 +274,7 @@ a {
 
   color: var(--muted);
 
-  font-size: 12px;
+  font-size: 13px;
 
   line-height: 1.4;
 
@@ -295,7 +295,7 @@ a {
 
   color: var(--orange);
 
-  font-size: 9px;
+  font-size: 10px;
 
   font-weight: 800;
 
@@ -419,7 +419,7 @@ a {
 
   color: var(--text);
 
-  font-size: 11px;
+  font-size: 14px;
 
   font-weight: 700;
 
@@ -430,18 +430,22 @@ a {
 
   color: var(--muted);
 
-  font-size: 10px;
+  font-size: 12px;
 
   font-weight: 400;
 
 }
 
 
+/* =========================================================
+   INPUT
+   ========================================================= */
+
 .form-group input {
 
   width: 100%;
 
-  height: 46px;
+  height: 50px;
 
   padding:
     0
@@ -457,7 +461,12 @@ a {
 
   color: var(--text);
 
-  font-size: 14px;
+  /*
+     Same font size as Actual Volume
+  */
+  font-size: 18px;
+
+  font-weight: 600;
 
   outline: none;
 
@@ -508,9 +517,9 @@ input[type="number"] {
 
   color: var(--muted);
 
-  font-size: 10px;
+  font-size: 12px;
 
-  line-height: 1.45;
+  line-height: 1.5;
 
 }
 
@@ -568,7 +577,7 @@ input[type="number"] {
 
   color: var(--text);
 
-  font-size: 17px;
+  font-size: 18px;
 
   font-weight: 600;
 
@@ -601,7 +610,7 @@ input[type="number"] {
 
   color: var(--muted);
 
-  font-size: 12px;
+  font-size: 13px;
 
   font-weight: 700;
 
@@ -634,7 +643,7 @@ input[type="number"] {
 
   border-radius: 7px;
 
-  font-size: 12px;
+  font-size: 13px;
 
   font-weight: 800;
 
@@ -691,7 +700,7 @@ input[type="number"] {
 
   color: var(--danger);
 
-  font-size: 11px;
+  font-size: 12px;
 
   font-weight: 700;
 
@@ -749,7 +758,7 @@ input[type="number"] {
 
   color: var(--blue-light);
 
-  font-size: 10px;
+  font-size: 11px;
 
 }
 
@@ -760,7 +769,7 @@ input[type="number"] {
 
   color: var(--blue-light);
 
-  font-size: 11px;
+  font-size: 12px;
 
   font-weight: 800;
 
@@ -796,7 +805,7 @@ input[type="number"] {
 
   color: #91A2B4;
 
-  font-size: 9px;
+  font-size: 10px;
 
   font-weight: 800;
 
@@ -851,7 +860,7 @@ input[type="number"] {
 
   color: #91A2B4;
 
-  font-size: 9px;
+  font-size: 10px;
 
   font-weight: 800;
 
@@ -912,7 +921,7 @@ input[type="number"] {
 
   color: #8293AA;
 
-  font-size: 9px;
+  font-size: 10px;
 
   line-height: 1.4;
 
@@ -965,7 +974,7 @@ input[type="number"] {
 
   color: #FFFFFF;
 
-  font-size: 11px;
+  font-size: 12px;
 
   letter-spacing: .6px;
 
@@ -981,7 +990,7 @@ input[type="number"] {
 
   color: #8293AA;
 
-  font-size: 9px;
+  font-size: 11px;
 
   line-height: 1.4;
 
@@ -1014,7 +1023,7 @@ input[type="number"] {
     "Courier New",
     monospace;
 
-  font-size: 9px;
+  font-size: 11px;
 
   line-height: 1.5;
 
@@ -1046,7 +1055,7 @@ input[type="number"] {
 
   color: #B9C5D2;
 
-  font-size: 9px;
+  font-size: 11px;
 
   line-height: 1.5;
 
@@ -1082,7 +1091,7 @@ footer {
 
   color: var(--muted);
 
-  font-size: 10px;
+  font-size: 11px;
 
 }
 
@@ -1129,6 +1138,17 @@ footer {
   }
 
 
+  .form-group input {
+
+    /*
+       Keep ALL inputs the same size
+       as Actual Volume on mobile.
+    */
+    font-size: 18px;
+
+  }
+
+
   .result-section {
 
     padding:
@@ -1151,14 +1171,14 @@ footer {
 
   .tcd-result strong {
 
-    font-size: 17px;
+    font-size: 18px;
 
   }
 
 
   .formula {
 
-    font-size: 8.5px;
+    font-size: 11px;
 
   }
 
@@ -1214,7 +1234,270 @@ footer {
 
   .formula {
 
-    font-size: 8px;
+    font-size: 10px;
+
+  }
+
+}
+
+
+/* =========================================================
+   CALCULATION AUDIT TRAIL
+   ========================================================= */
+
+.audit-trail {
+
+  margin-top: 17px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 9px;
+
+  background: #F7FAFB;
+
+  overflow: hidden;
+
+}
+
+
+.audit-trail summary {
+
+  padding: 14px;
+
+  color: var(--navy);
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: .4px;
+
+  cursor: pointer;
+
+  list-style-position: inside;
+
+}
+
+
+.audit-trail summary:hover {
+
+  background: var(--light-blue);
+
+}
+
+
+.audit-content {
+
+  padding:
+    0
+    14px
+    14px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+}
+
+
+.audit-step {
+
+  padding: 13px 0;
+
+  border-bottom:
+    1px solid
+    #DCE6EA;
+
+}
+
+
+.audit-step:last-child {
+
+  border-bottom: 0;
+
+}
+
+
+.audit-step > span {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--navy);
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+}
+
+
+.audit-step > strong {
+
+  display: block;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+}
+
+
+.audit-step code {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  padding:
+    9px
+    10px;
+
+  border-radius: 5px;
+
+  background: var(--blue-soft);
+
+  color: #D7E5F3;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+
+}
+
+
+/* =========================================================
+   READABILITY
+   ========================================================= */
+
+.form-group label {
+
+  font-size: 14px;
+
+}
+
+
+.form-group label span {
+
+  font-size: 12px;
+
+}
+
+
+.help {
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.section-title h2 {
+
+  font-size: 17px;
+
+}
+
+
+.section-title span {
+
+  font-size: 17px;
+
+}
+
+
+.calculate-button,
+.clear-button {
+
+  font-size: 13px;
+
+}
+
+
+.calculation-section p {
+
+  font-size: 11px;
+
+}
+
+
+.formula {
+
+  font-size: 11px;
+
+}
+
+
+.note {
+
+  font-size: 11px;
+
+}
+
+
+/* =========================================================
+   MOBILE READABILITY
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .form-group label {
+
+    font-size: 14px;
+
+  }
+
+
+  .form-group input {
+
+    font-size: 18px;
+
+  }
+
+
+  .section-title h2 {
+
+    font-size: 16px;
+
+  }
+
+
+  .help {
+
+    font-size: 12px;
+
+  }
+
+
+  .audit-trail summary {
+
+    font-size: 13px;
+
+  }
+
+
+  .audit-step > strong {
+
+    font-size: 13px;
+
+  }
+
+
+  .audit-step code {
+
+    font-size: 11px;
 
   }
 

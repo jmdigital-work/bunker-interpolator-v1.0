@@ -6,6 +6,7 @@ const ids = [
 
 const $ = (id) => document.getElementById(id);
 
+
 /*
   Read a numeric input.
 
@@ -22,40 +23,76 @@ function number(id) {
   return parseFloat(value);
 }
 
+
+/*
+  Linear interpolation
+*/
 function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
+
 /*
   Make blank input cells visibly become 0.00.
+
+  This happens only when CALCULATE
+  is pressed.
 */
 function fillBlankInputsWithZero() {
+
   ids.forEach((id) => {
+
     const input = $(id);
 
     if (input.value.trim() === "") {
       input.value = "0.00";
     }
+
   });
+
 }
 
+
+/*
+  MAIN CALCULATION
+*/
 function calculate() {
-  // Convert all blank blue/white cells to visible 0.00.
+
+  /*
+    Convert all blank blue/white cells
+    to visible 0.00.
+  */
   fillBlankInputsWithZero();
 
+
+  /*
+    Read Trim values
+  */
   const tl = number("trimLow");
   const tt = number("trimTarget");
   const th = number("trimHigh");
 
+
+  /*
+    Read Ullage / Depth values
+  */
   const dl = number("depthLow");
   const dt = number("depthTarget");
   const dh = number("depthHigh");
 
+
+  /*
+    Read Tank Sounding Table values
+  */
   const v11 = number("v11");
   const v13 = number("v13");
   const v31 = number("v31");
   const v33 = number("v33");
 
+
+  /*
+    Validate numerical inputs
+  */
   if (
     !Number.isFinite(tl) ||
     !Number.isFinite(tt) ||
@@ -68,52 +105,208 @@ function calculate() {
     !Number.isFinite(v31) ||
     !Number.isFinite(v33)
   ) {
+
     alert("Please enter valid numbers.");
+
     return;
   }
 
+
+  /*
+    Trim validation
+  */
   if (tl === th) {
-    alert("Lower and upper Trim values must be different.");
+
+    alert(
+      "Lower and upper Trim values must be different."
+    );
+
     return;
   }
 
+
+  /*
+    Ullage / Depth validation
+  */
   if (dl === dh) {
-    alert("Lower and upper Ullage/Depth values must be different.");
+
+    alert(
+      "Lower and upper Ullage/Depth values must be different."
+    );
+
     return;
   }
 
-  const tx = (tt - tl) / (th - tl);
-  const dy = (dt - dl) / (dh - dl);
 
-  // Bilinear interpolation.
-  const top = lerp(v11, v13, tx);
-  const bottom = lerp(v31, v33, tx);
-  const target = lerp(top, bottom, dy);
+  /*
+    Calculate interpolation ratios
 
-  // Display calculated values.
-  setResult("r12", top);
-  setResult("r21", lerp(v11, v31, dy));
-  setResult("r22", target);
-  setResult("r23", lerp(v13, v33, dy));
-  setResult("r32", bottom);
+    tx = Trim interpolation ratio
+    dy = Ullage/Depth interpolation ratio
+  */
+  const tx =
+    (tt - tl) /
+    (th - tl);
+
+  const dy =
+    (dt - dl) /
+    (dh - dl);
+
+
+  /*
+    Bilinear interpolation
+
+    First interpolate horizontally
+    between the lower Trim values.
+  */
+  const top =
+    lerp(
+      v11,
+      v13,
+      tx
+    );
+
+
+  /*
+    Then interpolate horizontally
+    between the upper Trim values.
+  */
+  const bottom =
+    lerp(
+      v31,
+      v33,
+      tx
+    );
+
+
+  /*
+    Finally interpolate vertically
+    between the two calculated rows.
+  */
+  const target =
+    lerp(
+      top,
+      bottom,
+      dy
+    );
+
+
+  /*
+    Display calculated intermediate values
+  */
+  setResult(
+    "r12",
+    top
+  );
+
+
+  setResult(
+    "r21",
+    lerp(
+      v11,
+      v31,
+      dy
+    )
+  );
+
+
+  /*
+    MAIN TARGET RESULT
+  */
+  setResult(
+    "r22",
+    target
+  );
+
+
+  setResult(
+    "r23",
+    lerp(
+      v13,
+      v33,
+      dy
+    )
+  );
+
+
+  setResult(
+    "r32",
+    bottom
+  );
+
 }
 
-function setResult(id, value) {
-  $(id).textContent = Number(value).toFixed(2);
+
+/*
+  Display result with two decimal places.
+*/
+function setResult(
+  id,
+  value
+) {
+
+  $(id).textContent =
+    Number(value).toFixed(2);
+
 }
 
+
+/*
+  CLEAR ALL
+*/
 function clearAll() {
+
+  /*
+    Empty all input fields
+  */
   ids.forEach((id) => {
+
     $(id).value = "";
+
   });
 
-  ["r12", "r21", "r22", "r23", "r32"].forEach((id) => {
+
+  /*
+    Clear calculated cells
+  */
+  [
+    "r12",
+    "r21",
+    "r22",
+    "r23",
+    "r32"
+  ].forEach((id) => {
+
     $(id).textContent = "";
+
   });
+
 }
 
-$("calculate").addEventListener("click", calculate);
-$("clear").addEventListener("click", clearAll);
 
-// Show the example calculation immediately.
-calculate();
+/*
+  BUTTON EVENTS
+*/
+$("calculate")
+  .addEventListener(
+    "click",
+    calculate
+  );
+
+
+$("clear")
+  .addEventListener(
+    "click",
+    clearAll
+  );
+
+
+/*
+  IMPORTANT:
+
+  Do NOT automatically calculate
+  when the page loads.
+
+  The example values are now
+  placeholders in the HTML.
+*/
