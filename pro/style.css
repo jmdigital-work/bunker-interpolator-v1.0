@@ -1,0 +1,1151 @@
+/* =========================================================
+   MARINECALC PRO
+   ========================================================= */
+
+:root {
+
+  --navy: #0B3D5C;
+  --navy-dark: #101A2E;
+
+  --blue: #176C8E;
+  --blue-light: #5EA9DD;
+  --blue-soft: #EAF5F9;
+
+  --border: #C9D8DF;
+
+  --text: #10212B;
+  --muted: #63727A;
+
+  --white: #FFFFFF;
+
+  --orange: #B96822;
+  --light-orange: #FFF0E5;
+
+  --success: #176B4D;
+  --success-bg: #EAF7F1;
+
+  --danger: #B42318;
+
+}
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+html {
+  min-height: 100%;
+}
+
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #EDF6F9 0%,
+      #FFFFFF 70%
+    );
+
+  color: var(--text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+}
+
+
+button,
+input,
+select {
+
+  font-family: inherit;
+
+}
+
+
+button {
+  cursor: pointer;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app {
+
+  width: 100%;
+
+  max-width: 700px;
+
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  padding:
+    16px
+    14px
+    30px;
+
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.app-header {
+
+  text-align: center;
+
+  padding:
+    5px
+    10px
+    25px;
+
+}
+
+
+.back-button {
+
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  color: var(--blue);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+}
+
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+
+.brand-icon {
+
+  width: 52px;
+  height: 52px;
+
+  margin:
+    0
+    auto
+    8px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+}
+
+
+.brand-icon img {
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+
+}
+
+
+.app-header h1 {
+
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 22px;
+
+  letter-spacing: 1px;
+
+}
+
+
+.app-header p {
+
+  margin:
+    6px
+    0
+    0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+
+}
+
+
+/* =========================================================
+   PRO HERO
+   ========================================================= */
+
+.pro-hero {
+
+  padding:
+    25px
+    20px
+    27px;
+
+  background: var(--navy-dark);
+
+  border:
+    1px solid
+    #263955;
+
+  border-radius: 16px;
+
+  color: #FFFFFF;
+
+  text-align: center;
+
+  box-shadow:
+    0 7px 22px
+    rgba(11, 61, 92, 0.16);
+
+}
+
+
+.lock-icon {
+
+  margin-bottom: 9px;
+
+  font-size: 28px;
+
+}
+
+
+.pro-badge {
+
+  display: inline-block;
+
+  padding:
+    5px
+    11px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(94, 169, 221, 0.16);
+
+  color: var(--blue-light);
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+}
+
+
+.pro-hero h2 {
+
+  margin:
+    11px
+    0
+    7px;
+
+  font-size: 25px;
+
+}
+
+
+.hero-description {
+
+  max-width: 440px;
+
+  margin:
+    0
+    auto;
+
+  color: #B9C5D2;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+}
+
+
+.price {
+
+  display: flex;
+
+  align-items: baseline;
+  justify-content: center;
+
+  gap: 5px;
+
+  margin-top: 18px;
+
+}
+
+
+.price strong {
+
+  color: #FFFFFF;
+
+  font-size: 42px;
+
+  line-height: 1;
+
+}
+
+
+.price span {
+
+  color: var(--blue-light);
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: .5px;
+
+}
+
+
+.price-note {
+
+  margin:
+    7px
+    0
+    0;
+
+  color: #8293AA;
+
+  font-size: 11px;
+
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.card {
+
+  margin-top: 15px;
+
+  padding: 19px;
+
+  background: #FFFFFF;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 17px
+    rgba(19, 55, 70, 0.06);
+
+}
+
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
+.section-title {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 13px;
+
+}
+
+
+.section-title span {
+
+  font-size: 17px;
+
+}
+
+
+.section-title h2 {
+
+  margin: 0;
+
+  color: var(--navy);
+
+  font-size: 15px;
+
+  letter-spacing: .4px;
+
+}
+
+
+.section-description {
+
+  margin:
+    0
+    0
+    15px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   PRO TOOL LIST
+   ========================================================= */
+
+.tool-list {
+
+  display: grid;
+
+  gap: 10px;
+
+}
+
+
+.tool-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px;
+
+  background: #F7FAFB;
+
+  border:
+    1px solid
+    #DCE6EA;
+
+  border-radius: 9px;
+
+}
+
+
+.tool-icon {
+
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: var(--blue-soft);
+
+  font-size: 20px;
+
+}
+
+
+.tool-item h3 {
+
+  margin: 0 0 3px;
+
+  color: var(--navy);
+
+  font-size: 15px;
+
+}
+
+
+.tool-item p {
+
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   PAYMENT TABS
+   ========================================================= */
+
+.payment-tabs {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 8px;
+
+  margin-bottom: 15px;
+
+}
+
+
+.payment-tab {
+
+  min-height: 46px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 8px;
+
+  background: #F7FAFB;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+}
+
+
+.payment-tab.active {
+
+  border-color: var(--blue);
+
+  background: var(--blue-soft);
+
+  color: var(--navy);
+
+}
+
+
+/* =========================================================
+   PAYMENT PANEL
+   ========================================================= */
+
+.payment-panel {
+
+  display: none;
+
+}
+
+
+.payment-panel.active {
+
+  display: block;
+
+}
+
+
+.payment-panel h3 {
+
+  margin:
+    0
+    0
+    6px;
+
+  color: var(--navy);
+
+  font-size: 16px;
+
+}
+
+
+.payment-panel p {
+
+  margin:
+    0
+    0
+    14px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   QR PLACEHOLDER
+   ========================================================= */
+
+.qr-placeholder {
+
+  width: min(260px, 100%);
+
+  min-height: 260px;
+
+  margin:
+    10px
+    auto
+    14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border:
+    2px dashed
+    #AEBFC7;
+
+  border-radius: 12px;
+
+  background: #F7FAFB;
+
+  text-align: center;
+
+}
+
+
+.qr-icon {
+
+  width: 90px;
+  height: 90px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border:
+    4px solid
+    var(--navy);
+
+  color: var(--navy);
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+}
+
+
+.qr-placeholder strong {
+
+  color: var(--navy);
+
+  font-size: 13px;
+
+}
+
+
+.qr-placeholder span {
+
+  max-width: 190px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   PAYMENT NOTE
+   ========================================================= */
+
+.payment-note {
+
+  padding:
+    11px
+    12px;
+
+  border-left:
+    3px solid
+    #D69A54;
+
+  background: var(--light-orange);
+
+  color: #6D4A2D;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.payment-note strong {
+
+  color: #5B351B;
+
+}
+
+
+/* =========================================================
+   PAYPAL BUTTON
+   ========================================================= */
+
+.paypal-button {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+
+  margin:
+    15px
+    0;
+
+  border-radius: 8px;
+
+  background: #0070BA;
+
+  color: #FFFFFF;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+}
+
+
+.paypal-button:hover {
+
+  filter: brightness(1.08);
+
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-group {
+
+  margin-bottom: 15px;
+
+}
+
+
+.form-group label {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 7px;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+
+.form-group label span {
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  font-weight: 400;
+
+}
+
+
+.form-group input,
+.form-group select {
+
+  width: 100%;
+
+  min-height: 50px;
+
+  padding:
+    0
+    12px;
+
+  border:
+    1px solid
+    #AEBFC7;
+
+  border-radius: 7px;
+
+  background: #FFFFFF;
+
+  color: var(--text);
+
+  font-size: 17px;
+
+  font-weight: 500;
+
+  outline: none;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+
+  border-color: var(--blue);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(23, 108, 142, 0.12);
+
+}
+
+
+.form-group input::placeholder {
+
+  color: #63727A;
+
+  opacity: .7;
+
+}
+
+
+.form-group small {
+
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================================================
+   FILE INPUT
+   ========================================================= */
+
+input[type="file"] {
+
+  padding:
+    10px
+    12px;
+
+  font-size: 13px;
+
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+
+.submit-button {
+
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 4px;
+
+  border:
+    2px solid
+    #07506D;
+
+  border-radius: 8px;
+
+  background: var(--blue);
+
+  color: #FFFFFF;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+}
+
+
+.submit-button:hover {
+
+  filter: brightness(1.08);
+
+}
+
+
+/* =========================================================
+   SUCCESS
+   ========================================================= */
+
+.success-message {
+
+  margin-top: 18px;
+
+  padding: 17px;
+
+  border:
+    1px solid
+    #A8D5C0;
+
+  border-radius: 9px;
+
+  background: var(--success-bg);
+
+  text-align: center;
+
+}
+
+
+.success-icon {
+
+  width: 40px;
+  height: 40px;
+
+  margin:
+    0
+    auto
+    8px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--success);
+
+  color: #FFFFFF;
+
+  font-size: 21px;
+
+  font-weight: 900;
+
+}
+
+
+.success-message h3 {
+
+  margin:
+    0
+    0
+    6px;
+
+  color: var(--success);
+
+  font-size: 16px;
+
+}
+
+
+.success-message p {
+
+  margin:
+    4px
+    0;
+
+  color: #45665A;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   NOTICE
+   ========================================================= */
+
+.notice {
+
+  margin-top: 15px;
+
+  padding:
+    13px
+    14px;
+
+  border-left:
+    3px solid
+    var(--blue);
+
+  background: var(--blue-soft);
+
+}
+
+
+.notice strong {
+
+  color: var(--navy);
+
+  font-size: 13px;
+
+}
+
+
+.notice p {
+
+  margin:
+    5px
+    0
+    0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 18px;
+
+  padding:
+    0
+    3px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .app {
+
+    padding:
+      12px
+      10px
+      25px;
+
+  }
+
+
+  .card {
+
+    padding: 16px;
+
+  }
+
+
+  .pro-hero {
+
+    padding:
+      23px
+      16px
+      25px;
+
+  }
+
+
+  .pro-hero h2 {
+
+    font-size: 23px;
+
+  }
+
+
+  .price strong {
+
+    font-size: 38px;
+
+  }
+
+
+  .form-group input,
+  .form-group select {
+
+    font-size: 17px;
+
+  }
+
+
+  footer {
+
+    flex-direction: column;
+
+    text-align: center;
+
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .payment-tabs {
+
+    grid-template-columns: 1fr;
+
+  }
+
+
+  .tool-item {
+
+    align-items: flex-start;
+
+  }
+
+}
