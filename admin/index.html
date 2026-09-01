@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b3d5c"
+  >
+
+  <meta
+    name="description"
+    content="MarineCalc administrator dashboard."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../icons/marinecalc-favicon-32.png"
+  >
+
+  <title>MarineCalc Admin</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+  <main class="admin-app">
+
+
+    <!-- HEADER -->
+
+    <header class="admin-header">
+
+      <div>
+
+        <a
+          href="../index.html"
+          class="back-link"
+        >
+          ← MarineCalc
+        </a>
+
+        <h1>
+          MARINECALC ADMIN
+        </h1>
+
+        <p>
+          PRO subscription management
+        </p>
+
+      </div>
+
+
+      <button
+        id="logoutButton"
+        class="logout-button"
+      >
+        LOG OUT
+      </button>
+
+    </header>
+
+
+
+    <!-- LOADING -->
+
+    <div
+      id="loadingMessage"
+      class="status-message"
+    >
+      Checking administrator access...
+    </div>
+
+
+
+    <!-- ACCESS DENIED -->
+
+    <section
+      id="accessDenied"
+      class="message-card"
+      hidden
+    >
+
+      <h2>
+        Access Denied
+      </h2>
+
+      <p>
+        Your account does not have administrator privileges.
+      </p>
+
+      <a
+        href="../auth/index.html"
+        class="button-link"
+      >
+        RETURN TO ACCOUNT
+      </a>
+
+    </section>
+
+
+
+    <!-- DASHBOARD -->
+
+    <section
+      id="dashboard"
+      hidden
+    >
+
+
+      <!-- SUMMARY -->
+
+      <div class="summary-grid">
+
+        <div class="summary-card">
+
+          <span>
+            Pending
+          </span>
+
+          <strong id="pendingCount">
+            0
+          </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+          <span>
+            Approved
+          </span>
+
+          <strong id="approvedCount">
+            0
+          </strong>
+
+        </div>
+
+
+        <div class="summary-card">
+
+          <span>
+            Rejected
+          </span>
+
+          <strong id="rejectedCount">
+            0
+          </strong>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- REQUESTS -->
+
+      <section class="requests-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <h2>
+              PRO Requests
+            </h2>
+
+            <p>
+              Payment requests submitted by MarineCalc users.
+            </p>
+
+          </div>
+
+
+          <button
+            id="refreshButton"
+            class="refresh-button"
+          >
+            ↻ REFRESH
+          </button>
+
+        </div>
+
+
+        <div
+          id="requestsContainer"
+          class="requests-container"
+        >
+
+          <div class="empty-state">
+
+            No PRO requests found.
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+      <strong>
+        MarineCalc V1.0
+      </strong>
+
+      <span>
+        Administrator Area
+      </span>
+
+    </footer>
+
+
+  </main>
+
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>

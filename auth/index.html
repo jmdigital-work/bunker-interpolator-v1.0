@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="theme-color"
+    content="#0b3d5c"
+  >
+
+  <meta
+    name="description"
+    content="MarineCalc account login and registration."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="../icons/marinecalc-favicon-32.png"
+  >
+
+  <title>MarineCalc Account</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+  <main class="auth-app">
+
+
+    <!-- HEADER -->
+
+    <header class="auth-header">
+
+      <a
+        class="back-button"
+        href="../index.html"
+      >
+        ← Back to MarineCalc
+      </a>
+
+
+      <div class="brand-icon">
+
+        <img
+          src="../icons/marinecalc-logo.png"
+          alt="MarineCalc"
+        >
+
+      </div>
+
+
+      <h1>
+        MARINECALC
+      </h1>
+
+
+      <p>
+        Marine Engineering Tools
+      </p>
+
+    </header>
+
+
+
+    <!-- AUTH CARD -->
+
+    <section class="auth-card">
+
+
+      <!-- LOGIN -->
+
+      <div id="loginPanel">
+
+        <div class="panel-heading">
+
+          <h2>
+            Welcome Back
+          </h2>
+
+          <p>
+            Log in to your MarineCalc account.
+          </p>
+
+        </div>
+
+
+        <form id="loginForm">
+
+
+          <div class="form-group">
+
+            <label for="loginEmail">
+              Email Address
+            </label>
+
+            <input
+              id="loginEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="loginPassword">
+              Password
+            </label>
+
+            <input
+              id="loginPassword"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Your password"
+              required
+            >
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="primary-button"
+          >
+            LOGIN
+          </button>
+
+
+        </form>
+
+
+        <p
+          id="loginMessage"
+          class="message"
+        ></p>
+
+
+        <div class="switch-auth">
+
+          Don't have an account?
+
+          <button
+            type="button"
+            id="showSignup"
+          >
+            Create one
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- SIGNUP -->
+
+      <div
+        id="signupPanel"
+        hidden
+      >
+
+        <div class="panel-heading">
+
+          <h2>
+            Create Account
+          </h2>
+
+          <p>
+            Create your MarineCalc account.
+          </p>
+
+        </div>
+
+
+        <form id="signupForm">
+
+
+          <div class="form-group">
+
+            <label for="signupName">
+              Full Name
+            </label>
+
+            <input
+              id="signupName"
+              type="text"
+              autocomplete="name"
+              placeholder="Your full name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="signupEmail">
+              Email Address
+            </label>
+
+            <input
+              id="signupEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="signupPassword">
+              Password
+            </label>
+
+            <input
+              id="signupPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a password"
+              minlength="6"
+              required
+            >
+
+            <small>
+              Use at least 6 characters.
+            </small>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="signupConfirmPassword">
+              Confirm Password
+            </label>
+
+            <input
+              id="signupConfirmPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Enter your password again"
+              minlength="6"
+              required
+            >
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="primary-button"
+          >
+            CREATE ACCOUNT
+          </button>
+
+
+        </form>
+
+
+        <p
+          id="signupMessage"
+          class="message"
+        ></p>
+
+
+        <div class="switch-auth">
+
+          Already have an account?
+
+          <button
+            type="button"
+            id="showLogin"
+          >
+            Log in
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- LOGGED IN -->
+
+      <div
+        id="accountPanel"
+        hidden
+      >
+
+        <div class="logged-in-icon">
+          ✓
+        </div>
+
+
+        <h2>
+          You're Logged In
+        </h2>
+
+
+        <p id="accountEmail">
+        </p>
+
+
+        <div
+          id="accountRole"
+          class="account-role"
+        >
+        </div>
+
+
+        <button
+          type="button"
+          id="logoutButton"
+          class="secondary-button"
+        >
+          LOG OUT
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+      <strong>
+        MarineCalc V1.0
+      </strong>
+
+      <span>
+        Built for marine engineers &amp; shipboard use
+      </span>
+
+    </footer>
+
+
+  </main>
+
+
+  <!-- SUPABASE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
