@@ -70,39 +70,29 @@ a {
     30px;
 }
 
-.anchor {
-  width: 58px;
-  height: 58px;
-
-  margin: 0 auto 12px;
+.brand-icon {
+  width: 52px;
+  height: 52px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
+  background: trannsparent;
 
-  background: var(--navy);
+  overflow: hidden;
 
-  color: white;
-
-  font-size: 29px;
-
-  box-shadow:
-    0 5px 16px
-    rgba(11, 61, 92, 0.20);
+  margin: 0 auto;
 }
 
-.app-header h1 {
-  margin: 0;
+.brand-icon img {
+  width: 100%;
+  height: 100%;
 
-  color: var(--navy);
+  display: block;
 
-  font-size: 30px;
-
-  font-weight: 800;
-
-  letter-spacing: 2px;
+  object-fit: contain;
 }
 
 .app-header p {
