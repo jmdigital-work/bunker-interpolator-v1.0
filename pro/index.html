@@ -17,13 +17,13 @@
 
   <meta
     name="description"
-    content="MarineCalc PRO — Advanced marine engineering tools."
+    content="MarineCalc PRO subscription."
   >
 
   <link
     rel="icon"
     type="image/png"
-    href="../../icons/marinecalc-favicon-32.png"
+    href="../icons/marinecalc-favicon-32.png"
   >
 
   <title>MarineCalc PRO</title>
@@ -38,431 +38,159 @@
 
 <body>
 
+  <main class="pro-app">
 
-  <main class="app">
-
-
-    <!-- HEADER -->
-
-    <header class="app-header">
+    <header class="pro-header">
 
       <a
-        class="back-button"
         href="../index.html"
+        class="back-link"
       >
         ← Back to MarineCalc
       </a>
 
+      <div class="brand-icon">
 
-      <div class="brand">
-
-        <div class="brand-icon">
-
-          <img
-            src="../../icons/marinecalc-logo.png"
-            alt="MarineCalc"
-          >
-
-        </div>
-
-
-        <h1>
-          MARINECALC
-        </h1>
-
-
-        <p>
-          Marine Engineering Tools
-        </p>
+        <img
+          src="../icons/marinecalc-logo.png"
+          alt="MarineCalc"
+        >
 
       </div>
+
+      <h1>MARINECALC PRO</h1>
+
+      <p>
+        Unlock the complete MarineCalc toolset.
+      </p>
 
     </header>
 
 
+    <section class="pro-card">
 
-    <!-- PRO HERO -->
+      <div class="plan-header">
 
-    <section class="pro-hero">
-
-      <div class="lock-icon">
-        🔒
-      </div>
-
-
-      <div class="pro-badge">
-        PRO
-      </div>
-
-
-      <h2>
-        MarineCalc PRO
-      </h2>
-
-
-      <p class="hero-description">
-        Access advanced marine engineering
-        calculators and professional tools.
-      </p>
-
-
-      <div class="price">
-
-        <strong>
-          $9
-        </strong>
-
-        <span>
-          / 1 YEAR
+        <span class="pro-label">
+          PRO
         </span>
 
-      </div>
-
-
-      <p class="price-note">
-        One-time payment. No automatic renewal.
-      </p>
-
-    </section>
-
-
-
-    <!-- CURRENT PRO TOOLS -->
-
-    <section class="card">
-
-      <div class="section-title">
-
-        <span>⚓</span>
-
         <h2>
-          CURRENT PRO TOOLS
+          $9
+          <span>/ 1 YEAR</span>
         </h2>
-
-      </div>
-
-
-      <div class="tool-list">
-
-
-        <div class="tool-item">
-
-          <div class="tool-icon">
-            ⛽
-          </div>
-
-          <div>
-
-            <h3>
-              Bunker (MT) Calculator
-            </h3>
-
-            <p>
-              Convert bunker volume into
-              temperature-corrected mass.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="tool-item">
-
-          <div class="tool-icon">
-            🌡️
-          </div>
-
-          <div>
-
-            <h3>
-              Noon Calculation
-            </h3>
-
-            <p>
-              Daily vessel performance
-              calculations with audit trails.
-            </p>
-
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-
-
-    <!-- PAYMENT -->
-
-    <section class="card">
-
-      <div class="section-title">
-
-        <span>💳</span>
-
-        <h2>
-          CHOOSE PAYMENT METHOD
-        </h2>
-
-      </div>
-
-
-      <p class="section-description">
-
-        Select the payment method that applies
-        to you, then follow the instructions.
-
-      </p>
-
-
-
-      <!-- PAYMENT TABS -->
-
-      <div class="payment-tabs">
-
-        <button
-          type="button"
-          class="payment-tab active"
-          data-payment="instapay"
-        >
-          🇵🇭 Philippines
-        </button>
-
-
-        <button
-          type="button"
-          class="payment-tab"
-          data-payment="paypal"
-        >
-          🌎 International
-        </button>
-
-      </div>
-
-
-
-      <!-- INSTAPAY -->
-
-      <div
-        id="instapaySection"
-        class="payment-panel active"
-      >
-
-        <h3>
-          🇵🇭 Pay via InstaPay
-        </h3>
-
 
         <p>
-          Scan the QR code using your
-          participating Philippine bank
-          or e-wallet application.
+          One year of access to the current PRO tools.
         </p>
-
-
-        <div class="qr-placeholder">
-
-          <div class="qr-icon">
-            QR
-          </div>
-
-          <strong>
-            YOUR INSTAPAY QR
-          </strong>
-
-          <span>
-            Replace this area with your
-            InstaPay QR image.
-          </span>
-
-        </div>
-
-
-        <div class="payment-note">
-
-          <strong>
-            Amount to pay:
-          </strong>
-
-          US$9 equivalent in Philippine pesos.
-
-        </div>
 
       </div>
 
 
+      <div class="features">
 
-      <!-- PAYPAL -->
+        <div>✓ Bunker (MT) Calculator</div>
+
+        <div>✓ Noon Calculation</div>
+
+        <div>✓ Future PRO tools</div>
+
+        <div>✓ One-year access</div>
+
+      </div>
+
 
       <div
-        id="paypalSection"
-        class="payment-panel"
+        id="loginNotice"
+        class="notice"
+        hidden
       >
-
-        <h3>
-          🌎 Pay via PayPal
-        </h3>
-
-
-        <p>
-          International users can pay through
-          your PayPal account.
-        </p>
-
-
-        <a
-          id="paypalButton"
-          class="paypal-button"
-          href="#"
-        >
-          Pay $9 with PayPal
-        </a>
-
-
-        <div class="payment-note">
-
-          <strong>
-            Important:
-          </strong>
-
-          Replace the PayPal link above with
-          your actual PayPal payment link.
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- PAYMENT SUBMISSION -->
-
-    <section class="card">
-
-      <div class="section-title">
-
-        <span>🧾</span>
-
-        <h2>
-          ALREADY PAID?
-        </h2>
-
+        Please log in to your MarineCalc account before
+        submitting a PRO request.
       </div>
 
 
-      <p class="section-description">
+      <form id="proForm">
 
-        Submit your payment details for
-        manual verification and PRO activation.
-
-      </p>
-
-
-      <form id="paymentForm">
-
-
-        <!-- NAME -->
 
         <div class="form-group">
 
-          <label for="name">
-            Name
-          </label>
-
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Your name"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- EMAIL -->
-
-        <div class="form-group">
-
-          <label for="email">
-            Email Address
-          </label>
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="you@example.com"
-            required
-          >
-
-        </div>
-
-
-
-        <!-- PAYMENT METHOD -->
-
-        <div class="form-group">
-
-          <label for="paymentMethod">
+          <label>
             Payment Method
           </label>
 
-          <select
-            id="paymentMethod"
-            name="paymentMethod"
-            required
-          >
+          <div class="payment-options">
 
-            <option value="">
-              Select payment method
-            </option>
+            <label class="payment-option">
 
-            <option value="InstaPay">
-              🇵🇭 InstaPay
-            </option>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="InstaPay"
+                required
+              >
 
-            <option value="PayPal">
-              🌎 PayPal
-            </option>
+              <span>
+                🇵🇭 InstaPay / QR PH
+              </span>
 
-          </select>
+            </label>
+
+
+            <label class="payment-option">
+
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="PayPal"
+              >
+
+              <span>
+                PayPal
+              </span>
+
+            </label>
+
+          </div>
 
         </div>
 
 
+        <div class="payment-instructions">
 
-        <!-- REFERENCE -->
+          <strong>
+            Payment instructions
+          </strong>
+
+          <p>
+            Complete your $9 payment using your selected
+            payment method, then enter the transaction
+            details below.
+          </p>
+
+          <p>
+            Payment details will be provided by MarineCalc.
+          </p>
+
+        </div>
+
 
         <div class="form-group">
 
           <label for="paymentReference">
-            Payment Reference
+            Payment Reference / Transaction ID
           </label>
 
           <input
             id="paymentReference"
-            name="paymentReference"
             type="text"
-            placeholder="Transaction / reference number"
+            maxlength="100"
+            placeholder="Enter your payment reference"
             required
           >
 
-          <small>
-            Enter the reference number shown
-            by your payment provider.
-          </small>
-
         </div>
 
-
-
-        <!-- PAYMENT DATE -->
 
         <div class="form-group">
 
@@ -472,7 +200,6 @@
 
           <input
             id="paymentDate"
-            name="paymentDate"
             type="date"
             required
           >
@@ -480,51 +207,54 @@
         </div>
 
 
-
-        <!-- SCREENSHOT -->
-
         <div class="form-group">
 
           <label for="paymentProof">
-            Payment Screenshot
-            <span>Optional</span>
+            Payment Proof
           </label>
 
           <input
             id="paymentProof"
-            name="paymentProof"
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg"
+            required
           >
 
           <small>
-            You may attach a screenshot of
-            your payment confirmation.
+            Upload a PNG or JPG/JPEG screenshot or receipt.
           </small>
 
         </div>
 
 
+        <div
+          id="fileInfo"
+          class="file-info"
+          hidden
+        ></div>
 
-        <!-- SUBMIT -->
 
         <button
+          id="submitButton"
           type="submit"
-          class="submit-button"
+          class="primary-button"
         >
-          SUBMIT PAYMENT FOR VERIFICATION
+          SUBMIT PRO REQUEST
         </button>
 
 
       </form>
 
 
+      <div
+        id="message"
+        class="message"
+      ></div>
 
-      <!-- SUCCESS -->
 
       <div
-        id="successMessage"
-        class="success-message"
+        id="successPanel"
+        class="success-panel"
         hidden
       >
 
@@ -532,46 +262,31 @@
           ✓
         </div>
 
-        <h3>
-          Payment Submitted
-        </h3>
+        <h2>
+          Request Submitted
+        </h2>
 
         <p>
-          Your payment details have been
-          recorded for manual verification.
+          Your PRO payment request has been submitted
+          for manual verification.
         </p>
 
         <p>
-          We will review your payment and
-          activate MarineCalc PRO once verified.
+          Your account will be activated after the
+          payment has been reviewed and approved.
         </p>
+
+        <a
+          href="../auth/index.html"
+          class="secondary-button"
+        >
+          GO TO MY ACCOUNT
+        </a>
 
       </div>
 
     </section>
 
-
-
-    <!-- IMPORTANT NOTE -->
-
-    <section class="notice">
-
-      <strong>
-        PRO Activation
-      </strong>
-
-      <p>
-        PRO access is activated manually after
-        your payment has been verified.
-        Your PRO subscription is valid for
-        one year from the activation date.
-      </p>
-
-    </section>
-
-
-
-    <!-- FOOTER -->
 
     <footer>
 
@@ -585,9 +300,10 @@
 
     </footer>
 
-
   </main>
 
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script src="script.js"></script>
 

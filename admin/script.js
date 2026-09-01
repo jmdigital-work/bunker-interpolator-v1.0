@@ -27,6 +27,14 @@ const supabaseClient =
 
 
 /* =========================================================
+   SETTINGS
+   ========================================================= */
+
+const BUCKET_NAME =
+  "payment-proofs";
+
+
+/* =========================================================
    ELEMENTS
    ========================================================= */
 
@@ -72,15 +80,17 @@ const rejectedCount =
   );
 
 
+const adminMessage =
+  document.getElementById(
+    "adminMessage"
+  );
+
+
 /* =========================================================
    CHECK ADMIN ACCESS
    ========================================================= */
 
 async function checkAdminAccess() {
-
-  /*
-    Get the current Supabase session.
-  */
 
   const {
     data,
@@ -109,26 +119,18 @@ async function checkAdminAccess() {
     data.session;
 
 
-  /*
-    No logged-in user.
-  */
-
   if (
     !session ||
     !session.user
   ) {
 
-    showAccessDenied();
+    window.location.href =
+      "../auth/index.html";
 
     return;
 
   }
 
-
-  /*
-    Ask the database whether this
-    authenticated user is an admin.
-  */
 
   const {
     data: adminStatus,
@@ -152,11 +154,6 @@ async function checkAdminAccess() {
   }
 
 
-  /*
-    User is authenticated but
-    not an administrator.
-  */
-
   if (!adminStatus) {
 
     showAccessDenied();
@@ -165,10 +162,6 @@ async function checkAdminAccess() {
 
   }
 
-
-  /*
-    Administrator confirmed.
-  */
 
   loadingMessage.hidden = true;
 
@@ -216,12 +209,14 @@ async function loadRequests() {
       .from("pro_requests")
       .select(`
         id,
+        user_id,
         full_name,
         email,
         payment_method,
         payment_reference,
         payment_date,
         payment_amount,
+        payment_proof_path,
         status,
         submitted_at
       `)
@@ -272,37 +267,25 @@ function updateSummary(
   requests
 ) {
 
-  const pending =
+  pendingCount.textContent =
     requests.filter(
       request =>
         request.status === "pending"
     ).length;
 
 
-  const approved =
+  approvedCount.textContent =
     requests.filter(
       request =>
         request.status === "approved"
     ).length;
 
 
-  const rejected =
+  rejectedCount.textContent =
     requests.filter(
       request =>
         request.status === "rejected"
     ).length;
-
-
-  pendingCount.textContent =
-    pending;
-
-
-  approvedCount.textContent =
-    approved;
-
-
-  rejectedCount.textContent =
-    rejected;
 
 }
 
@@ -338,6 +321,9 @@ function renderRequests(
       )
       .join("");
 
+
+  attachRequestActions();
+
 }
 
 
@@ -371,6 +357,52 @@ function createRequestCard(
           request.submitted_at
         )
       : "—";
+
+
+  const actions =
+    status === "pending"
+      ? `
+        <div class="request-actions">
+
+          <button
+            class="action-button view-proof"
+            data-action="proof"
+            data-id="${request.id}"
+          >
+            VIEW PAYMENT PROOF
+          </button>
+
+          <button
+            class="action-button approve-button"
+            data-action="approve"
+            data-id="${request.id}"
+          >
+            APPROVE
+          </button>
+
+          <button
+            class="action-button reject-button"
+            data-action="reject"
+            data-id="${request.id}"
+          >
+            REJECT
+          </button>
+
+        </div>
+      `
+      : `
+        <div class="request-actions">
+
+          <button
+            class="action-button view-proof"
+            data-action="proof"
+            data-id="${request.id}"
+          >
+            VIEW PAYMENT PROOF
+          </button>
+
+        </div>
+      `;
 
 
   return `
@@ -482,8 +514,429 @@ function createRequestCard(
 
       </div>
 
+
+      ${actions}
+
     </article>
   `;
+
+}
+
+
+/* =========================================================
+   ATTACH ACTIONS
+   ========================================================= */
+
+function attachRequestActions() {
+
+  document
+    .querySelectorAll(
+      "[data-action]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          handleRequestAction
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   HANDLE ACTION
+   ========================================================= */
+
+async function handleRequestAction(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const action =
+    button.dataset.action;
+
+
+  const requestId =
+    button.dataset.id;
+
+
+  if (action === "proof") {
+
+    await viewPaymentProof(
+      requestId
+    );
+
+    return;
+
+  }
+
+
+  if (action === "approve") {
+
+    await approveRequest(
+      requestId,
+      button
+    );
+
+    return;
+
+  }
+
+
+  if (action === "reject") {
+
+    await rejectRequest(
+      requestId,
+      button
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   VIEW PAYMENT PROOF
+   ========================================================= */
+
+async function viewPaymentProof(
+  requestId
+) {
+
+  clearAdminMessage();
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("pro_requests")
+      .select(
+        "payment_proof_path"
+      )
+      .eq(
+        "id",
+        requestId
+      )
+      .single();
+
+
+  if (error) {
+
+    console.error(
+      "Proof path error:",
+      error
+    );
+
+    showAdminError(
+      "Unable to retrieve payment proof."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !data.payment_proof_path
+  ) {
+
+    showAdminError(
+      "No payment proof is attached to this request."
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Create a temporary signed URL.
+
+    The Storage bucket remains private.
+  */
+
+  const {
+    data: signedData,
+    error: signedError
+  } =
+    await supabaseClient
+      .storage
+      .from(BUCKET_NAME)
+      .createSignedUrl(
+        data.payment_proof_path,
+        300
+      );
+
+
+  if (signedError) {
+
+    console.error(
+      "Signed URL error:",
+      signedError
+    );
+
+    showAdminError(
+      "Unable to open payment proof."
+    );
+
+    return;
+
+  }
+
+
+  window.open(
+    signedData.signedUrl,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* =========================================================
+   APPROVE REQUEST
+   ========================================================= */
+
+async function approveRequest(
+  requestId,
+  button
+) {
+
+  const confirmed =
+    window.confirm(
+      "Approve this PRO request and activate 1 year of PRO access?"
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  clearAdminMessage();
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "APPROVING...";
+
+
+  try {
+
+    /*
+      The approval itself is handled
+      by a database RPC.
+
+      This prevents the browser from
+      directly deciding subscription dates.
+    */
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .rpc(
+          "approve_pro_request",
+          {
+            request_id:
+              requestId
+          }
+        );
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    if (!data) {
+
+      throw new Error(
+        "The request could not be approved."
+      );
+
+    }
+
+
+    showAdminSuccess(
+      "PRO request approved and subscription activated."
+    );
+
+
+    await loadRequests();
+
+
+  } catch (error) {
+
+    console.error(
+      "Approval error:",
+      error
+    );
+
+
+    showAdminError(
+      error.message ||
+      "Unable to approve the PRO request."
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "APPROVE";
+
+  }
+
+}
+
+
+/* =========================================================
+   REJECT REQUEST
+   ========================================================= */
+
+async function rejectRequest(
+  requestId,
+  button
+) {
+
+  const confirmed =
+    window.confirm(
+      "Reject this PRO request?"
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  clearAdminMessage();
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "REJECTING...";
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .rpc(
+          "reject_pro_request",
+          {
+            request_id:
+              requestId
+          }
+        );
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    if (!data) {
+
+      throw new Error(
+        "The request could not be rejected."
+      );
+
+    }
+
+
+    showAdminSuccess(
+      "PRO request rejected."
+    );
+
+
+    await loadRequests();
+
+
+  } catch (error) {
+
+    console.error(
+      "Rejection error:",
+      error
+    );
+
+
+    showAdminError(
+      error.message ||
+      "Unable to reject the PRO request."
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "REJECT";
+
+  }
+
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+function showAdminSuccess(
+  text
+) {
+
+  adminMessage.textContent =
+    text;
+
+  adminMessage.className =
+    "admin-message success";
+
+}
+
+
+function showAdminError(
+  text
+) {
+
+  adminMessage.textContent =
+    text;
+
+  adminMessage.className =
+    "admin-message error";
+
+}
+
+
+function clearAdminMessage() {
+
+  adminMessage.textContent =
+    "";
+
+  adminMessage.className =
+    "admin-message";
 
 }
 

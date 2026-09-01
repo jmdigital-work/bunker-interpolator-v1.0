@@ -1,4 +1,225 @@
 /* =========================================================
+   MARINECALC PRO ACCESS CONTROL
+   ========================================================= */
+
+const SUPABASE_URL =
+  "https://lasdhuckmemuukiqovyw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
+
+
+const {
+  createClient
+} = supabase;
+
+
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================================
+   PRO ACCESS ELEMENTS
+   ========================================================= */
+
+const calculatorCard =
+  document.querySelector(".calculator-card");
+
+
+/* =========================================================
+   PRO ACCESS OVERLAY
+   ========================================================= */
+
+function showProLock() {
+
+  /*
+    Disable calculator controls.
+  */
+
+  document
+    .querySelectorAll(
+      ".calculator-card input, .calculator-card button"
+    )
+    .forEach(
+      element => {
+
+        element.disabled = true;
+
+      }
+    );
+
+
+  /*
+    Create the PRO lock message.
+  */
+
+  const lockMessage =
+    document.createElement("div");
+
+
+  lockMessage.className =
+    "pro-lock";
+
+
+  lockMessage.innerHTML = `
+    <div class="pro-lock-icon">
+      🔒
+    </div>
+
+    <h2>
+      MARINECALC PRO
+    </h2>
+
+    <p>
+      This calculator is available with an active
+      MarineCalc PRO subscription.
+    </p>
+
+    <p class="pro-price">
+      $9 / 1 YEAR
+    </p>
+
+    <a
+      href="../../pro/index.html"
+      class="pro-upgrade-button"
+    >
+      GET PRO
+    </a>
+
+    <a
+      href="../../auth/index.html"
+      class="pro-account-link"
+    >
+      LOGIN / MY ACCOUNT
+    </a>
+  `;
+
+
+  calculatorCard.prepend(
+    lockMessage
+  );
+
+}
+
+
+/* =========================================================
+   CHECK PRO ACCESS
+   ========================================================= */
+
+async function checkProAccess() {
+
+  try {
+
+    /*
+      First make sure the user is logged in.
+    */
+
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if (sessionError) {
+
+      console.error(
+        "Session error:",
+        sessionError
+      );
+
+      showProLock();
+
+      return;
+
+    }
+
+
+    if (
+      !sessionData.session ||
+      !sessionData.session.user
+    ) {
+
+      showProLock();
+
+      return;
+
+    }
+
+
+    /*
+      Ask Supabase whether this user
+      currently has valid PRO access.
+    */
+
+    const {
+      data: isPro,
+      error: proError
+    } =
+      await supabaseClient
+        .rpc("is_pro");
+
+
+    if (proError) {
+
+      console.error(
+        "PRO access check error:",
+        proError
+      );
+
+      showProLock();
+
+      return;
+
+    }
+
+
+    if (!isPro) {
+
+      showProLock();
+
+      return;
+
+    }
+
+
+    /*
+      User is PRO.
+      Calculator remains enabled.
+    */
+
+    console.log(
+      "MarineCalc PRO access confirmed."
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "PRO access error:",
+      error
+    );
+
+    showProLock();
+
+  }
+
+}
+
+
+/* =========================================================
+   START PRO ACCESS CHECK
+   ========================================================= */
+
+checkProAccess();
+
+
+/* =========================================================
    MARINECALC
    BUNKER (MT) CALCULATOR
    SIMPLIFIED SHIPBOARD VERSION

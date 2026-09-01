@@ -112,6 +112,8 @@ button {
 
   font-weight: 700;
 
+  text-decoration: none;
+
 }
 
 
@@ -222,6 +224,7 @@ button {
 .message-card p {
 
   margin:
+    0
     0
     20px;
 
@@ -387,6 +390,33 @@ button {
 
   font-weight: 800;
 
+}
+
+
+/* ADMIN MESSAGE */
+
+.admin-message {
+
+  min-height: 20px;
+
+  margin-bottom: 12px;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  text-align: center;
+
+}
+
+
+.admin-message.success {
+  color: var(--success);
+}
+
+
+.admin-message.error {
+  color: var(--danger);
 }
 
 
@@ -559,6 +589,76 @@ button {
 }
 
 
+/* ACTIONS */
+
+.request-actions {
+
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 15px;
+
+  padding-top: 14px;
+
+  border-top:
+    1px solid
+    #E1EAED;
+
+}
+
+
+.action-button {
+
+  min-height: 42px;
+
+  padding:
+    0
+    14px;
+
+  border: 0;
+
+  border-radius: 7px;
+
+  color: #FFFFFF;
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+}
+
+
+.action-button:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+}
+
+
+.view-proof {
+
+  background: var(--navy);
+
+}
+
+
+.approve-button {
+
+  background: var(--success);
+
+}
+
+
+.reject-button {
+
+  background: var(--danger);
+
+}
+
+
 .empty-state {
 
   padding: 30px;
@@ -642,6 +742,20 @@ footer {
 
     grid-template-columns:
       1fr;
+
+  }
+
+
+  .request-actions {
+
+    flex-direction: column;
+
+  }
+
+
+  .action-button {
+
+    width: 100%;
 
   }
 

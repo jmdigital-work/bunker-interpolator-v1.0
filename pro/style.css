@@ -1,15 +1,7 @@
-/* =========================================================
-   MARINECALC PRO
-   ========================================================= */
-
 :root {
 
   --navy: #0B3D5C;
-  --navy-dark: #101A2E;
-
   --blue: #176C8E;
-  --blue-light: #5EA9DD;
-  --blue-soft: #EAF5F9;
 
   --border: #C9D8DF;
 
@@ -18,28 +10,19 @@
 
   --white: #FFFFFF;
 
-  --orange: #B96822;
-  --light-orange: #FFF0E5;
+  --blue-soft: #EAF5F9;
 
   --success: #176B4D;
   --success-bg: #EAF7F1;
 
   --danger: #B42318;
+  --danger-bg: #FDECEA;
 
 }
 
-
-/* =========================================================
-   GLOBAL
-   ========================================================= */
 
 * {
   box-sizing: border-box;
-}
-
-
-html {
-  min-height: 100%;
 }
 
 
@@ -67,64 +50,50 @@ body {
 
 
 button,
-input,
-select {
-
+input {
   font-family: inherit;
-
 }
 
 
-button {
+button,
+a {
   cursor: pointer;
 }
 
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-
-/* =========================================================
-   APP
-   ========================================================= */
-
-.app {
+.pro-app {
 
   width: 100%;
 
-  max-width: 700px;
+  max-width: 540px;
 
   min-height: 100vh;
 
   margin: 0 auto;
 
   padding:
-    16px
+    18px
     14px
     30px;
 
 }
 
 
-/* =========================================================
-   HEADER
-   ========================================================= */
+/* HEADER */
 
-.app-header {
-
-  text-align: center;
+.pro-header {
 
   padding:
     5px
     10px
-    25px;
+    22px;
+
+  text-align: center;
 
 }
 
 
-.back-button {
+.back-link {
 
   display: inline-block;
 
@@ -132,15 +101,12 @@ a {
 
   color: var(--blue);
 
-  font-size: 15px;
+  font-size: 14px;
 
   font-weight: 700;
 
-}
+  text-decoration: none;
 
-
-.back-button:hover {
-  text-decoration: underline;
 }
 
 
@@ -169,27 +135,25 @@ a {
   width: 100%;
   height: 100%;
 
-  display: block;
-
   object-fit: contain;
 
 }
 
 
-.app-header h1 {
+.pro-header h1 {
 
   margin: 0;
 
   color: var(--navy);
 
-  font-size: 22px;
+  font-size: 23px;
 
-  letter-spacing: 1px;
+  letter-spacing: .7px;
 
 }
 
 
-.app-header p {
+.pro-header p {
 
   margin:
     6px
@@ -203,161 +167,13 @@ a {
 }
 
 
-/* =========================================================
-   PRO HERO
-   ========================================================= */
+/* CARD */
 
-.pro-hero {
+.pro-card {
 
-  padding:
-    25px
-    20px
-    27px;
+  padding: 22px 20px;
 
-  background: var(--navy-dark);
-
-  border:
-    1px solid
-    #263955;
-
-  border-radius: 16px;
-
-  color: #FFFFFF;
-
-  text-align: center;
-
-  box-shadow:
-    0 7px 22px
-    rgba(11, 61, 92, 0.16);
-
-}
-
-
-.lock-icon {
-
-  margin-bottom: 9px;
-
-  font-size: 28px;
-
-}
-
-
-.pro-badge {
-
-  display: inline-block;
-
-  padding:
-    5px
-    11px;
-
-  border-radius: 20px;
-
-  background:
-    rgba(94, 169, 221, 0.16);
-
-  color: var(--blue-light);
-
-  font-size: 11px;
-
-  font-weight: 800;
-
-  letter-spacing: 1px;
-
-}
-
-
-.pro-hero h2 {
-
-  margin:
-    11px
-    0
-    7px;
-
-  font-size: 25px;
-
-}
-
-
-.hero-description {
-
-  max-width: 440px;
-
-  margin:
-    0
-    auto;
-
-  color: #B9C5D2;
-
-  font-size: 14px;
-
-  line-height: 1.5;
-
-}
-
-
-.price {
-
-  display: flex;
-
-  align-items: baseline;
-  justify-content: center;
-
-  gap: 5px;
-
-  margin-top: 18px;
-
-}
-
-
-.price strong {
-
-  color: #FFFFFF;
-
-  font-size: 42px;
-
-  line-height: 1;
-
-}
-
-
-.price span {
-
-  color: var(--blue-light);
-
-  font-size: 13px;
-
-  font-weight: 800;
-
-  letter-spacing: .5px;
-
-}
-
-
-.price-note {
-
-  margin:
-    7px
-    0
-    0;
-
-  color: #8293AA;
-
-  font-size: 11px;
-
-}
-
-
-/* =========================================================
-   CARD
-   ========================================================= */
-
-.card {
-
-  margin-top: 15px;
-
-  padding: 19px;
-
-  background: #FFFFFF;
+  background: var(--white);
 
   border:
     1px solid
@@ -366,341 +182,119 @@ a {
   border-radius: 14px;
 
   box-shadow:
-    0 5px 17px
-    rgba(19, 55, 70, 0.06);
+    0 5px 18px
+    rgba(19, 55, 70, 0.07);
 
 }
 
 
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
+/* PLAN */
 
-.section-title {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  margin-bottom: 13px;
-
-}
-
-
-.section-title span {
-
-  font-size: 17px;
-
-}
-
-
-.section-title h2 {
-
-  margin: 0;
-
-  color: var(--navy);
-
-  font-size: 15px;
-
-  letter-spacing: .4px;
-
-}
-
-
-.section-description {
-
-  margin:
-    0
-    0
-    15px;
-
-  color: var(--muted);
-
-  font-size: 13px;
-
-  line-height: 1.5;
-
-}
-
-
-/* =========================================================
-   PRO TOOL LIST
-   ========================================================= */
-
-.tool-list {
-
-  display: grid;
-
-  gap: 10px;
-
-}
-
-
-.tool-item {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  padding: 13px;
-
-  background: #F7FAFB;
-
-  border:
-    1px solid
-    #DCE6EA;
-
-  border-radius: 9px;
-
-}
-
-
-.tool-icon {
-
-  width: 40px;
-  height: 40px;
-
-  flex: 0 0 40px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 9px;
-
-  background: var(--blue-soft);
-
-  font-size: 20px;
-
-}
-
-
-.tool-item h3 {
-
-  margin: 0 0 3px;
-
-  color: var(--navy);
-
-  font-size: 15px;
-
-}
-
-
-.tool-item p {
-
-  margin: 0;
-
-  color: var(--muted);
-
-  font-size: 12px;
-
-  line-height: 1.4;
-
-}
-
-
-/* =========================================================
-   PAYMENT TABS
-   ========================================================= */
-
-.payment-tabs {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 8px;
-
-  margin-bottom: 15px;
-
-}
-
-
-.payment-tab {
-
-  min-height: 46px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius: 8px;
-
-  background: #F7FAFB;
-
-  color: var(--muted);
-
-  font-size: 13px;
-
-  font-weight: 800;
-
-}
-
-
-.payment-tab.active {
-
-  border-color: var(--blue);
-
-  background: var(--blue-soft);
-
-  color: var(--navy);
-
-}
-
-
-/* =========================================================
-   PAYMENT PANEL
-   ========================================================= */
-
-.payment-panel {
-
-  display: none;
-
-}
-
-
-.payment-panel.active {
-
-  display: block;
-
-}
-
-
-.payment-panel h3 {
-
-  margin:
-    0
-    0
-    6px;
-
-  color: var(--navy);
-
-  font-size: 16px;
-
-}
-
-
-.payment-panel p {
-
-  margin:
-    0
-    0
-    14px;
-
-  color: var(--muted);
-
-  font-size: 13px;
-
-  line-height: 1.5;
-
-}
-
-
-/* =========================================================
-   QR PLACEHOLDER
-   ========================================================= */
-
-.qr-placeholder {
-
-  width: min(260px, 100%);
-
-  min-height: 260px;
-
-  margin:
-    10px
-    auto
-    14px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  border:
-    2px dashed
-    #AEBFC7;
-
-  border-radius: 12px;
-
-  background: #F7FAFB;
+.plan-header {
 
   text-align: center;
 
 }
 
 
-.qr-icon {
+.pro-label {
 
-  width: 90px;
-  height: 90px;
+  display: inline-block;
 
-  display: flex;
+  padding:
+    5px
+    10px;
 
-  align-items: center;
-  justify-content: center;
+  border-radius: 20px;
 
-  border:
-    4px solid
-    var(--navy);
+  background: var(--blue-soft);
 
-  color: var(--navy);
+  color: var(--blue);
 
-  font-size: 18px;
+  font-size: 11px;
 
   font-weight: 900;
 
 }
 
 
-.qr-placeholder strong {
+.plan-header h2 {
+
+  margin:
+    10px
+    0
+    4px;
 
   color: var(--navy);
+
+  font-size: 34px;
+
+}
+
+
+.plan-header h2 span {
+
+  font-size: 15px;
+
+  color: var(--muted);
+
+  font-weight: 700;
+
+}
+
+
+.plan-header p {
+
+  margin: 0;
+
+  color: var(--muted);
 
   font-size: 13px;
 
 }
 
 
-.qr-placeholder span {
+/* FEATURES */
 
-  max-width: 190px;
+.features {
 
-  color: var(--muted);
+  display: grid;
 
-  font-size: 11px;
+  gap: 8px;
 
-  line-height: 1.4;
+  margin:
+    20px
+    0;
+
+  padding:
+    15px;
+
+  border-radius: 9px;
+
+  background: var(--blue-soft);
+
+  color: var(--navy);
+
+  font-size: 13px;
+
+  font-weight: 700;
 
 }
 
 
-/* =========================================================
-   PAYMENT NOTE
-   ========================================================= */
+/* NOTICE */
 
-.payment-note {
+.notice {
 
-  padding:
-    11px
-    12px;
+  margin-bottom: 17px;
 
-  border-left:
-    3px solid
-    #D69A54;
+  padding: 12px;
 
-  background: var(--light-orange);
+  border-radius: 8px;
 
-  color: #6D4A2D;
+  background: #FFF6D8;
+
+  color: #735400;
 
   font-size: 12px;
 
@@ -709,68 +303,18 @@ a {
 }
 
 
-.payment-note strong {
-
-  color: #5B351B;
-
-}
-
-
-/* =========================================================
-   PAYPAL BUTTON
-   ========================================================= */
-
-.paypal-button {
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  min-height: 48px;
-
-  margin:
-    15px
-    0;
-
-  border-radius: 8px;
-
-  background: #0070BA;
-
-  color: #FFFFFF;
-
-  font-size: 14px;
-
-  font-weight: 800;
-
-}
-
-
-.paypal-button:hover {
-
-  filter: brightness(1.08);
-
-}
-
-
-/* =========================================================
-   FORM
-   ========================================================= */
+/* FORM */
 
 .form-group {
 
-  margin-bottom: 15px;
+  margin-bottom: 17px;
 
 }
 
 
-.form-group label {
+.form-group > label {
 
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 10px;
+  display: block;
 
   margin-bottom: 7px;
 
@@ -778,31 +322,21 @@ a {
 
   font-size: 14px;
 
-  font-weight: 700;
+  font-weight: 800;
 
 }
 
 
-.form-group label span {
-
-  color: var(--muted);
-
-  font-size: 12px;
-
-  font-weight: 400;
-
-}
-
-
-.form-group input,
-.form-group select {
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="file"] {
 
   width: 100%;
 
   min-height: 50px;
 
   padding:
-    0
+    10px
     12px;
 
   border:
@@ -815,32 +349,20 @@ a {
 
   color: var(--text);
 
-  font-size: 17px;
-
-  font-weight: 500;
-
-  outline: none;
+  font-size: 16px;
 
 }
 
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
+
+  outline: none;
 
   border-color: var(--blue);
 
   box-shadow:
     0 0 0 3px
-    rgba(23, 108, 142, 0.12);
-
-}
-
-
-.form-group input::placeholder {
-
-  color: #63727A;
-
-  opacity: .7;
+    rgba(23, 108, 142, .12);
 
 }
 
@@ -855,41 +377,136 @@ a {
 
   font-size: 11px;
 
-  line-height: 1.4;
+}
+
+
+/* PAYMENT OPTIONS */
+
+.payment-options {
+
+  display: grid;
+
+  gap: 9px;
 
 }
 
 
-/* =========================================================
-   FILE INPUT
-   ========================================================= */
+.payment-option {
 
-input[type="file"] {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 50px;
 
   padding:
-    10px
+    0
     12px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 7px;
+
+  background: #FFFFFF;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+
+.payment-option input {
+
+  width: 18px;
+  height: 18px;
+
+  accent-color: var(--blue);
+
+}
+
+
+/* PAYMENT INSTRUCTIONS */
+
+.payment-instructions {
+
+  margin-bottom: 18px;
+
+  padding: 14px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 8px;
+
+  background: #F8FBFC;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.payment-instructions strong {
+
+  color: var(--navy);
 
   font-size: 13px;
 
 }
 
 
-/* =========================================================
-   SUBMIT BUTTON
-   ========================================================= */
+.payment-instructions p {
 
-.submit-button {
+  margin:
+    6px
+    0
+    0;
+
+  color: var(--muted);
+
+}
+
+
+/* FILE */
+
+.file-info {
+
+  margin:
+    -5px
+    0
+    17px;
+
+  padding: 9px;
+
+  border-radius: 7px;
+
+  background: #F3F7F8;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+/* BUTTON */
+
+.primary-button {
 
   width: 100%;
 
-  min-height: 50px;
+  min-height: 52px;
 
-  margin-top: 4px;
-
-  border:
-    2px solid
-    #07506D;
+  border: 0;
 
   border-radius: 8px;
 
@@ -897,37 +514,51 @@ input[type="file"] {
 
   color: #FFFFFF;
 
-  font-size: 13px;
+  font-size: 14px;
 
-  font-weight: 800;
-
-}
-
-
-.submit-button:hover {
-
-  filter: brightness(1.08);
+  font-weight: 900;
 
 }
 
 
-/* =========================================================
-   SUCCESS
-   ========================================================= */
+.primary-button:disabled {
 
-.success-message {
+  opacity: .6;
 
-  margin-top: 18px;
+  cursor: not-allowed;
 
-  padding: 17px;
+}
 
-  border:
-    1px solid
-    #A8D5C0;
 
-  border-radius: 9px;
+/* MESSAGE */
 
-  background: var(--success-bg);
+.message {
+
+  min-height: 20px;
+
+  margin-top: 12px;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.message.error {
+
+  color: var(--danger);
+
+}
+
+
+/* SUCCESS */
+
+.success-panel {
+
+  padding-top: 15px;
 
   text-align: center;
 
@@ -936,13 +567,13 @@ input[type="file"] {
 
 .success-icon {
 
-  width: 40px;
-  height: 40px;
+  width: 54px;
+  height: 54px;
 
   margin:
     0
     auto
-    8px;
+    12px;
 
   display: flex;
 
@@ -955,106 +586,79 @@ input[type="file"] {
 
   color: #FFFFFF;
 
-  font-size: 21px;
+  font-size: 27px;
 
   font-weight: 900;
 
 }
 
 
-.success-message h3 {
+.success-panel h2 {
 
   margin:
     0
     0
-    6px;
-
-  color: var(--success);
-
-  font-size: 16px;
-
-}
-
-
-.success-message p {
-
-  margin:
-    4px
-    0;
-
-  color: #45665A;
-
-  font-size: 12px;
-
-  line-height: 1.5;
-
-}
-
-
-/* =========================================================
-   NOTICE
-   ========================================================= */
-
-.notice {
-
-  margin-top: 15px;
-
-  padding:
-    13px
-    14px;
-
-  border-left:
-    3px solid
-    var(--blue);
-
-  background: var(--blue-soft);
-
-}
-
-
-.notice strong {
+    8px;
 
   color: var(--navy);
 
-  font-size: 13px;
+  font-size: 21px;
 
 }
 
 
-.notice p {
+.success-panel p {
 
   margin:
-    5px
-    0
+    7px
     0;
 
   color: var(--muted);
 
-  font-size: 12px;
+  font-size: 13px;
 
   line-height: 1.5;
 
 }
 
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
+.secondary-button {
+
+  display: block;
+
+  margin-top: 18px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 8px;
+
+  color: var(--navy);
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+
+/* FOOTER */
 
 footer {
 
   display: flex;
 
-  align-items: center;
   justify-content: space-between;
 
   gap: 10px;
 
   margin-top: 18px;
-
-  padding:
-    0
-    3px;
 
   color: var(--muted);
 
@@ -1063,88 +667,13 @@ footer {
 }
 
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-  .app {
-
-    padding:
-      12px
-      10px
-      25px;
-
-  }
-
-
-  .card {
-
-    padding: 16px;
-
-  }
-
-
-  .pro-hero {
-
-    padding:
-      23px
-      16px
-      25px;
-
-  }
-
-
-  .pro-hero h2 {
-
-    font-size: 23px;
-
-  }
-
-
-  .price strong {
-
-    font-size: 38px;
-
-  }
-
-
-  .form-group input,
-  .form-group select {
-
-    font-size: 17px;
-
-  }
-
+@media (max-width: 500px) {
 
   footer {
 
     flex-direction: column;
 
     text-align: center;
-
-  }
-
-}
-
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-  .payment-tabs {
-
-    grid-template-columns: 1fr;
-
-  }
-
-
-  .tool-item {
-
-    align-items: flex-start;
 
   }
 
