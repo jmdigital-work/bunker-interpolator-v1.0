@@ -176,6 +176,35 @@
   
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="sw.js"></script>
-	
+
+<script>
+  if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", () => {
+
+      navigator.serviceWorker
+        .register("./sw.js")
+        .then((registration) => {
+
+          console.log(
+            "MarineCalc service worker registered:",
+            registration.scope
+          );
+
+        })
+        .catch((error) => {
+
+          console.error(
+            "MarineCalc service worker registration failed:",
+            error
+          );
+
+        });
+
+    });
+
+  }
+</script>
+
 </body>
 </html>

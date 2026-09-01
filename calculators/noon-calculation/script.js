@@ -10,17 +10,14 @@
    ========================================================= */
 
 const SUPABASE_URL =
-  "https://lasdhuckmemuukiqovyw.supabase.co";
-
+  "https://lasdhuckmemuukiqovy.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
 
-
 const {
   createClient
 } = supabase;
-
 
 const supabaseClient =
   createClient(
@@ -31,10 +28,6 @@ const supabaseClient =
 
 /* =========================================================
    PRO PREVIEW SAMPLE DATA
-   =========================================================
-
-   These values are ONLY used for the
-   non-PRO demonstration preview.
    ========================================================= */
 
 const NOON_PREVIEW_DATA = {
@@ -84,10 +77,6 @@ function addPreviewStyles() {
 
 
   style.textContent = `
-
-    /* =====================================================
-       PRO PREVIEW BANNER
-       ===================================================== */
 
     .marinecalc-preview-banner {
 
@@ -139,10 +128,6 @@ function addPreviewStyles() {
 
     }
 
-
-    /* =====================================================
-       ACTION BUTTONS
-       ===================================================== */
 
     .marinecalc-preview-actions {
 
@@ -223,10 +208,6 @@ function addPreviewStyles() {
     }
 
 
-    /* =====================================================
-       PREVIEW DATA LABEL
-       ===================================================== */
-
     .marinecalc-preview-label {
 
       margin-bottom: 14px;
@@ -259,14 +240,61 @@ function addPreviewStyles() {
     }
 
 
-    /* =====================================================
-       DISABLED PREVIEW CONTROLS
-       ===================================================== */
-
     .marinecalc-preview-disabled {
 
       opacity:
         .82;
+
+    }
+
+
+    .marinecalc-offline-pro-banner {
+
+      margin-bottom: 20px;
+
+      padding: 14px 16px;
+
+      border:
+        1px solid
+        #B9D3DF;
+
+      border-radius: 10px;
+
+      background:
+        #EAF4F8;
+
+    }
+
+
+    .marinecalc-offline-pro-banner strong {
+
+      display: block;
+
+      margin-bottom: 6px;
+
+      color:
+        #003B5C;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      letter-spacing: .4px;
+
+    }
+
+
+    .marinecalc-offline-pro-banner p {
+
+      margin:
+        0;
+
+      color:
+        #496474;
+
+      font-size: 10px;
+
+      line-height: 1.55;
 
     }
 
@@ -287,10 +315,6 @@ function showProPreview() {
   addPreviewStyles();
 
 
-  /*
-     Prevent duplicate preview banners.
-  */
-
   if (
     document.getElementById(
       "marinecalcPreviewBanner"
@@ -301,13 +325,6 @@ function showProPreview() {
 
   }
 
-
-  /*
-     Disable all calculator controls.
-
-     The calculation functions can still be called
-     programmatically below to create the demonstration.
-  */
 
   document
     .querySelectorAll(
@@ -325,10 +342,6 @@ function showProPreview() {
       }
     );
 
-
-  /*
-     Create PRO preview banner.
-  */
 
   const banner =
     document.createElement("div");
@@ -376,10 +389,6 @@ function showProPreview() {
   `;
 
 
-  /*
-     Insert banner before the first calculator card.
-  */
-
   const firstCalculator =
     document.querySelector(
       ".calculator-card"
@@ -393,13 +402,23 @@ function showProPreview() {
       firstCalculator
     );
 
+  } else {
+
+    const main =
+      document.querySelector("main");
+
+    if (main) {
+
+      main.prepend(banner);
+
+    } else {
+
+      document.body.prepend(banner);
+
+    }
+
   }
 
-
-  /*
-     Add PREVIEW DATA label to the first
-     calculator section.
-  */
 
   const firstSection =
     document.querySelector(
@@ -427,10 +446,6 @@ function showProPreview() {
 
   }
 
-
-  /*
-     Load sample values.
-  */
 
   document.getElementById(
     "counterPrevious"
@@ -480,11 +495,6 @@ function showProPreview() {
     NOON_PREVIEW_DATA.manualSpeedPropellerDistance;
 
 
-  /*
-     Make sure the calculated ConstantREV
-     option is selected.
-  */
-
   const calculatedConstantRadio =
     document.querySelector(
       'input[name="constantSource"][value="calculated"]'
@@ -498,11 +508,6 @@ function showProPreview() {
 
   }
 
-
-  /*
-     Make sure the calculated Propeller Distance
-     option is selected.
-  */
 
   const calculatedDistanceRadio =
     document.querySelector(
@@ -518,14 +523,6 @@ function showProPreview() {
   }
 
 
-  /*
-     Run the four existing calculations
-     using the sample data.
-
-     These are the SAME calculation functions
-     already used by the real calculator.
-  */
-
   calculateRPM();
 
   calculateConstant();
@@ -538,16 +535,354 @@ function showProPreview() {
 
 
 /* =========================================================
-   CHECK PRO ACCESS
+   MARINECALC PRO OFFLINE ACCESS
+   NOON CALCULATION
+   ========================================================= */
+
+
+/* =========================================================
+   GET CACHED PRO AUTHORIZATION
+   ========================================================= */
+
+function getOfflineProAccess() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        "marinecalc_offline_pro"
+      );
+
+
+    if (!raw) {
+
+      return null;
+
+    }
+
+
+    const authorization =
+      JSON.parse(raw);
+
+
+    if (
+      !authorization ||
+      typeof authorization !== "object" ||
+      !authorization.userId
+    ) {
+
+      return null;
+
+    }
+
+
+    /*
+       Check expiration.
+    */
+
+    if (
+      authorization.expiresAt
+    ) {
+
+      const expiry =
+        new Date(
+          authorization.expiresAt
+        ).getTime();
+
+
+      if (
+        !Number.isFinite(expiry)
+      ) {
+
+        return null;
+
+      }
+
+
+      if (
+        Date.now() >= expiry
+      ) {
+
+        console.warn(
+          "MarineCalc: Cached PRO authorization has expired."
+        );
+
+        return null;
+
+      }
+
+    }
+
+
+    return authorization;
+
+
+  } catch (error) {
+
+    console.error(
+      "MarineCalc: Unable to read cached PRO authorization:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   CHECK VALID OFFLINE PRO ACCESS
+   ========================================================= */
+
+function hasValidOfflineProAccess(
+  userId = null
+) {
+
+  const authorization =
+    getOfflineProAccess();
+
+
+  if (!authorization) {
+
+    return false;
+
+  }
+
+
+  if (
+    userId &&
+    authorization.userId !== userId
+  ) {
+
+    console.warn(
+      "MarineCalc: Cached PRO authorization belongs to another user."
+    );
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   ENABLE PRO CALCULATOR
+   ========================================================= */
+
+function enableProCalculator() {
+
+  /*
+     Remove any PRO preview banner.
+  */
+
+  const previewBanner =
+    document.getElementById(
+      "marinecalcPreviewBanner"
+    );
+
+
+  if (previewBanner) {
+
+    previewBanner.remove();
+
+  }
+
+
+  /*
+     Remove preview labels.
+  */
+
+  document
+    .querySelectorAll(
+      ".marinecalc-preview-label"
+    )
+    .forEach(
+      (element) => {
+
+        element.remove();
+
+      }
+    );
+
+
+  /*
+     Enable every calculator control.
+  */
+
+  document
+    .querySelectorAll(
+      ".calculator-card input, .calculator-card button"
+    )
+    .forEach(
+      (element) => {
+
+        element.disabled = false;
+
+        element.classList.remove(
+          "marinecalc-preview-disabled"
+        );
+
+      }
+    );
+
+
+  console.log(
+    "MarineCalc PRO calculator controls enabled."
+  );
+
+}
+
+
+/* =========================================================
+   SHOW OFFLINE PRO MODE
+   ========================================================= */
+
+function showOfflineProMode() {
+
+  const authorization =
+    getOfflineProAccess();
+
+
+  if (!authorization) {
+
+    console.warn(
+      "MarineCalc: No valid cached PRO authorization."
+    );
+
+    return false;
+
+  }
+
+
+  /*
+     VERY IMPORTANT:
+     Unlock calculator first.
+  */
+
+  enableProCalculator();
+
+
+  /*
+     Prevent duplicate banner.
+  */
+
+  if (
+    document.getElementById(
+      "marinecalcOfflineProBanner"
+    )
+  ) {
+
+    return true;
+
+  }
+
+
+  /*
+     Make sure banner styles exist.
+  */
+
+  addPreviewStyles();
+
+
+  /*
+     Create banner.
+  */
+
+  const banner =
+    document.createElement("div");
+
+
+  banner.id =
+    "marinecalcOfflineProBanner";
+
+
+  banner.className =
+    "marinecalc-preview-banner";
+
+
+  banner.innerHTML = `
+
+    <strong>
+      🟡 OFFLINE MODE — PRO VERIFIED
+    </strong>
+
+    <p>
+      MarineCalc PRO access was previously verified
+      online. You can continue using this calculator
+      while offline.
+    </p>
+
+  `;
+
+
+  /*
+     Insert banner.
+  */
+
+  const firstCalculator =
+    document.querySelector(
+      ".calculator-card"
+    );
+
+
+  if (firstCalculator) {
+
+    firstCalculator.parentNode.insertBefore(
+      banner,
+      firstCalculator
+    );
+
+  } else {
+
+    const main =
+      document.querySelector("main");
+
+
+    if (main) {
+
+      main.prepend(
+        banner
+      );
+
+    } else {
+
+      document.body.prepend(
+        banner
+      );
+
+    }
+
+  }
+
+
+  console.log(
+    "MarineCalc PRO operating in offline mode.",
+    authorization.expiresAt
+  );
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   MAIN PRO ACCESS CHECK
    ========================================================= */
 
 async function checkProAccess() {
 
-  try {
+  /*
+     =======================================================
+     STEP 1 — TRY NORMAL ONLINE VERIFICATION
+     =======================================================
+  */
 
-    /*
-       Check whether the user is logged in.
-    */
+  try {
 
     const {
       data: sessionData,
@@ -558,12 +893,33 @@ async function checkProAccess() {
         .getSession();
 
 
+    /*
+       -----------------------------------------------------
+       SESSION ERROR
+       -----------------------------------------------------
+    */
+
     if (sessionError) {
 
-      console.error(
-        "Session error:",
-        sessionError
+      console.warn(
+        "MarineCalc: Online session check failed."
       );
+
+
+      /*
+         FALL BACK TO CACHED PRO.
+      */
+
+      if (
+        hasValidOfflineProAccess()
+      ) {
+
+        showOfflineProMode();
+
+        return;
+
+      }
+
 
       showProPreview();
 
@@ -573,15 +929,34 @@ async function checkProAccess() {
 
 
     /*
-       No logged-in user.
-       Show preview.
+       -----------------------------------------------------
+       NO SESSION
+       -----------------------------------------------------
     */
 
     if (
+      !sessionData ||
       !sessionData.session ||
       !sessionData.session.user
     ) {
 
+      /*
+         Before showing the PRO preview,
+         check whether we have previously
+         verified PRO access.
+      */
+
+      if (
+        hasValidOfflineProAccess()
+      ) {
+
+        showOfflineProMode();
+
+        return;
+
+      }
+
+
       showProPreview();
 
       return;
@@ -589,8 +964,14 @@ async function checkProAccess() {
     }
 
 
+    const user =
+      sessionData.session.user;
+
+
     /*
-       Check actual MarineCalc PRO status.
+       =====================================================
+       STEP 2 — CHECK PRO STATUS WITH SUPABASE
+       =====================================================
     */
 
     const {
@@ -601,12 +982,36 @@ async function checkProAccess() {
         .rpc("is_pro");
 
 
+    /*
+       -----------------------------------------------------
+       SUPABASE RPC FAILED
+       -----------------------------------------------------
+    */
+
     if (proError) {
 
-      console.error(
-        "PRO access check error:",
+      console.warn(
+        "MarineCalc: PRO verification request failed.",
         proError
       );
+
+
+      /*
+         NETWORK FAILURE / OFFLINE FALLBACK
+      */
+
+      if (
+        hasValidOfflineProAccess(
+          user.id
+        )
+      ) {
+
+        showOfflineProMode();
+
+        return;
+
+      }
+
 
       showProPreview();
 
@@ -616,8 +1021,9 @@ async function checkProAccess() {
 
 
     /*
-       Not an active PRO user.
-       Show preview.
+       -----------------------------------------------------
+       USER IS NOT PRO
+       -----------------------------------------------------
     */
 
     if (!isPro) {
@@ -630,13 +1036,131 @@ async function checkProAccess() {
 
 
     /*
-       ACTIVE PRO USER
-
-       Do nothing.
-
-       The existing calculator remains
-       completely usable.
+       =====================================================
+       STEP 3 — GET SUBSCRIPTION EXPIRY
+       =====================================================
     */
+
+    const {
+      data: subscription,
+      error: subscriptionError
+    } =
+      await supabaseClient
+        .from("pro_subscriptions")
+        .select(
+          "expires_at"
+        )
+        .eq(
+          "user_id",
+          user.id
+        )
+        .eq(
+          "status",
+          "active"
+        )
+        .order(
+          "expires_at",
+          {
+            ascending: false
+          }
+        )
+        .limit(1)
+        .maybeSingle();
+
+
+    /*
+       -----------------------------------------------------
+       SUBSCRIPTION QUERY FAILED
+       -----------------------------------------------------
+    */
+
+    if (
+      subscriptionError
+    ) {
+
+      console.warn(
+        "MarineCalc: Subscription expiry lookup failed.",
+        subscriptionError
+      );
+
+
+      /*
+         If cached PRO exists, allow offline operation.
+      */
+
+      if (
+        hasValidOfflineProAccess(
+          user.id
+        )
+      ) {
+
+        showOfflineProMode();
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+       =====================================================
+       STEP 4 — CACHE PRO AUTHORIZATION
+       =====================================================
+    */
+
+    if (
+      subscription &&
+      subscription.expires_at
+    ) {
+
+      try {
+
+        localStorage.setItem(
+          "marinecalc_offline_pro",
+          JSON.stringify({
+
+            userId:
+              user.id,
+
+            email:
+              user.email || "",
+
+            expiresAt:
+              subscription.expires_at,
+
+            verifiedAt:
+              new Date().toISOString()
+
+          })
+        );
+
+
+        console.log(
+          "MarineCalc PRO access confirmed and cached for offline use."
+        );
+
+
+      } catch (cacheError) {
+
+        console.warn(
+          "MarineCalc: Unable to cache PRO authorization.",
+          cacheError
+        );
+
+      }
+
+    }
+
+
+    /*
+       =====================================================
+       STEP 5 — ONLINE PRO ACCESS
+       =====================================================
+    */
+
+    enableProCalculator();
+
 
     console.log(
       "MarineCalc PRO access confirmed."
@@ -645,11 +1169,47 @@ async function checkProAccess() {
 
   } catch (error) {
 
-    console.error(
-      "PRO access error:",
+    /*
+       =====================================================
+       FINAL FALLBACK
+       =====================================================
+    */
+
+    console.warn(
+      "MarineCalc: Online PRO verification failed.",
       error
     );
 
+
+    /*
+       CRITICAL:
+
+       If Supabase is unreachable, use the cached
+       authorization and UNLOCK the calculator.
+    */
+
+    if (
+      hasValidOfflineProAccess(
+				user.id
+			)
+    ) {
+
+      console.log(
+        "MarineCalc PRO access confirmed from cached authorization."
+      );
+
+
+      showOfflineProMode();
+
+
+      return;
+
+    }
+
+
+    /*
+       No valid cached PRO.
+    */
 
     showProPreview();
 
@@ -666,18 +1226,66 @@ checkProAccess();
 
 
 /* =========================================================
+   NETWORK STATE HANDLING
+   ========================================================= */
+
+window.addEventListener(
+  "offline",
+  () => {
+
+    console.log(
+      "MarineCalc: Network connection lost."
+    );
+
+
+    if (
+      hasValidOfflineProAccess()
+    ) {
+
+      showOfflineProMode();
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "online",
+  () => {
+
+    console.log(
+      "MarineCalc: Network connection restored."
+    );
+
+
+    /*
+       Re-verify PRO status when connection returns.
+    */
+
+    checkProAccess();
+
+  }
+);
+
+
+/* =========================================================
    MARINECALC
    NOON CALCULATION
    ========================================================= */
 
 let calculatedTotalRevolution = null;
+
 let calculatedAverageRpm = null;
 
 let calculatedConstantRev = null;
 
 let selectedConstantRev = null;
+
 let calculatedConstantRpm = null;
+
 let calculatedPropellerDistance = null;
+
 let calculatedPropellerSpeed = null;
 
 
@@ -686,27 +1294,51 @@ let calculatedPropellerSpeed = null;
    ========================================================= */
 
 function numberValue(id) {
-  return Number(document.getElementById(id).value);
+
+  return Number(
+    document.getElementById(id).value
+  );
+
 }
 
 
 function isBlank(id) {
-  return document.getElementById(id).value.trim() === "";
+
+  return (
+    document
+      .getElementById(id)
+      .value
+      .trim() === ""
+  );
+
 }
 
 
 function setText(id, value) {
-  document.getElementById(id).textContent = value;
+
+  document
+    .getElementById(id)
+    .textContent =
+    value;
+
 }
 
 
 function setError(id, message) {
-  document.getElementById(id).textContent = message;
+
+  document
+    .getElementById(id)
+    .textContent =
+    message;
+
 }
 
 
 function format(value, decimals) {
-  return Number(value).toFixed(decimals);
+
+  return Number(value)
+    .toFixed(decimals);
+
 }
 
 
@@ -716,7 +1348,11 @@ function format(value, decimals) {
 
 function calculateRPM() {
 
-  setError("rpmError", "");
+  setError(
+    "rpmError",
+    ""
+  );
+
 
   if (
     isBlank("counterPrevious") ||
@@ -730,12 +1366,26 @@ function calculateRPM() {
     );
 
     return;
+
   }
 
 
-  const previous = numberValue("counterPrevious");
-  const present = numberValue("counterPresent");
-  const time = numberValue("runningTime");
+  const previous =
+    numberValue(
+      "counterPrevious"
+    );
+
+
+  const present =
+    numberValue(
+      "counterPresent"
+    );
+
+
+  const time =
+    numberValue(
+      "runningTime"
+    );
 
 
   if (
@@ -750,10 +1400,13 @@ function calculateRPM() {
     );
 
     return;
+
   }
 
 
-  if (present < previous) {
+  if (
+    present < previous
+  ) {
 
     setError(
       "rpmError",
@@ -761,10 +1414,13 @@ function calculateRPM() {
     );
 
     return;
+
   }
 
 
-  if (time <= 0) {
+  if (
+    time <= 0
+  ) {
 
     setError(
       "rpmError",
@@ -772,6 +1428,7 @@ function calculateRPM() {
     );
 
     return;
+
   }
 
 
@@ -786,20 +1443,24 @@ function calculateRPM() {
 
   setText(
     "totalRevolution",
-    calculatedTotalRevolution.toFixed(0)
+    calculatedTotalRevolution
+      .toFixed(0)
   );
 
 
   setText(
     "averageRpm",
-    calculatedAverageRpm.toFixed(2)
+    calculatedAverageRpm
+      .toFixed(2)
   );
 
 
   updateCarriedValues();
 
 
-  document.getElementById("rpmAudit").innerHTML = `
+  document.getElementById(
+    "rpmAudit"
+  ).innerHTML = `
 
     <div class="audit-step">
 
@@ -845,6 +1506,7 @@ function calculateRPM() {
     </div>
 
   `;
+
 }
 
 
@@ -854,10 +1516,15 @@ function calculateRPM() {
 
 function calculateConstant() {
 
-  setError("constantError", "");
+  setError(
+    "constantError",
+    ""
+  );
 
 
-  if (isBlank("propellerPitch")) {
+  if (
+    isBlank("propellerPitch")
+  ) {
 
     setError(
       "constantError",
@@ -865,10 +1532,14 @@ function calculateConstant() {
     );
 
     return;
+
   }
 
 
-  const pitchMm = numberValue("propellerPitch");
+  const pitchMm =
+    numberValue(
+      "propellerPitch"
+    );
 
 
   if (
@@ -882,6 +1553,7 @@ function calculateConstant() {
     );
 
     return;
+
   }
 
 
@@ -895,14 +1567,17 @@ function calculateConstant() {
 
   setText(
     "calculatedConstantRev",
-    calculatedConstantRev.toFixed(10)
+    calculatedConstantRev
+      .toFixed(10)
   );
 
 
   updateCarriedValues();
 
 
-  document.getElementById("constantAudit").innerHTML = `
+  document.getElementById(
+    "constantAudit"
+  ).innerHTML = `
 
     <div class="audit-step">
 
@@ -946,6 +1621,7 @@ function calculateConstant() {
     </div>
 
   `;
+
 }
 
 
@@ -955,18 +1631,22 @@ function calculateConstant() {
 
 function getConstantSource() {
 
-  return document.querySelector(
-    'input[name="constantSource"]:checked'
-  ).value;
+  return document
+    .querySelector(
+      'input[name="constantSource"]:checked'
+    )
+    .value;
 
 }
 
 
 function getSpeedDistanceSource() {
 
-  return document.querySelector(
-    'input[name="speedDistanceSource"]:checked'
-  ).value;
+  return document
+    .querySelector(
+      'input[name="speedDistanceSource"]:checked'
+    )
+    .value;
 
 }
 
@@ -977,13 +1657,13 @@ function getSelectedConstant() {
     getConstantSource();
 
 
-  /*
-     USE CALCULATED CONSTANT
-  */
+  if (
+    source === "calculated"
+  ) {
 
-  if (source === "calculated") {
-
-    if (calculatedConstantRev === null) {
+    if (
+      calculatedConstantRev === null
+    ) {
 
       setError(
         "propellerError",
@@ -994,16 +1674,15 @@ function getSelectedConstant() {
 
     }
 
+
     return calculatedConstantRev;
 
   }
 
 
-  /*
-     USE EXISTING CONSTANT
-  */
-
-  if (isBlank("existingConstantRev")) {
+  if (
+    isBlank("existingConstantRev")
+  ) {
 
     setError(
       "propellerError",
@@ -1016,7 +1695,9 @@ function getSelectedConstant() {
 
 
   const existing =
-    numberValue("existingConstantRev");
+    numberValue(
+      "existingConstantRev"
+    );
 
 
   if (
@@ -1045,7 +1726,10 @@ function getSelectedConstant() {
 
 function calculatePropeller() {
 
-  setError("propellerError", "");
+  setError(
+    "propellerError",
+    ""
+  );
 
 
   if (
@@ -1067,31 +1751,23 @@ function calculatePropeller() {
     getSelectedConstant();
 
 
-  if (constantRev === null) {
+  if (
+    constantRev === null
+  ) {
+
     return;
+
   }
 
-
-  /*
-     ConstantREV → ConstantRPM
-  */
 
   const constantRpm =
     constantRev * 60;
 
 
-  /*
-     Propeller Distance
-  */
-
   const distance =
     constantRev *
     calculatedTotalRevolution;
 
-
-  /*
-     Propeller Speed
-  */
 
   const speed =
     constantRpm *
@@ -1101,47 +1777,51 @@ function calculatePropeller() {
   selectedConstantRev =
     constantRev;
 
+
   calculatedConstantRpm =
     constantRpm;
 
+
   calculatedPropellerDistance =
     distance;
+
 
   calculatedPropellerSpeed =
     speed;
 
 
-  /*
-     DISPLAY RESULTS
-  */
-
   setText(
     "selectedConstantRev",
-    constantRev.toFixed(10)
+    constantRev
+      .toFixed(10)
   );
 
 
   setText(
     "constantRev",
-    constantRev.toFixed(10)
+    constantRev
+      .toFixed(10)
   );
 
 
   setText(
     "constantRpm",
-    constantRpm.toFixed(10)
+    constantRpm
+      .toFixed(10)
   );
 
 
   setText(
     "propellerDistance",
-    distance.toFixed(2)
+    distance
+      .toFixed(2)
   );
 
 
   setText(
     "propellerSpeed",
-    speed.toFixed(2)
+    speed
+      .toFixed(2)
   );
 
 
@@ -1154,11 +1834,9 @@ function calculatePropeller() {
       : "Calculated ConstantREV from Propeller Constant section";
 
 
-  /*
-     AUDIT TRAIL
-  */
-
-  document.getElementById("propellerAudit").innerHTML = `
+  document.getElementById(
+    "propellerAudit"
+  ).innerHTML = `
 
     <div class="audit-step">
 
@@ -1251,6 +1929,7 @@ function calculatePropeller() {
     </div>
 
   `;
+
 }
 
 
@@ -1260,7 +1939,9 @@ function calculatePropeller() {
 
 function updateCarriedValues() {
 
-  if (calculatedTotalRevolution !== null) {
+  if (
+    calculatedTotalRevolution !== null
+  ) {
 
     setText(
       "propTotalRevolution",
@@ -1277,7 +1958,9 @@ function updateCarriedValues() {
   }
 
 
-  if (calculatedAverageRpm !== null) {
+  if (
+    calculatedAverageRpm !== null
+  ) {
 
     setText(
       "propAverageRpm",
@@ -1294,11 +1977,14 @@ function updateCarriedValues() {
   }
 
 
-  if (selectedConstantRev !== null) {
+  if (
+    selectedConstantRev !== null
+  ) {
 
     setText(
       "selectedConstantRev",
-      selectedConstantRev.toFixed(10)
+      selectedConstantRev
+        .toFixed(10)
     );
 
   } else {
@@ -1311,7 +1997,9 @@ function updateCarriedValues() {
   }
 
 
-  if (calculatedPropellerDistance !== null) {
+  if (
+    calculatedPropellerDistance !== null
+  ) {
 
     setText(
       "speedPropellerDistance",
@@ -1328,7 +2016,9 @@ function updateCarriedValues() {
   }
 
 
-  if (calculatedPropellerSpeed !== null) {
+  if (
+    calculatedPropellerSpeed !== null
+  ) {
 
     setText(
       "speedPropellerSpeed",
@@ -1353,7 +2043,10 @@ function updateCarriedValues() {
 
 function calculateSpeedSlip() {
 
-  setError("speedSlipError", "");
+  setError(
+    "speedSlipError",
+    ""
+  );
 
 
   if (
@@ -1371,7 +2064,9 @@ function calculateSpeedSlip() {
   }
 
 
-  if (calculatedPropellerSpeed === null) {
+  if (
+    calculatedPropellerSpeed === null
+  ) {
 
     setError(
       "speedSlipError",
@@ -1383,7 +2078,9 @@ function calculateSpeedSlip() {
   }
 
 
-  if (isBlank("runningTime")) {
+  if (
+    isBlank("runningTime")
+  ) {
 
     setError(
       "speedSlipError",
@@ -1396,13 +2093,21 @@ function calculateSpeedSlip() {
 
 
   const logDistanceValue =
-    numberValue("logDistance");
+    numberValue(
+      "logDistance"
+    );
+
 
   const ogDistanceValue =
-    numberValue("ogDistance");
+    numberValue(
+      "ogDistance"
+    );
+
 
   const time =
-    numberValue("runningTime");
+    numberValue(
+      "runningTime"
+    );
 
 
   if (
@@ -1436,7 +2141,9 @@ function calculateSpeedSlip() {
   }
 
 
-  if (time <= 0) {
+  if (
+    time <= 0
+  ) {
 
     setError(
       "speedSlipError",
@@ -1450,10 +2157,6 @@ function calculateSpeedSlip() {
 
   let propellerDistanceForSlip;
 
-
-  /*
-     CALCULATED OR MANUAL PROPELLER DISTANCE
-  */
 
   if (
     getSpeedDistanceSource() === "manual"
@@ -1509,6 +2212,7 @@ function calculateSpeedSlip() {
     ).textContent =
       "manually entered by user";
 
+
   } else {
 
     if (
@@ -1543,20 +2247,13 @@ function calculateSpeedSlip() {
   }
 
 
-  /*
-     LOG / OG SPEED
-  */
-
   const logSpeedValue =
     logDistanceValue / time;
+
 
   const ogSpeedValue =
     ogDistanceValue / time;
 
-
-  /*
-     SLIP BY DISTANCE
-  */
 
   const slipLogDistanceValue =
     (
@@ -1578,10 +2275,6 @@ function calculateSpeedSlip() {
     ) * 100;
 
 
-  /*
-     SLIP BY SPEED
-  */
-
   const slipLogSpeedValue =
     (
       (
@@ -1602,10 +2295,6 @@ function calculateSpeedSlip() {
     ) * 100;
 
 
-  /*
-     DISPLAY SPEED RESULTS
-  */
-
   setText(
     "logSpeed",
     logSpeedValue.toFixed(2)
@@ -1623,10 +2312,6 @@ function calculateSpeedSlip() {
     calculatedPropellerSpeed.toFixed(2)
   );
 
-
-  /*
-     DISPLAY SLIP RESULTS
-  */
 
   setText(
     "slipLogDistance",
@@ -1657,10 +2342,6 @@ function calculateSpeedSlip() {
       ? "Manual Propeller Distance"
       : "Calculated Propeller Distance";
 
-
-  /*
-     AUDIT TRAIL
-  */
 
   document.getElementById(
     "speedSlipAudit"
@@ -1831,6 +2512,7 @@ function calculateSpeedSlip() {
     </div>
 
   `;
+
 }
 
 
@@ -1842,25 +2524,27 @@ document
   .querySelectorAll(
     'input[name="constantSource"]'
   )
-  .forEach((radio) => {
+  .forEach(
+    (radio) => {
 
-    radio.addEventListener(
-      "change",
-      function () {
+      radio.addEventListener(
+        "change",
+        function () {
 
-        document
-          .getElementById(
-            "existingConstantContainer"
-          )
-          .classList.toggle(
-            "hidden",
-            this.value !== "existing"
-          );
+          document
+            .getElementById(
+              "existingConstantContainer"
+            )
+            .classList.toggle(
+              "hidden",
+              this.value !== "existing"
+            );
 
-      }
-    );
+        }
+      );
 
-  });
+    }
+  );
 
 
 /* =========================================================
@@ -1871,25 +2555,27 @@ document
   .querySelectorAll(
     'input[name="speedDistanceSource"]'
   )
-  .forEach((radio) => {
+  .forEach(
+    (radio) => {
 
-    radio.addEventListener(
-      "change",
-      function () {
+      radio.addEventListener(
+        "change",
+        function () {
 
-        document
-          .getElementById(
-            "manualSpeedDistanceContainer"
-          )
-          .classList.toggle(
-            "hidden",
-            this.value !== "manual"
-          );
+          document
+            .getElementById(
+              "manualSpeedDistanceContainer"
+            )
+            .classList.toggle(
+              "hidden",
+              this.value !== "manual"
+            );
 
-      }
-    );
+        }
+      );
 
-  });
+    }
+  );
 
 
 /* =========================================================
@@ -1944,8 +2630,12 @@ document.addEventListener(
   "keydown",
   (event) => {
 
-    if (event.key !== "Enter") {
+    if (
+      event.key !== "Enter"
+    ) {
+
       return;
+
     }
 
 
@@ -1958,28 +2648,37 @@ document.addEventListener(
         "counterPrevious",
         "counterPresent",
         "runningTime"
-      ].includes(active.id)
+      ].includes(
+        active.id
+      )
     ) {
 
       calculateRPM();
 
+
     } else if (
-      active.id === "propellerPitch"
+      active.id ===
+      "propellerPitch"
     ) {
 
       calculateConstant();
 
+
     } else if (
-      active.id === "existingConstantRev"
+      active.id ===
+      "existingConstantRev"
     ) {
 
       calculatePropeller();
 
+
     } else if (
       active.id ===
       "manualSpeedPropellerDistance" ||
-      active.id === "logDistance" ||
-      active.id === "ogDistance"
+      active.id ===
+      "logDistance" ||
+      active.id ===
+      "ogDistance"
     ) {
 
       calculateSpeedSlip();

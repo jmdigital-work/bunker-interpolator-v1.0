@@ -1,31 +1,8 @@
 /* =========================================================
    MARINECALC
    BUNKER (MT) CALCULATOR
-   PRO ACCESS + PREVIEW VERSION
+   OFFLINE-SAFE VERSION
    ========================================================= */
-
-
-/* =========================================================
-   SUPABASE CONFIGURATION
-   ========================================================= */
-
-const SUPABASE_URL =
-  "https://lasdhuckmemuukiqovyw.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
-
-
-const {
-  createClient
-} = supabase;
-
-
-const supabaseClient =
-  createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
 
 
 /* =========================================================
@@ -90,302 +67,971 @@ const auditMassResult =
 
 
 /* =========================================================
-   CALCULATOR CARD
+   BASIC ELEMENT CHECK
    ========================================================= */
 
-const calculatorCard =
-  document.querySelector(".calculator-card");
+console.log(
+  "MarineCalc: Bunker elements loaded."
+);
 
 
 /* =========================================================
-   PRO PREVIEW SAMPLE DATA
-   =========================================================
-
-   These values are ONLY used when the user does not
-   have an active PRO subscription.
-
-   They are clearly presented as demonstration data.
+   ERROR FUNCTIONS
    ========================================================= */
 
-const PREVIEW_DATA = {
-  volume: "2044.33",
-  density: "924.7",
-  temperature: "45",
-  coefficient: "0.00064"
-};
+function showError(message) {
 
+  if (errorMessage) {
 
-/* =========================================================
-   PRO PREVIEW STYLES
-   ========================================================= */
+    errorMessage.textContent =
+      message;
 
-function addPreviewStyles() {
-
-  if (
-    document.getElementById(
-      "marinecalc-preview-styles"
-    )
-  ) {
-    return;
   }
 
+}
 
-  const style =
-    document.createElement("style");
 
+function clearError() {
 
-  style.id =
-    "marinecalc-preview-styles";
+  if (errorMessage) {
 
+    errorMessage.textContent =
+      "";
 
-  style.textContent = `
-
-    /* =====================================================
-       PRO PREVIEW BANNER
-       ===================================================== */
-
-    .marinecalc-preview-banner {
-
-      margin-bottom: 20px;
-
-      padding: 16px 17px;
-
-      border:
-        1px solid
-        #B9D3DF;
-
-      border-radius: 10px;
-
-      background:
-        #EAF4F8;
-
-    }
-
-
-    .marinecalc-preview-banner strong {
-
-      display: block;
-
-      margin-bottom: 6px;
-
-      color:
-        #003B5C;
-
-      font-size: 12px;
-
-      font-weight: 900;
-
-      letter-spacing: .5px;
-
-    }
-
-
-    .marinecalc-preview-banner p {
-
-      margin:
-        0 0 13px;
-
-      color:
-        #496474;
-
-      font-size: 10px;
-
-      line-height: 1.55;
-
-    }
-
-
-    /* =====================================================
-       PREVIEW ACTIONS
-       ===================================================== */
-
-    .marinecalc-preview-actions {
-
-      display: flex;
-
-      flex-wrap: wrap;
-
-      gap: 8px;
-
-    }
-
-
-    .marinecalc-preview-actions a {
-
-      display: inline-flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      min-height: 36px;
-
-      padding:
-        0 14px;
-
-      border-radius: 6px;
-
-      text-decoration: none;
-
-      font-size: 10px;
-
-      font-weight: 800;
-
-      letter-spacing: .3px;
-
-    }
-
-
-    /* =====================================================
-       GET PRO
-       ===================================================== */
-
-    .marinecalc-preview-pro {
-
-      background:
-        #176C8E;
-
-      color:
-        #FFFFFF;
-
-    }
-
-
-    .marinecalc-preview-pro:hover {
-
-      background:
-        #125B78;
-
-    }
-
-
-    /* =====================================================
-       LOGIN
-       ===================================================== */
-
-    .marinecalc-preview-login {
-
-      border:
-        1px solid
-        #176C8E;
-
-      background:
-        #FFFFFF;
-
-      color:
-        #176C8E;
-
-    }
-
-
-    .marinecalc-preview-login:hover {
-
-      background:
-        #F2F8FA;
-
-    }
-
-
-    /* =====================================================
-       PREVIEW DATA LABEL
-       ===================================================== */
-
-    .marinecalc-preview-label {
-
-      margin-bottom: 14px;
-
-      padding:
-        7px 10px;
-
-      border-radius: 5px;
-
-      background:
-        #243E52;
-
-      color:
-        #DCEAF1;
-
-      font-size: 9px;
-
-      font-weight: 800;
-
-      letter-spacing: .5px;
-
-    }
-
-
-    .marinecalc-preview-label span {
-
-      color:
-        #FFFFFF;
-
-    }
-
-
-    /* =====================================================
-       DISABLED PREVIEW CONTROLS
-       ===================================================== */
-
-    .marinecalc-preview-disabled {
-
-      opacity:
-        .82;
-
-    }
-
-  `;
-
-
-  document.head.appendChild(style);
+  }
 
 }
 
 
 /* =========================================================
-   SHOW PRO PREVIEW
+   CALCULATE BUNKER MASS
    ========================================================= */
 
+function calculateBunkerMass() {
+
+  console.log(
+    "MarineCalc: calculateBunkerMass() started."
+  );
+
+
+  clearError();
+
+
+  /* =====================================================
+     CHECK ELEMENTS
+     ===================================================== */
+
+  if (
+    !actualVolume ||
+    !density15 ||
+    !temperature ||
+    !coefficient
+  ) {
+
+    showError(
+      "Calculator elements could not be found."
+    );
+
+    console.error(
+      "MarineCalc: Calculator HTML elements missing."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     REQUIRED FIELDS
+     ===================================================== */
+
+  if (
+    actualVolume.value === "" ||
+    density15.value === "" ||
+    temperature.value === "" ||
+    coefficient.value === ""
+  ) {
+
+    showError(
+      "Please complete all required fields."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     CONVERT INPUTS
+     ===================================================== */
+
+  const volume =
+    Number(
+      actualVolume.value
+    );
+
+  const density =
+    Number(
+      density15.value
+    );
+
+  const temp =
+    Number(
+      temperature.value
+    );
+
+  const correction =
+    Number(
+      coefficient.value
+    );
+
+
+  /* =====================================================
+     VALIDATE VOLUME
+     ===================================================== */
+
+  if (
+    !Number.isFinite(volume) ||
+    volume <= 0
+  ) {
+
+    showError(
+      "Actual Volume must be greater than zero."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     VALIDATE DENSITY
+     ===================================================== */
+
+  if (
+    !Number.isFinite(density) ||
+    density <= 0
+  ) {
+
+    showError(
+      "Density @ 15°C must be greater than zero."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     VALIDATE TEMPERATURE
+     ===================================================== */
+
+  if (
+    !Number.isFinite(temp)
+  ) {
+
+    showError(
+      "Please enter a valid fuel temperature."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     VALIDATE COEFFICIENT
+     ===================================================== */
+
+  if (
+    !Number.isFinite(correction) ||
+    correction < 0
+  ) {
+
+    showError(
+      "Correction Coefficient must be zero or greater."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     TEMPERATURE-CORRECTED DENSITY
+
+     Density ×
+     [1 − {(T − 15) × C}]
+     ===================================================== */
+
+  const corrected =
+    density *
+    (
+      1 -
+      (
+        (temp - 15) *
+        correction
+      )
+    );
+
+
+  /* =====================================================
+     VALIDATE CORRECTED DENSITY
+     ===================================================== */
+
+  if (
+    !Number.isFinite(corrected) ||
+    corrected <= 0
+  ) {
+
+    showError(
+      "The calculated density is not valid. Check the inputs and coefficient."
+    );
+
+    return;
+
+  }
+
+
+  /* =====================================================
+     BUNKER MASS
+
+     Actual Volume × Corrected Density ÷ 1000
+     ===================================================== */
+
+  const massMT =
+    volume *
+    corrected /
+    1000;
+
+
+  /* =====================================================
+     DISPLAY RESULTS
+     ===================================================== */
+
+  if (correctedDensity) {
+
+    correctedDensity.textContent =
+      corrected.toFixed(4);
+
+  }
+
+
+  if (bunkerMass) {
+
+    bunkerMass.textContent =
+      massMT.toFixed(4);
+
+  }
+
+
+  /* =====================================================
+     AUDIT TRAIL
+     ===================================================== */
+
+  if (auditDensity) {
+
+    auditDensity.textContent =
+      density.toFixed(1) +
+      " kg/m³";
+
+  }
+
+
+  if (auditTemperature) {
+
+    auditTemperature.textContent =
+      temp.toFixed(2) +
+      " °C";
+
+  }
+
+
+  if (auditCoefficient) {
+
+    auditCoefficient.textContent =
+      correction;
+
+  }
+
+
+  if (auditVolume) {
+
+    auditVolume.textContent =
+      volume.toFixed(2) +
+      " m³";
+
+  }
+
+
+  if (auditTcdCalculation) {
+
+    auditTcdCalculation.textContent =
+      density.toFixed(1) +
+      " × [1 − {(" +
+      temp.toFixed(2) +
+      " − 15) × " +
+      correction +
+      "}]";
+
+  }
+
+
+  if (auditTcdResult) {
+
+    auditTcdResult.textContent =
+      corrected.toFixed(4);
+
+  }
+
+
+  if (auditMassCalculation) {
+
+    auditMassCalculation.textContent =
+      volume.toFixed(2) +
+      " × " +
+      corrected.toFixed(4) +
+      " ÷ 1000";
+
+  }
+
+
+  if (auditMassResult) {
+
+    auditMassResult.textContent =
+      massMT.toFixed(4);
+
+  }
+
+
+  console.log(
+    "MarineCalc: Calculation successful.",
+    {
+      volume: volume,
+      density15: density,
+      temperature: temp,
+      coefficient: correction,
+      correctedDensity: corrected,
+      bunkerMass: massMT
+    }
+  );
+
+}
+
+
+/* =========================================================
+   MAKE CALCULATOR FUNCTION AVAILABLE
+   =========================================================
+
+   IMPORTANT:
+   This is intentionally assigned to window.
+
+   That means the function can be checked from
+   the browser console with:
+
+   typeof calculateBunkerMass
+
+   and should return:
+
+   "function"
+   ========================================================= */
+
+window.calculateBunkerMass =
+  calculateBunkerMass;
+
+
+/* =========================================================
+   CLEAR CALCULATOR
+   ========================================================= */
+
+function clearCalculator() {
+
+  if (actualVolume) {
+
+    actualVolume.value =
+      "";
+
+  }
+
+  if (density15) {
+
+    density15.value =
+      "";
+
+  }
+
+  if (temperature) {
+
+    temperature.value =
+      "";
+
+  }
+
+  if (coefficient) {
+
+    coefficient.value =
+      "0.00064";
+
+  }
+
+
+  if (correctedDensity) {
+
+    correctedDensity.textContent =
+      "—";
+
+  }
+
+  if (bunkerMass) {
+
+    bunkerMass.textContent =
+      "—";
+
+  }
+
+
+  if (auditDensity) {
+
+    auditDensity.textContent =
+      "—";
+
+  }
+
+  if (auditTemperature) {
+
+    auditTemperature.textContent =
+      "—";
+
+  }
+
+  if (auditCoefficient) {
+
+    auditCoefficient.textContent =
+      "—";
+
+  }
+
+  if (auditVolume) {
+
+    auditVolume.textContent =
+      "—";
+
+  }
+
+  if (auditTcdCalculation) {
+
+    auditTcdCalculation.textContent =
+      "—";
+
+  }
+
+  if (auditTcdResult) {
+
+    auditTcdResult.textContent =
+      "—";
+
+  }
+
+  if (auditMassCalculation) {
+
+    auditMassCalculation.textContent =
+      "—";
+
+  }
+
+  if (auditMassResult) {
+
+    auditMassResult.textContent =
+      "—";
+
+  }
+
+
+  clearError();
+
+
+  console.log(
+    "MarineCalc: Calculator cleared."
+  );
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+   ========================================================= */
+
+if (calculateButton) {
+
+  calculateButton.addEventListener(
+    "click",
+    calculateBunkerMass
+  );
+
+}
+
+
+if (clearButton) {
+
+  clearButton.addEventListener(
+    "click",
+    clearCalculator
+  );
+
+}
+
+
+/* =========================================================
+   ENTER KEY
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (
+      event.key === "Enter" &&
+      event.target.tagName !== "TEXTAREA"
+    ) {
+
+      calculateBunkerMass();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SUPABASE / PRO SYSTEM
+   =========================================================
+
+   IMPORTANT:
+
+   Supabase is OPTIONAL here.
+
+   The calculator MUST NOT stop working
+   just because Supabase is unavailable.
+   ========================================================= */
+
+let supabaseClient = null;
+
+
+const SUPABASE_URL =
+  "https://lasdhuckmemuukiqovyw.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
+
+
+function initializeSupabase() {
+
+  try {
+
+    if (
+      typeof window.supabase ===
+      "undefined"
+    ) {
+
+      console.warn(
+        "MarineCalc: Supabase library unavailable. Calculator will continue working offline."
+      );
+
+      return false;
+
+    }
+
+
+    if (
+      typeof window.supabase.createClient !==
+      "function"
+    ) {
+
+      console.warn(
+        "MarineCalc: Supabase createClient unavailable."
+      );
+
+      return false;
+
+    }
+
+
+    supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    console.log(
+      "MarineCalc: Supabase initialized."
+    );
+
+
+    return true;
+
+  } catch (error) {
+
+    console.warn(
+      "MarineCalc: Supabase initialization failed. Calculator will continue working.",
+      error
+    );
+
+    supabaseClient =
+      null;
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   OFFLINE PRO HELPERS
+   ========================================================= */
+
+function getOfflineProAccess() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        "marinecalc_offline_pro"
+      );
+
+
+    if (!raw) {
+
+      return null;
+
+    }
+
+
+    return JSON.parse(raw);
+
+  } catch (error) {
+
+    console.warn(
+      "MarineCalc: Could not read offline PRO authorization.",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+function hasValidOfflineProAccess(
+  userId = null
+) {
+
+  const authorization =
+    getOfflineProAccess();
+
+
+  if (!authorization) {
+
+    return false;
+
+  }
+
+
+  if (
+    userId &&
+    authorization.userId &&
+    authorization.userId !== userId
+  ) {
+
+    return false;
+
+  }
+
+
+  if (
+    authorization.expiresAt
+  ) {
+
+    const expiry =
+      new Date(
+        authorization.expiresAt
+      ).getTime();
+
+
+    if (
+      !Number.isFinite(expiry) ||
+      Date.now() >= expiry
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   SAVE OFFLINE PRO ACCESS
+   ========================================================= */
+
+function saveOfflineProAccess(
+  user,
+  expiresAt
+) {
+
+  try {
+
+    const authorization = {
+
+      userId:
+        user?.id || null,
+
+      email:
+        user?.email || null,
+
+      expiresAt:
+        expiresAt || null,
+
+      verifiedAt:
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      "marinecalc_offline_pro",
+      JSON.stringify(
+        authorization
+      )
+    );
+
+
+    return true;
+
+  } catch (error) {
+
+    console.warn(
+      "MarineCalc: Could not save offline PRO authorization.",
+      error
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   CLEAR OFFLINE PRO
+   ========================================================= */
+
+function clearOfflineProAccess() {
+
+  try {
+
+    localStorage.removeItem(
+      "marinecalc_offline_pro"
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "MarineCalc: Could not clear offline PRO authorization.",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   OFFLINE PRO STATUS
+   ========================================================= */
+
+function getOfflineProStatus() {
+
+  const authorization =
+    getOfflineProAccess();
+
+
+  return {
+
+    active:
+      hasValidOfflineProAccess(),
+
+    authorization:
+      authorization
+
+  };
+
+}
+
+
+window.getOfflineProStatus =
+  getOfflineProStatus;
+
+
+/* =========================================================
+   OFFLINE PRO BANNER
+   ========================================================= */
+
+function showOfflineProMode() {
+
+  if (
+    document.getElementById(
+      "marinecalcOfflineProBanner"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const banner =
+    document.createElement("div");
+
+
+  banner.id =
+    "marinecalcOfflineProBanner";
+
+
+  banner.style.cssText = `
+    margin-bottom:20px;
+    padding:16px 17px;
+    border:1px solid #B9D3DF;
+    border-radius:10px;
+    background:#EAF4F8;
+  `;
+
+
+  banner.innerHTML = `
+
+    <strong
+      style="
+        display:block;
+        margin-bottom:6px;
+        color:#003B5C;
+        font-size:12px;
+        font-weight:900;
+      "
+    >
+      🟡 OFFLINE MODE — PRO VERIFIED
+    </strong>
+
+    <p
+      style="
+        margin:0;
+        color:#496474;
+        font-size:10px;
+        line-height:1.55;
+      "
+    >
+      MarineCalc PRO access was previously verified
+      online. You can continue using this calculator
+      while offline.
+    </p>
+
+  `;
+
+
+  const card =
+    document.querySelector(
+      ".calculator-card"
+    );
+
+
+  if (card) {
+
+    card.prepend(
+      banner
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PRO PREVIEW
+   ========================================================= */
+
+const PREVIEW_DATA = {
+
+  volume:
+    "2044.33",
+
+  density:
+    "924.7",
+
+  temperature:
+    "45",
+
+  coefficient:
+    "0.00064"
+
+};
+
+
 function showProPreview() {
-
-  addPreviewStyles();
-
-
-  /*
-     Prevent duplicate preview banners.
-  */
 
   if (
     document.getElementById(
       "marinecalcPreviewBanner"
     )
   ) {
+
     return;
+
+  }
+
+
+  const card =
+    document.querySelector(
+      ".calculator-card"
+    );
+
+
+  if (!card) {
+
+    return;
+
   }
 
 
   /*
-     Disable calculator controls.
+     Disable controls.
   */
 
-  document
+  card
     .querySelectorAll(
-      ".calculator-card input, .calculator-card button"
+      "input, button"
     )
     .forEach(
       element => {
 
-        element.disabled = true;
+        element.disabled =
+          true;
 
-        element.classList.add(
-          "marinecalc-preview-disabled"
-        );
+        element.style.opacity =
+          "0.82";
 
       }
     );
 
 
   /*
-     Create preview banner.
+     Banner.
   */
 
   const banner =
@@ -396,35 +1042,86 @@ function showProPreview() {
     "marinecalcPreviewBanner";
 
 
-  banner.className =
-    "marinecalc-preview-banner";
+  banner.style.cssText = `
+    margin-bottom:20px;
+    padding:16px 17px;
+    border:1px solid #B9D3DF;
+    border-radius:10px;
+    background:#EAF4F8;
+  `;
 
 
   banner.innerHTML = `
 
-    <strong>
+    <strong
+      style="
+        display:block;
+        margin-bottom:6px;
+        color:#003B5C;
+        font-size:12px;
+        font-weight:900;
+      "
+    >
       🔒 MARINECALC PRO PREVIEW
     </strong>
 
-    <p>
+    <p
+      style="
+        margin:0 0 13px;
+        color:#496474;
+        font-size:10px;
+        line-height:1.55;
+      "
+    >
       You're viewing a working demonstration of the
       Bunker (MT) Calculator. Sample data is shown for
       demonstration only. An active PRO subscription
       is required to enter your own vessel and fuel data.
     </p>
 
-    <div class="marinecalc-preview-actions">
+    <div
+      style="
+        display:flex;
+        gap:8px;
+        flex-wrap:wrap;
+      "
+    >
 
       <a
         href="../../pro/index.html"
-        class="marinecalc-preview-pro"
+        style="
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-height:36px;
+          padding:0 14px;
+          border-radius:6px;
+          background:#176C8E;
+          color:#FFFFFF;
+          text-decoration:none;
+          font-size:10px;
+          font-weight:800;
+        "
       >
         GET PRO — $9 / 1 YEAR
       </a>
 
       <a
         href="../../auth/index.html"
-        class="marinecalc-preview-login"
+        style="
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          min-height:36px;
+          padding:0 14px;
+          border-radius:6px;
+          border:1px solid #176C8E;
+          background:#FFFFFF;
+          color:#176C8E;
+          text-decoration:none;
+          font-size:10px;
+          font-weight:800;
+        "
       >
         LOGIN / MY ACCOUNT
       </a>
@@ -434,53 +1131,13 @@ function showProPreview() {
   `;
 
 
-  /*
-     Put banner at top of calculator.
-  */
-
-  calculatorCard.prepend(
+  card.prepend(
     banner
   );
 
 
   /*
-     Add preview label immediately
-     above the calculator controls.
-  */
-
-  const previewLabel =
-    document.createElement("div");
-
-
-  previewLabel.className =
-    "marinecalc-preview-label";
-
-
-  previewLabel.innerHTML =
-    "<span>PREVIEW DATA</span> — Sample values";
-
-
-  /*
-     Find first calculator section.
-  */
-
-  const firstSection =
-    calculatorCard.querySelector(
-      ".section"
-    );
-
-
-  if (firstSection) {
-
-    firstSection.prepend(
-      previewLabel
-    );
-
-  }
-
-
-  /*
-     Load sample values.
+     Load preview values.
   */
 
   actualVolume.value =
@@ -497,7 +1154,11 @@ function showProPreview() {
 
 
   /*
-     Calculate the demonstration result.
+     IMPORTANT:
+
+     Calculate directly.
+
+     Do NOT depend on Supabase.
   */
 
   calculateBunkerMass();
@@ -506,16 +1167,36 @@ function showProPreview() {
 
 
 /* =========================================================
-   CHECK PRO ACCESS
+   PRO ACCESS CHECK
    ========================================================= */
 
 async function checkProAccess() {
 
-  try {
+  /*
+     If Supabase isn't available,
+     check offline authorization only.
+  */
 
-    /*
-       Check whether the user is logged in.
-    */
+  if (!supabaseClient) {
+
+    if (
+      hasValidOfflineProAccess()
+    ) {
+
+      showOfflineProMode();
+
+    } else {
+
+      showProPreview();
+
+    }
+
+    return;
+
+  }
+
+
+  try {
 
     const {
       data: sessionData,
@@ -526,44 +1207,47 @@ async function checkProAccess() {
         .getSession();
 
 
-    /*
-       Session error.
-       Treat as non-PRO and show preview.
-    */
-
     if (sessionError) {
 
-      console.error(
-        "Session error:",
+      console.warn(
+        "MarineCalc: Session check failed.",
         sessionError
       );
 
-      showProPreview();
+
+      if (
+        hasValidOfflineProAccess()
+      ) {
+
+        showOfflineProMode();
+
+      } else {
+
+        showProPreview();
+
+      }
 
       return;
+
     }
 
 
-    /*
-       User is not logged in.
-       Show preview mode.
-    */
+    const session =
+      sessionData?.session;
 
-    if (
-      !sessionData.session ||
-      !sessionData.session.user
-    ) {
+
+    const user =
+      session?.user;
+
+
+    if (!user) {
 
       showProPreview();
 
       return;
+
     }
 
-
-    /*
-       Ask Supabase whether the current
-       user has active PRO access.
-    */
 
     const {
       data: isPro,
@@ -573,44 +1257,87 @@ async function checkProAccess() {
         .rpc("is_pro");
 
 
-    /*
-       PRO check failed.
-       Fail safely into preview mode.
-    */
-
     if (proError) {
 
-      console.error(
-        "PRO access check error:",
+      console.warn(
+        "MarineCalc: Online PRO check failed.",
         proError
       );
 
-      showProPreview();
+
+      if (
+        hasValidOfflineProAccess(
+          user.id
+        )
+      ) {
+
+        showOfflineProMode();
+
+      } else {
+
+        showProPreview();
+
+      }
 
       return;
+
     }
 
-
-    /*
-       User does not have active PRO.
-       Show preview mode.
-    */
 
     if (!isPro) {
 
+      clearOfflineProAccess();
+
       showProPreview();
 
       return;
+
     }
 
 
     /*
-       User has active PRO.
+       User is PRO.
 
-       Do nothing.
-
-       Calculator remains fully enabled.
+       Try to obtain subscription expiry.
     */
+
+    const {
+      data: subscription,
+      error: subscriptionError
+    } =
+      await supabaseClient
+        .from("pro_subscriptions")
+        .select("expires_at")
+        .eq(
+          "user_id",
+          user.id
+        )
+        .eq(
+          "status",
+          "active"
+        )
+        .order(
+          "expires_at",
+          {
+            ascending:false
+          }
+        )
+        .limit(1)
+        .maybeSingle();
+
+
+    if (
+      !subscriptionError &&
+      subscription?.expires_at
+    ) {
+
+      saveOfflineProAccess(
+        user,
+        subscription.expires_at
+      );
+
+    }
+
 
     console.log(
       "MarineCalc PRO access confirmed."
@@ -619,399 +1346,54 @@ async function checkProAccess() {
 
   } catch (error) {
 
-    console.error(
-      "PRO access error:",
+    console.warn(
+      "MarineCalc: PRO verification failed.",
       error
     );
 
 
-    /*
-       Fail safely into preview mode.
-    */
-
-    showProPreview();
-
-  }
-
-}
-
-
-/* =========================================================
-   CALCULATE BUNKER MASS
-   ========================================================= */
-
-function calculateBunkerMass() {
-
-  clearError();
-
-
-  /* ---------------------------------------------
-     Required fields
-     --------------------------------------------- */
-
-  if (
-    actualVolume.value === "" ||
-    density15.value === "" ||
-    temperature.value === "" ||
-    coefficient.value === ""
-  ) {
-
-    showError(
-      "Please complete all required fields."
-    );
-
-    return;
-  }
-
-
-  /* ---------------------------------------------
-     Convert values to numbers
-     --------------------------------------------- */
-
-  const volume =
-    Number(actualVolume.value);
-
-  const density =
-    Number(density15.value);
-
-  const temp =
-    Number(temperature.value);
-
-  const correction =
-    Number(coefficient.value);
-
-
-  /* ---------------------------------------------
-     Validate volume
-     --------------------------------------------- */
-
-  if (
-    !Number.isFinite(volume) ||
-    volume <= 0
-  ) {
-
-    showError(
-      "Actual Volume must be greater than zero."
-    );
-
-    return;
-  }
-
-
-  /* ---------------------------------------------
-     Validate density
-     --------------------------------------------- */
-
-  if (
-    !Number.isFinite(density) ||
-    density <= 0
-  ) {
-
-    showError(
-      "Density @ 15°C must be greater than zero."
-    );
-
-    return;
-  }
-
-
-  /* ---------------------------------------------
-     Validate temperature
-     --------------------------------------------- */
-
-  if (
-    !Number.isFinite(temp)
-  ) {
-
-    showError(
-      "Please enter a valid fuel temperature."
-    );
-
-    return;
-  }
-
-
-  /* ---------------------------------------------
-     Validate coefficient
-     --------------------------------------------- */
-
-  if (
-    !Number.isFinite(correction) ||
-    correction < 0
-  ) {
-
-    showError(
-      "Correction Coefficient must be zero or greater."
-    );
-
-    return;
-  }
-
-
-  /* =================================================
-     TEMPERATURE-CORRECTED DENSITY
-
-     Formula:
-
-     Density @ 15°C
-     × [1 − {(T − 15) × C}]
-     ================================================= */
-
-  const corrected =
-    density *
-    (
-      1 -
-      (
-        (temp - 15) *
-        correction
-      )
-    );
-
-
-  /* ---------------------------------------------
-     Validate result
-     --------------------------------------------- */
-
-  if (
-    !Number.isFinite(corrected) ||
-    corrected <= 0
-  ) {
-
-    showError(
-      "The calculated density is not valid. Check the inputs and coefficient."
-    );
-
-    return;
-  }
-
-
-  /* =================================================
-     BUNKER MASS
-
-     Formula:
-
-     Actual Volume × Corrected Density ÷ 1000
-     ================================================= */
-
-  const massMT =
-    volume *
-    corrected /
-    1000;
-
-
-  /* =================================================
-     DISPLAY RESULTS
-     ================================================= */
-
-  correctedDensity.textContent =
-    corrected.toFixed(4);
-
-  bunkerMass.textContent =
-    massMT.toFixed(4);
-
-
-  /* =================================================
-     AUDIT TRAIL
-     ================================================= */
-
-  /*
-     Input values
-  */
-
-  auditDensity.textContent =
-    density.toFixed(1) +
-    " kg/m³";
-
-
-  auditTemperature.textContent =
-    temp.toFixed(2) +
-    " °C";
-
-
-  auditCoefficient.textContent =
-    correction;
-
-
-  auditVolume.textContent =
-    volume.toFixed(2) +
-    " m³";
-
-
-  /*
-     Temperature-Corrected Density
-
-     Density × [1 − {(T − 15) × coefficient}]
-  */
-
-  auditTcdCalculation.textContent =
-    density.toFixed(1) +
-    " × [1 − {(" +
-    temp.toFixed(2) +
-    " − 15) × " +
-    correction +
-    "}]";
-
-
-  auditTcdResult.textContent =
-    corrected.toFixed(4);
-
-
-  /*
-     Bunker Mass
-
-     Volume × Corrected Density ÷ 1000
-  */
-
-  auditMassCalculation.textContent =
-    volume.toFixed(2) +
-    " × " +
-    corrected.toFixed(4) +
-    " ÷ 1000";
-
-
-  auditMassResult.textContent =
-    massMT.toFixed(4);
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function showError(message) {
-
-  errorMessage.textContent =
-    message;
-
-}
-
-
-function clearError() {
-
-  errorMessage.textContent =
-    "";
-
-}
-
-
-/* =========================================================
-   CLEAR
-   ========================================================= */
-
-clearButton.addEventListener(
-  "click",
-  function () {
-
-    /* ---------------------------------------------
-       Clear inputs
-       --------------------------------------------- */
-
-    actualVolume.value = "";
-
-    density15.value = "";
-
-    temperature.value = "";
-
-    coefficient.value =
-      "0.00064";
-
-
-    /* ---------------------------------------------
-       Clear results
-       --------------------------------------------- */
-
-    correctedDensity.textContent =
-      "—";
-
-    bunkerMass.textContent =
-      "—";
-
-
-    /* ---------------------------------------------
-       Reset audit trail
-       --------------------------------------------- */
-
-    auditDensity.textContent =
-      "—";
-
-    auditTemperature.textContent =
-      "—";
-
-    auditCoefficient.textContent =
-      "—";
-
-    auditVolume.textContent =
-      "—";
-
-    auditTcdCalculation.textContent =
-      "—";
-
-    auditTcdResult.textContent =
-      "—";
-
-    auditMassCalculation.textContent =
-      "—";
-
-    auditMassResult.textContent =
-      "—";
-
-
-    /* ---------------------------------------------
-       Clear error
-       --------------------------------------------- */
-
-    clearError();
-
-  }
-);
-
-
-/* =========================================================
-   CALCULATE BUTTON
-   ========================================================= */
-
-calculateButton.addEventListener(
-  "click",
-  calculateBunkerMass
-);
-
-
-/* =========================================================
-   ENTER KEY
-   ========================================================= */
-
-document.addEventListener(
-  "keydown",
-  function (event) {
-
     if (
-      event.key === "Enter" &&
-      event.target.tagName !== "TEXTAREA"
+      hasValidOfflineProAccess()
     ) {
 
-      /*
-         Don't allow keyboard calculation
-         while the calculator is disabled.
-      */
+      showOfflineProMode();
 
-      if (
-        calculateButton.disabled
-      ) {
-        return;
-      }
+    } else {
 
-
-      calculateBunkerMass();
+      showProPreview();
 
     }
 
   }
+
+}
+
+
+/* =========================================================
+   INITIALIZE SUPABASE SAFELY
+   ========================================================= */
+
+initializeSupabase();
+
+
+/* =========================================================
+   START PRO CHECK AFTER CALCULATOR IS READY
+   ========================================================= */
+
+setTimeout(
+  function () {
+
+    checkProAccess();
+
+  },
+  0
 );
 
 
 /* =========================================================
-   START PRO ACCESS CHECK
+   FINAL LOADED MESSAGE
    ========================================================= */
 
-checkProAccess();
+console.log(
+  "MarineCalc Bunker (MT) Calculator loaded successfully."
+);

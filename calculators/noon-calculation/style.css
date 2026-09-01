@@ -755,3 +755,29 @@ footer {
   text-decoration: underline;
 
 }
+
+/* =========================================================
+   OFFLINE PRO STATUS
+   ========================================================= */
+
+.offline-pro-banner {
+  margin: 14px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #9fc6d8;
+  border-radius: 10px;
+  background: #eaf5fa;
+  color: #06466b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.offline-pro-banner strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #063f62;
+}
+
+.offline-pro-banner p {
+  margin: 0;
+}
