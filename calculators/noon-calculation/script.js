@@ -1,10 +1,17 @@
 /* =========================================================
    MARINECALC PRO ACCESS CONTROL
    NOON CALCULATION
+   PRO PREVIEW VERSION
+   ========================================================= */
+
+
+/* =========================================================
+   SUPABASE CONFIGURATION
    ========================================================= */
 
 const SUPABASE_URL =
   "https://lasdhuckmemuukiqovyw.supabase.co";
+
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
@@ -23,75 +30,354 @@ const supabaseClient =
 
 
 /* =========================================================
-   PRO ACCESS
+   PRO PREVIEW SAMPLE DATA
+   =========================================================
+
+   These values are ONLY used for the
+   non-PRO demonstration preview.
    ========================================================= */
 
-function showProLock() {
+const NOON_PREVIEW_DATA = {
+
+  counterPrevious: "93310414",
+
+  counterPresent: "93447666",
+
+  runningTime: "24",
+
+  propellerPitch: "3789.6",
+
+  existingConstantRev: "0.0020462203",
+
+  logDistance: "296",
+
+  ogDistance: "269",
+
+  manualSpeedPropellerDistance: "367.500"
+
+};
+
+
+/* =========================================================
+   PRO PREVIEW STYLES
+   ========================================================= */
+
+function addPreviewStyles() {
+
+  if (
+    document.getElementById(
+      "marinecalc-noon-preview-styles"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const style =
+    document.createElement("style");
+
+
+  style.id =
+    "marinecalc-noon-preview-styles";
+
+
+  style.textContent = `
+
+    /* =====================================================
+       PRO PREVIEW BANNER
+       ===================================================== */
+
+    .marinecalc-preview-banner {
+
+      margin-bottom: 20px;
+
+      padding: 16px 17px;
+
+      border:
+        1px solid
+        #B9D3DF;
+
+      border-radius: 10px;
+
+      background:
+        #EAF4F8;
+
+    }
+
+
+    .marinecalc-preview-banner strong {
+
+      display: block;
+
+      margin-bottom: 6px;
+
+      color:
+        #003B5C;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      letter-spacing: .5px;
+
+    }
+
+
+    .marinecalc-preview-banner p {
+
+      margin:
+        0 0 13px;
+
+      color:
+        #496474;
+
+      font-size: 10px;
+
+      line-height: 1.55;
+
+    }
+
+
+    /* =====================================================
+       ACTION BUTTONS
+       ===================================================== */
+
+    .marinecalc-preview-actions {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+    }
+
+
+    .marinecalc-preview-actions a {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      min-height: 36px;
+
+      padding:
+        0 14px;
+
+      border-radius: 6px;
+
+      text-decoration: none;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      letter-spacing: .3px;
+
+    }
+
+
+    .marinecalc-preview-pro {
+
+      background:
+        #176C8E;
+
+      color:
+        #FFFFFF;
+
+    }
+
+
+    .marinecalc-preview-pro:hover {
+
+      background:
+        #125B78;
+
+    }
+
+
+    .marinecalc-preview-login {
+
+      border:
+        1px solid
+        #176C8E;
+
+      background:
+        #FFFFFF;
+
+      color:
+        #176C8E;
+
+    }
+
+
+    .marinecalc-preview-login:hover {
+
+      background:
+        #F2F8FA;
+
+    }
+
+
+    /* =====================================================
+       PREVIEW DATA LABEL
+       ===================================================== */
+
+    .marinecalc-preview-label {
+
+      margin-bottom: 14px;
+
+      padding:
+        7px 10px;
+
+      border-radius: 5px;
+
+      background:
+        #243E52;
+
+      color:
+        #DCEAF1;
+
+      font-size: 9px;
+
+      font-weight: 800;
+
+      letter-spacing: .5px;
+
+    }
+
+
+    .marinecalc-preview-label span {
+
+      color:
+        #FFFFFF;
+
+    }
+
+
+    /* =====================================================
+       DISABLED PREVIEW CONTROLS
+       ===================================================== */
+
+    .marinecalc-preview-disabled {
+
+      opacity:
+        .82;
+
+    }
+
+  `;
+
+
+  document.head.appendChild(style);
+
+}
+
+
+/* =========================================================
+   SHOW PRO PREVIEW
+   ========================================================= */
+
+function showProPreview() {
+
+  addPreviewStyles();
+
 
   /*
-    Disable all calculator controls.
+     Prevent duplicate preview banners.
+  */
+
+  if (
+    document.getElementById(
+      "marinecalcPreviewBanner"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+     Disable all calculator controls.
+
+     The calculation functions can still be called
+     programmatically below to create the demonstration.
   */
 
   document
     .querySelectorAll(
       ".calculator-card input, .calculator-card button"
     )
-    .forEach((element) => {
+    .forEach(
+      (element) => {
 
-      element.disabled = true;
+        element.disabled = true;
 
-    });
+        element.classList.add(
+          "marinecalc-preview-disabled"
+        );
+
+      }
+    );
 
 
   /*
-    Create PRO lock message.
+     Create PRO preview banner.
   */
 
-  const lockMessage =
+  const banner =
     document.createElement("div");
 
 
-  lockMessage.className =
-    "pro-lock";
+  banner.id =
+    "marinecalcPreviewBanner";
 
 
-  lockMessage.innerHTML = `
-    <div class="pro-lock-icon">
-      🔒
-    </div>
+  banner.className =
+    "marinecalc-preview-banner";
 
-    <h2>
-      MARINECALC PRO
-    </h2>
+
+  banner.innerHTML = `
+
+    <strong>
+      🔒 MARINECALC PRO PREVIEW
+    </strong>
 
     <p>
-      This calculator is available with an active
-      MarineCalc PRO subscription.
+      You're viewing a working demonstration of the
+      Noon Calculation tool. Sample data is shown for
+      demonstration only. An active PRO subscription
+      is required to enter your own vessel data.
     </p>
 
-    <p class="pro-price">
-      $9 / 1 YEAR
-    </p>
+    <div class="marinecalc-preview-actions">
 
-    <a
-      href="../../pro/index.html"
-      class="pro-upgrade-button"
-    >
-      GET PRO
-    </a>
+      <a
+        href="../../pro/index.html"
+        class="marinecalc-preview-pro"
+      >
+        GET PRO — $9 / 1 YEAR
+      </a>
 
-    <a
-      href="../../auth/index.html"
-      class="pro-account-link"
-    >
-      LOGIN / MY ACCOUNT
-    </a>
+      <a
+        href="../../auth/index.html"
+        class="marinecalc-preview-login"
+      >
+        LOGIN / MY ACCOUNT
+      </a>
+
+    </div>
+
   `;
 
 
   /*
-    Put the lock message above
-    the first calculator section.
+     Insert banner before the first calculator card.
   */
 
   const firstCalculator =
@@ -103,17 +389,156 @@ function showProLock() {
   if (firstCalculator) {
 
     firstCalculator.parentNode.insertBefore(
-      lockMessage,
+      banner,
       firstCalculator
     );
 
   }
 
+
+  /*
+     Add PREVIEW DATA label to the first
+     calculator section.
+  */
+
+  const firstSection =
+    document.querySelector(
+      ".calculator-card .section"
+    );
+
+
+  if (firstSection) {
+
+    const previewLabel =
+      document.createElement("div");
+
+
+    previewLabel.className =
+      "marinecalc-preview-label";
+
+
+    previewLabel.innerHTML =
+      "<span>PREVIEW DATA</span> — Sample values";
+
+
+    firstSection.prepend(
+      previewLabel
+    );
+
+  }
+
+
+  /*
+     Load sample values.
+  */
+
+  document.getElementById(
+    "counterPrevious"
+  ).value =
+    NOON_PREVIEW_DATA.counterPrevious;
+
+
+  document.getElementById(
+    "counterPresent"
+  ).value =
+    NOON_PREVIEW_DATA.counterPresent;
+
+
+  document.getElementById(
+    "runningTime"
+  ).value =
+    NOON_PREVIEW_DATA.runningTime;
+
+
+  document.getElementById(
+    "propellerPitch"
+  ).value =
+    NOON_PREVIEW_DATA.propellerPitch;
+
+
+  document.getElementById(
+    "existingConstantRev"
+  ).value =
+    NOON_PREVIEW_DATA.existingConstantRev;
+
+
+  document.getElementById(
+    "logDistance"
+  ).value =
+    NOON_PREVIEW_DATA.logDistance;
+
+
+  document.getElementById(
+    "ogDistance"
+  ).value =
+    NOON_PREVIEW_DATA.ogDistance;
+
+
+  document.getElementById(
+    "manualSpeedPropellerDistance"
+  ).value =
+    NOON_PREVIEW_DATA.manualSpeedPropellerDistance;
+
+
+  /*
+     Make sure the calculated ConstantREV
+     option is selected.
+  */
+
+  const calculatedConstantRadio =
+    document.querySelector(
+      'input[name="constantSource"][value="calculated"]'
+    );
+
+
+  if (calculatedConstantRadio) {
+
+    calculatedConstantRadio.checked =
+      true;
+
+  }
+
+
+  /*
+     Make sure the calculated Propeller Distance
+     option is selected.
+  */
+
+  const calculatedDistanceRadio =
+    document.querySelector(
+      'input[name="speedDistanceSource"][value="calculated"]'
+    );
+
+
+  if (calculatedDistanceRadio) {
+
+    calculatedDistanceRadio.checked =
+      true;
+
+  }
+
+
+  /*
+     Run the four existing calculations
+     using the sample data.
+
+     These are the SAME calculation functions
+     already used by the real calculator.
+  */
+
+  calculateRPM();
+
+  calculateConstant();
+
+  calculatePropeller();
+
+  calculateSpeedSlip();
+
 }
 
 
 /* =========================================================
-   CHECK PRO SUBSCRIPTION
+   CHECK PRO ACCESS
    ========================================================= */
 
 async function checkProAccess() {
@@ -121,7 +546,7 @@ async function checkProAccess() {
   try {
 
     /*
-      Check whether the user is logged in.
+       Check whether the user is logged in.
     */
 
     const {
@@ -140,7 +565,7 @@ async function checkProAccess() {
         sessionError
       );
 
-      showProLock();
+      showProPreview();
 
       return;
 
@@ -148,7 +573,8 @@ async function checkProAccess() {
 
 
     /*
-      No authenticated session.
+       No logged-in user.
+       Show preview.
     */
 
     if (
@@ -156,7 +582,7 @@ async function checkProAccess() {
       !sessionData.session.user
     ) {
 
-      showProLock();
+      showProPreview();
 
       return;
 
@@ -164,8 +590,7 @@ async function checkProAccess() {
 
 
     /*
-      Ask Supabase whether this user
-      currently has valid PRO access.
+       Check actual MarineCalc PRO status.
     */
 
     const {
@@ -183,7 +608,7 @@ async function checkProAccess() {
         proError
       );
 
-      showProLock();
+      showProPreview();
 
       return;
 
@@ -191,13 +616,13 @@ async function checkProAccess() {
 
 
     /*
-      User is authenticated but does
-      not have an active PRO subscription.
+       Not an active PRO user.
+       Show preview.
     */
 
     if (!isPro) {
 
-      showProLock();
+      showProPreview();
 
       return;
 
@@ -205,7 +630,12 @@ async function checkProAccess() {
 
 
     /*
-      Valid PRO subscription confirmed.
+       ACTIVE PRO USER
+
+       Do nothing.
+
+       The existing calculator remains
+       completely usable.
     */
 
     console.log(
@@ -220,7 +650,8 @@ async function checkProAccess() {
       error
     );
 
-    showProLock();
+
+    showProPreview();
 
   }
 
@@ -232,6 +663,7 @@ async function checkProAccess() {
    ========================================================= */
 
 checkProAccess();
+
 
 /* =========================================================
    MARINECALC
@@ -291,6 +723,7 @@ function calculateRPM() {
     isBlank("counterPresent") ||
     isBlank("runningTime")
   ) {
+
     setError(
       "rpmError",
       "Please enter all Main Engine RPM inputs."
@@ -310,6 +743,7 @@ function calculateRPM() {
     !Number.isFinite(present) ||
     !Number.isFinite(time)
   ) {
+
     setError(
       "rpmError",
       "Please enter valid numerical values."
@@ -320,6 +754,7 @@ function calculateRPM() {
 
 
   if (present < previous) {
+
     setError(
       "rpmError",
       "Present Counter Reading cannot be less than Previous Counter Reading."
@@ -330,6 +765,7 @@ function calculateRPM() {
 
 
   if (time <= 0) {
+
     setError(
       "rpmError",
       "Ship Running Time must be greater than zero."
@@ -339,10 +775,13 @@ function calculateRPM() {
   }
 
 
-  calculatedTotalRevolution = present - previous;
+  calculatedTotalRevolution =
+    present - previous;
+
 
   calculatedAverageRpm =
-    calculatedTotalRevolution / (time * 60);
+    calculatedTotalRevolution /
+    (time * 60);
 
 
   setText(
@@ -446,7 +885,8 @@ function calculateConstant() {
   }
 
 
-  const pitchMeters = pitchMm / 1000;
+  const pitchMeters =
+    pitchMm / 1000;
 
 
   calculatedConstantRev =
@@ -533,7 +973,8 @@ function getSpeedDistanceSource() {
 
 function getSelectedConstant() {
 
-  const source = getConstantSource();
+  const source =
+    getConstantSource();
 
 
   /*
@@ -550,9 +991,11 @@ function getSelectedConstant() {
       );
 
       return null;
+
     }
 
     return calculatedConstantRev;
+
   }
 
 
@@ -568,6 +1011,7 @@ function getSelectedConstant() {
     );
 
     return null;
+
   }
 
 
@@ -586,10 +1030,12 @@ function getSelectedConstant() {
     );
 
     return null;
+
   }
 
 
   return existing;
+
 }
 
 
@@ -613,6 +1059,7 @@ function calculatePropeller() {
     );
 
     return;
+
   }
 
 
@@ -920,6 +1367,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -931,6 +1379,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -942,6 +1391,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -967,6 +1417,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -981,6 +1432,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -992,6 +1444,7 @@ function calculateSpeedSlip() {
     );
 
     return;
+
   }
 
 
@@ -1002,7 +1455,9 @@ function calculateSpeedSlip() {
      CALCULATED OR MANUAL PROPELLER DISTANCE
   */
 
-  if (getSpeedDistanceSource() === "manual") {
+  if (
+    getSpeedDistanceSource() === "manual"
+  ) {
 
     if (
       isBlank(
@@ -1016,6 +1471,7 @@ function calculateSpeedSlip() {
       );
 
       return;
+
     }
 
 
@@ -1038,6 +1494,7 @@ function calculateSpeedSlip() {
       );
 
       return;
+
     }
 
 
@@ -1064,6 +1521,7 @@ function calculateSpeedSlip() {
       );
 
       return;
+
     }
 
 
