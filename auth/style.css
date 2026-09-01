@@ -561,3 +561,344 @@ footer {
   }
 
 }
+
+/* =========================================================
+   PRO STATUS CARD
+   ========================================================= */
+
+.pro-status-card {
+
+  margin-top: 18px;
+
+  padding: 18px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 10px;
+
+  background: #FFFFFF;
+
+  text-align: left;
+
+}
+
+
+.pro-status-card.pro-active {
+
+  border-color:
+    #A9D5C1;
+
+  background:
+    var(--success-bg);
+
+}
+
+
+.pro-status-card.pro-free {
+
+  background:
+    #F7FAFB;
+
+}
+
+
+.pro-status-card.pro-expired {
+
+  border-color:
+    #E8B7B2;
+
+  background:
+    #FFF7F6;
+
+}
+
+
+/* =========================================================
+   STATUS BADGE
+   ========================================================= */
+
+.pro-status-badge {
+
+  display: inline-block;
+
+  padding:
+    5px
+    9px;
+
+  border-radius: 20px;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: .5px;
+
+}
+
+
+.pro-status-badge.active {
+
+  background:
+    var(--success);
+
+  color:
+    #FFFFFF;
+
+}
+
+
+.pro-status-badge.free {
+
+  background:
+    var(--blue-soft);
+
+  color:
+    var(--navy);
+
+}
+
+
+.pro-status-badge.expired {
+
+  background:
+    var(--danger);
+
+  color:
+    #FFFFFF;
+
+}
+
+
+/* =========================================================
+   PRO TITLE
+   ========================================================= */
+
+.pro-status-card h3 {
+
+  margin:
+    11px
+    0
+    5px;
+
+  color:
+    var(--navy);
+
+  font-size: 18px;
+
+}
+
+
+.pro-status-description {
+
+  margin:
+    0;
+
+  color:
+    var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   PRO DETAILS
+   ========================================================= */
+
+.pro-details {
+
+  display: grid;
+
+  gap: 8px;
+
+  margin-top: 15px;
+
+}
+
+
+.pro-detail {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    9px
+    10px;
+
+  border-radius: 6px;
+
+  background:
+    rgba(255,255,255,.75);
+
+}
+
+
+.pro-detail span {
+
+  color:
+    var(--muted);
+
+  font-size: 11px;
+
+}
+
+
+.pro-detail strong {
+
+  color:
+    var(--text);
+
+  font-size: 12px;
+
+  text-align: right;
+
+}
+
+
+/* =========================================================
+   PRO TOOLS
+   ========================================================= */
+
+.pro-tools {
+
+  margin-top: 17px;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+}
+
+
+.pro-tools h4 {
+
+  margin:
+    0
+    0
+    9px;
+
+  color:
+    var(--navy);
+
+  font-size: 11px;
+
+  letter-spacing: .6px;
+
+}
+
+
+.pro-tool-link {
+
+  display: block;
+
+  padding:
+    8px
+    0;
+
+  color:
+    var(--blue);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+
+.pro-tool-link:hover {
+
+  text-decoration:
+    underline;
+
+}
+
+
+.pro-tools-locked .pro-tool-link {
+
+  color:
+    var(--muted);
+
+  pointer-events:
+    none;
+
+}
+
+
+/* =========================================================
+   GET PRO
+   ========================================================= */
+
+.get-pro-section {
+
+  margin-top: 17px;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid
+    var(--border);
+
+}
+
+
+.get-pro-section p {
+
+  margin:
+    0
+    0
+    12px;
+
+  color:
+    var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.get-pro-button {
+
+  display: block;
+
+  width: 100%;
+
+  padding:
+    12px
+    15px;
+
+  border-radius: 7px;
+
+  background:
+    var(--blue);
+
+  color:
+    #FFFFFF;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  text-align: center;
+
+}
+
+
+.get-pro-button:hover {
+
+  filter:
+    brightness(1.08);
+
+}

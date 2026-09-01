@@ -70,6 +70,59 @@ const accountEmail =
 const accountRole =
   document.getElementById("accountRole");
 
+const proStatusCard =
+  document.getElementById(
+    "proStatusCard"
+  );
+
+
+const proStatusBadge =
+  document.getElementById(
+    "proStatusBadge"
+  );
+
+
+const proStatusTitle =
+  document.getElementById(
+    "proStatusTitle"
+  );
+
+
+const proStatusDescription =
+  document.getElementById(
+    "proStatusDescription"
+  );
+
+
+const proDetails =
+  document.getElementById(
+    "proDetails"
+  );
+
+
+const proActivated =
+  document.getElementById(
+    "proActivated"
+  );
+
+
+const proExpires =
+  document.getElementById(
+    "proExpires"
+  );
+
+
+const proTools =
+  document.getElementById(
+    "proTools"
+  );
+
+
+const getProSection =
+  document.getElementById(
+    "getProSection"
+  );
+
 
 /* =========================================================
    PANEL SWITCHING
@@ -347,6 +400,317 @@ document
     }
   );
 
+/* =========================================================
+   LOAD PRO STATUS
+   ========================================================= */
+
+async function loadProStatus(
+  user
+) {
+
+  /*
+    Reset the account display.
+  */
+
+  proStatusBadge.textContent =
+    "CHECKING PRO STATUS...";
+
+  proStatusTitle.textContent =
+    "MarineCalc PRO";
+
+  proStatusDescription.textContent =
+    "Checking your subscription...";
+
+  proDetails.hidden = true;
+
+  proTools.hidden = true;
+
+  getProSection.hidden = true;
+
+
+  /*
+    Retrieve the user's subscription.
+
+    We order by activated_at so that if a
+    user has multiple historical subscriptions,
+    we use the latest one.
+  */
+
+  const {
+    data: subscription,
+    error
+  } =
+    await supabaseClient
+      .from("pro_subscriptions")
+      .select(
+        "status, activated_at, expires_at"
+      )
+      .eq(
+        "user_id",
+        user.id
+      )
+      .order(
+        "activated_at",
+        {
+          ascending: false
+        }
+      )
+      .limit(1)
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(
+      "PRO subscription query error:",
+      error
+    );
+
+    proStatusBadge.textContent =
+      "PRO STATUS UNAVAILABLE";
+
+    proStatusTitle.textContent =
+      "Unable to check PRO status";
+
+    proStatusDescription.textContent =
+      "Please try again later.";
+
+    return;
+
+  }
+
+
+  /*
+    No subscription exists.
+  */
+
+  if (!subscription) {
+
+    showFreeStatus();
+
+    return;
+
+  }
+
+
+  /*
+    Check both status and expiration.
+  */
+
+  const expiresAt =
+    new Date(
+      subscription.expires_at
+    );
+
+
+  const isActive =
+    subscription.status === "active";
+
+
+  const isNotExpired =
+    expiresAt.getTime() >
+    Date.now();
+
+
+  if (
+    isActive &&
+    isNotExpired
+  ) {
+
+    showActiveProStatus(
+      subscription
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Subscription exists but is no longer valid.
+  */
+
+  showExpiredStatus(
+    subscription
+  );
+
+}
+
+
+/* =========================================================
+   ACTIVE PRO
+   ========================================================= */
+
+function showActiveProStatus(
+  subscription
+) {
+
+  proStatusCard.className =
+    "pro-status-card pro-active";
+
+
+  proStatusBadge.className =
+    "pro-status-badge active";
+
+
+  proStatusBadge.textContent =
+    "● ACTIVE";
+
+
+  proStatusTitle.textContent =
+    "MARINECALC PRO";
+
+
+  proStatusDescription.textContent =
+    "Your PRO subscription is active.";
+
+
+  proDetails.hidden = false;
+
+  proTools.hidden = false;
+
+  getProSection.hidden = true;
+
+
+  proActivated.textContent =
+    formatDate(
+      subscription.activated_at
+    );
+
+
+  proExpires.textContent =
+    formatDate(
+      subscription.expires_at
+    );
+
+}
+
+
+/* =========================================================
+   FREE USER
+   ========================================================= */
+
+function showFreeStatus() {
+
+  proStatusCard.className =
+    "pro-status-card pro-free";
+
+
+  proStatusBadge.className =
+    "pro-status-badge free";
+
+
+  proStatusBadge.textContent =
+    "● FREE";
+
+
+  proStatusTitle.textContent =
+    "MARINECALC PRO";
+
+
+  proStatusDescription.textContent =
+    "You currently have a Free account.";
+
+
+  proDetails.hidden = true;
+
+  proTools.hidden = false;
+
+  getProSection.hidden = false;
+
+
+  /*
+    Show the tools as features available
+    with PRO, rather than as active tools.
+  */
+
+  proTools.className =
+    "pro-tools pro-tools-locked";
+
+}
+
+
+/* =========================================================
+   EXPIRED PRO
+   ========================================================= */
+
+function showExpiredStatus(
+  subscription
+) {
+
+  proStatusCard.className =
+    "pro-status-card pro-expired";
+
+
+  proStatusBadge.className =
+    "pro-status-badge expired";
+
+
+  proStatusBadge.textContent =
+    "● EXPIRED";
+
+
+  proStatusTitle.textContent =
+    "MARINECALC PRO";
+
+
+  proStatusDescription.textContent =
+    "Your PRO subscription has expired.";
+
+
+  proDetails.hidden = false;
+
+  proTools.hidden = false;
+
+  getProSection.hidden = false;
+
+
+  proActivated.textContent =
+    formatDate(
+      subscription.activated_at
+    );
+
+
+  proExpires.textContent =
+    formatDate(
+      subscription.expires_at
+    );
+
+
+  proTools.className =
+    "pro-tools pro-tools-locked";
+
+}
+
+
+/* =========================================================
+   DATE FORMAT
+   ========================================================= */
+
+function formatDate(
+  value
+) {
+
+  if (!value) {
+
+    return "—";
+
+  }
+
+
+  return new Date(
+    value
+  ).toLocaleDateString(
+    undefined,
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }
+  );
+
+}
+
 
 /* =========================================================
    SHOW ACCOUNT
@@ -411,6 +775,8 @@ if (error) {
       "MARINECALC USER";
 
   }
+
+  await loadProStatus(user);
 
 }
 

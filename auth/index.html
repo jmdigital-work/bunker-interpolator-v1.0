@@ -302,46 +302,175 @@
 
       <!-- LOGGED IN -->
 
-      <div
-        id="accountPanel"
-        hidden
-      >
+	<div
+	id="accountPanel"
+	hidden
+	>
 
-        <div class="logged-in-icon">
-          ✓
-        </div>
+	<div class="logged-in-icon">
+	✓
+	</div>
 
+	<h2>
+	Your MarineCalc Account
+	</h2>
 
-        <h2>
-          You're Logged In
-        </h2>
-
-
-        <p id="accountEmail">
-        </p>
+	<p id="accountEmail">
+	</p>
 
 
-        <div
-          id="accountRole"
-          class="account-role"
-        >
-        </div>
+	<!-- ACCOUNT ROLE -->
+
+	<div
+	id="accountRole"
+	class="account-role"
+	>
+	</div>
 
 
-        <button
-          type="button"
-          id="logoutButton"
-          class="secondary-button"
-        >
-          LOG OUT
-        </button>
+	<!-- PRO STATUS -->
+
+	<div
+	id="proStatusCard"
+	class="pro-status-card"
+	>
+
+	<div
+		id="proStatusBadge"
+		class="pro-status-badge"
+	>
+		CHECKING PRO STATUS...
+	</div>
 
 
-      </div>
+	<h3 id="proStatusTitle">
+		MarineCalc PRO
+	</h3>
 
 
-    </section>
+	<p
+		id="proStatusDescription"
+		class="pro-status-description"
+	>
+		Checking your subscription...
+	</p>
 
+
+	<!-- ACTIVE PRO DETAILS -->
+
+	<div
+		id="proDetails"
+		class="pro-details"
+		hidden
+	>
+
+		<div class="pro-detail">
+
+		<span>
+		Plan
+		</span>
+
+		<strong>
+		PRO — 1 Year
+		</strong>
+
+		</div>
+
+
+		<div class="pro-detail">
+
+		<span>
+		Activated
+		</span>
+
+		<strong id="proActivated">
+		—
+		</strong>
+
+		</div>
+
+
+		<div class="pro-detail">
+
+		<span>
+		Expires
+		</span>
+
+		<strong id="proExpires">
+		—
+		</strong>
+
+		</div>
+
+	</div>
+
+
+	<!-- PRO TOOLS -->
+
+	<div
+		id="proTools"
+		class="pro-tools"
+		hidden
+	>
+
+		<h4>
+		PRO TOOLS
+		</h4>
+
+
+		<a
+		href="../calculators/bunker-mt/index.html"
+		class="pro-tool-link"
+		>
+		✓ Bunker (MT) Calculator
+		</a>
+
+
+		<a
+		href="../calculators/noon-calculation/index.html"
+		class="pro-tool-link"
+		>
+		✓ Noon Calculation
+		</a>
+
+	</div>
+
+
+	<!-- GET PRO -->
+
+	<div
+		id="getProSection"
+		class="get-pro-section"
+		hidden
+	>
+
+		<p>
+		Unlock all current PRO tools for
+		<strong>$9 / 1 YEAR</strong>.
+		</p>
+
+
+		<a
+		href="../pro/index.html"
+		class="get-pro-button"
+		>
+		GET MARINECALC PRO
+		</a>
+
+	</div>
+
+	</div>
+
+
+	<button
+	type="button"
+	id="logoutButton"
+	class="secondary-button"
+	>
+	LOG OUT
+	</button>
+
+	</div>
 
 
     <!-- FOOTER -->
