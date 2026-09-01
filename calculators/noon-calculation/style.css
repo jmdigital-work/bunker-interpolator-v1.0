@@ -630,3 +630,128 @@ footer {
     font-size: 18px;
   }
 }
+
+/* =========================================================
+   PRO ACCESS LOCK
+   ========================================================= */
+
+.pro-lock {
+
+  margin-bottom: 17px;
+
+  padding: 25px 20px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+
+  background: #FFFFFF;
+
+  box-shadow:
+    0 6px 22px rgba(19, 55, 70, .07);
+
+  text-align: center;
+
+}
+
+
+.pro-lock-icon {
+
+  margin-bottom: 8px;
+
+  font-size: 32px;
+
+}
+
+
+.pro-lock h2 {
+
+  margin: 0 0 8px;
+
+  color: var(--navy);
+
+  font-size: 18px;
+
+}
+
+
+.pro-lock p {
+
+  max-width: 430px;
+
+  margin: 0 auto 8px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+}
+
+
+.pro-lock .pro-price {
+
+  margin-top: 12px;
+
+  color: var(--orange);
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+}
+
+
+.pro-upgrade-button {
+
+  display: inline-block;
+
+  margin-top: 10px;
+
+  padding: 11px 20px;
+
+  border-radius: 7px;
+
+  background: var(--blue);
+
+  color: #FFFFFF;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  text-decoration: none;
+
+}
+
+
+.pro-upgrade-button:hover {
+
+  filter: brightness(1.07);
+
+}
+
+
+.pro-account-link {
+
+  display: block;
+
+  margin-top: 12px;
+
+  color: var(--blue);
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+}
+
+
+.pro-account-link:hover {
+
+  text-decoration: underline;
+
+}
