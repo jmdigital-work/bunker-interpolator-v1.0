@@ -887,77 +887,32 @@ window.getOfflineProStatus =
 
 function showOfflineProMode() {
 
-  if (
-    document.getElementById(
-      "marinecalcOfflineProBanner"
-    )
-  ) {
+  /*
+    Just enable the calculator.
+    The offline banner is now shown on the homepage instead.
+  */
 
-    return;
-
-  }
+  const authorization =
+   getOfflineProAccess();
 
 
-  const banner =
-    document.createElement("div");
+  if (!authorization) {
 
-
-  banner.id =
-    "marinecalcOfflineProBanner";
-
-
-  banner.style.cssText = `
-    margin-bottom:20px;
-    padding:16px 17px;
-    border:1px solid #B9D3DF;
-    border-radius:10px;
-    background:#EAF4F8;
-  `;
-
-
-  banner.innerHTML = `
-
-    <strong
-      style="
-        display:block;
-        margin-bottom:6px;
-        color:#003B5C;
-        font-size:12px;
-        font-weight:900;
-      "
-    >
-      🟡 OFFLINE MODE — PRO VERIFIED
-    </strong>
-
-    <p
-      style="
-        margin:0;
-        color:#496474;
-        font-size:10px;
-        line-height:1.55;
-      "
-    >
-      MarineCalc PRO access was previously verified
-      online. You can continue using this calculator
-      while offline.
-    </p>
-
-  `;
-
-
-  const card =
-    document.querySelector(
-      ".calculator-card"
-    );
-
-
-  if (card) {
-
-    card.prepend(
-      banner
-    );
+   return;
 
   }
+
+
+  /*
+    Enable calculator controls.
+  */
+
+  if (actualVolume) actualVolume.disabled = false;
+  if (density15) density15.disabled = false;
+  if (temperature) temperature.disabled = false;
+  if (coefficient) coefficient.disabled = false;
+  if (calculateButton) calculateButton.disabled = false;
+  if (clearButton) clearButton.disabled = false;
 
 }
 

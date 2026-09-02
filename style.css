@@ -105,6 +105,49 @@ a {
 
 
 /* =========================
+   OFFLINE STATUS BANNER
+========================= */
+
+.offline-status-banner {
+  margin-bottom: 20px;
+
+  padding: 16px 17px;
+
+  border:
+    1px solid
+    #B9D3DF;
+
+  border-radius: 10px;
+
+  background: #EAF4F8;
+}
+
+.offline-status-banner strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #003B5C;
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: .4px;
+}
+
+.offline-status-banner p {
+  margin: 0;
+
+  color: #496474;
+
+  font-size: 10px;
+
+  line-height: 1.55;
+}
+
+
+/* =========================
    SECTION
 ========================= */
 

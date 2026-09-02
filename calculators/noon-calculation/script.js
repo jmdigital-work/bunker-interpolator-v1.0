@@ -744,23 +744,41 @@ function enableProCalculator() {
 function showOfflineProMode() {
 
   const authorization =
-    getOfflineProAccess();
+   getOfflineProAccess();
 
 
   if (!authorization) {
 
-    console.warn(
-      "MarineCalc: No valid cached PRO authorization."
-    );
+   console.warn(
+     "MarineCalc: No valid cached PRO authorization."
+   );
 
-    return false;
+   return false;
 
   }
 
 
   /*
-     VERY IMPORTANT:
-     Unlock calculator first.
+    VERY IMPORTANT:
+    If user is actually ONLINE, just enable calculator
+    without showing the offline banner.
+  */
+
+  if (navigator.onLine === true) {
+
+   enableProCalculator();
+
+   console.log(
+     "MarineCalc PRO access enabled from cache (online)."
+   );
+
+   return true;
+
+  }
+
+
+  /*
+    User is OFFLINE - show the offline banner.
   */
 
   enableProCalculator();
@@ -1222,7 +1240,14 @@ async function checkProAccess() {
    START PRO ACCESS CHECK
    ========================================================= */
 
-checkProAccess();
+setTimeout(
+ function () {
+
+   checkProAccess();
+
+ },
+ 0
+);
 
 
 /* =========================================================
@@ -1230,42 +1255,21 @@ checkProAccess();
    ========================================================= */
 
 window.addEventListener(
-  "offline",
-  () => {
+ "online",
+ () => {
 
-    console.log(
-      "MarineCalc: Network connection lost."
-    );
-
-
-    if (
-      hasValidOfflineProAccess()
-    ) {
-
-      showOfflineProMode();
-
-    }
-
-  }
-);
+   console.log(
+     "MarineCalc: Network connection restored."
+   );
 
 
-window.addEventListener(
-  "online",
-  () => {
+   /*
+      Re-verify PRO status when connection returns.
+   */
 
-    console.log(
-      "MarineCalc: Network connection restored."
-    );
+   checkProAccess();
 
-
-    /*
-       Re-verify PRO status when connection returns.
-    */
-
-    checkProAccess();
-
-  }
+ }
 );
 
 

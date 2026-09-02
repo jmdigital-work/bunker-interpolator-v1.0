@@ -49,6 +49,20 @@
     </header>
 
 
+    <!-- OFFLINE STATUS BANNER -->
+    <div
+      id="offlineStatusBanner"
+      class="offline-status-banner"
+      style="display: none;"
+    >
+      <strong>🟡 OFFLINE MODE — PRO VERIFIED</strong>
+      <p>
+        MarineCalc PRO access was previously verified online.
+        You can continue using calculators while offline.
+      </p>
+    </div>
+
+
     <!-- CALCULATORS -->
     <section class="calculator-section">
 
@@ -176,8 +190,67 @@
   
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="sw.js"></script>
+<script src="js/offline-pro.js"></script>
 
 <script>
+  /*
+     OFFLINE STATUS BANNER
+  */
+
+  const offlineStatusBanner =
+    document.getElementById(
+      "offlineStatusBanner"
+    );
+
+  function updateOfflineStatus() {
+
+    if (
+      navigator.onLine === false &&
+      hasValidOfflineProAccess()
+    ) {
+
+      if (offlineStatusBanner) {
+
+        offlineStatusBanner.style.display =
+          "block";
+
+      }
+
+    } else {
+
+      if (offlineStatusBanner) {
+
+        offlineStatusBanner.style.display =
+          "none";
+
+      }
+
+    }
+
+  }
+
+  /*
+     Check on page load and whenever
+     network status changes.
+  */
+
+  updateOfflineStatus();
+
+  window.addEventListener(
+    "offline",
+    updateOfflineStatus
+  );
+
+  window.addEventListener(
+    "online",
+    updateOfflineStatus
+  );
+
+
+  /*
+     SERVICE WORKER
+  */
+
   if ("serviceWorker" in navigator) {
 
     window.addEventListener("load", () => {
