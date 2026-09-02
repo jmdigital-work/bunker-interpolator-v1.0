@@ -49,6 +49,9 @@ const signupPanel =
 const accountPanel =
   document.getElementById("accountPanel");
 
+const authBackLink =
+  document.getElementById("authBackLink");
+
 
 const loginForm =
   document.getElementById("loginForm");
@@ -115,6 +118,16 @@ const proExpires =
 const proTools =
   document.getElementById(
     "proTools"
+  );
+
+const proToolsTitle =
+  document.getElementById(
+    "proToolsTitle"
+  );
+
+const accountHomeNavigation =
+  document.getElementById(
+    "accountHomeNavigation"
   );
 
 
@@ -424,6 +437,8 @@ document
 
       loginPanel.hidden = false;
 
+      authBackLink.hidden = false;
+
       loginForm.reset();
 
     }
@@ -598,6 +613,14 @@ function showActiveProStatus(
 
   proTools.hidden = false;
 
+  accountHomeNavigation.hidden = false;
+
+  proToolsTitle.textContent =
+    "PRO TOOLS";
+
+  proTools.className =
+    "pro-tools";
+
   getProSection.hidden = true;
 
 
@@ -647,6 +670,11 @@ function showFreeStatus() {
 
   getProSection.hidden = false;
 
+  accountHomeNavigation.hidden = true;
+
+  proToolsTitle.textContent =
+    "EXPLORE PRO TOOLS";
+
 
   /*
     Show the tools as features available
@@ -654,7 +682,7 @@ function showFreeStatus() {
   */
 
   proTools.className =
-    "pro-tools pro-tools-locked";
+    "pro-tools";
 
 }
 
@@ -795,6 +823,8 @@ if (error) {
   signupPanel.hidden = true;
 
   accountPanel.hidden = false;
+
+  authBackLink.hidden = true;
 
   accountEmail.textContent =
     user.email || "";
