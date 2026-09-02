@@ -1,4 +1,4 @@
-const CACHE_NAME = "marinecalc-v9";
+const CACHE_NAME = "marinecalc-v10";
 
 const APP_SHELL = [
 
@@ -28,6 +28,7 @@ const APP_SHELL = [
   // ================================
 
   "./icons/marinecalc-favicon-32.png",
+  "./icons/marinecalc-logo.png",
   "./icons/marinecalc-icon-192.png",
   "./icons/marinecalc-icon-512.png",
 

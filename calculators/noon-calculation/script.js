@@ -925,13 +925,10 @@ async function checkProAccess() {
 
 
       /*
-         Only honor cached PRO access while truly offline.
-         A stale localStorage entry from a downloaded/static page
-         must not unlock the calculator for online users.
+         FALL BACK TO CACHED PRO.
       */
 
       if (
-        navigator.onLine === false &&
         hasValidOfflineProAccess()
       ) {
 
@@ -939,22 +936,6 @@ async function checkProAccess() {
 
         return;
 
-      }
-
-      if (
-        navigator.onLine === true
-      ) {
-
-        try {
-          localStorage.removeItem(
-            "marinecalc_offline_pro"
-          );
-        } catch (error) {
-          console.warn(
-            "MarineCalc: Unable to clear stale cached PRO authorization.",
-            error
-          );
-        }
       }
 
 
@@ -978,13 +959,12 @@ async function checkProAccess() {
     ) {
 
       /*
-         Cached PRO access is only valid when the device is truly offline.
-         Online users must not be unlocked by stale localStorage data from
-         a previous session or a downloaded MHTML snapshot.
+         Before showing the PRO preview,
+         check whether we have previously
+         verified PRO access.
       */
 
       if (
-        navigator.onLine === false &&
         hasValidOfflineProAccess()
       ) {
 
@@ -992,22 +972,6 @@ async function checkProAccess() {
 
         return;
 
-      }
-
-      if (
-        navigator.onLine === true
-      ) {
-
-        try {
-          localStorage.removeItem(
-            "marinecalc_offline_pro"
-          );
-        } catch (error) {
-          console.warn(
-            "MarineCalc: Unable to clear stale cached PRO authorization.",
-            error
-          );
-        }
       }
 
 
