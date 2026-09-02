@@ -159,45 +159,15 @@ if (bunkerMtCard) {
 
   bunkerMtCard.addEventListener(
     "click",
-    async (event) => {
+    () => {
 
       /*
-        Stop the normal href navigation
-        while we check PRO status.
+        The calculator page handles its own
+        PRO preview and access behavior.
       */
 
-      event.preventDefault();
-
-
-      /*
-        Check subscription.
-      */
-
-      const isPro =
-        await hasActivePro();
-
-
-      if (isPro) {
-
-        /*
-          APPROVED PRO USER
-          → Go directly to calculator.
-        */
-
-        window.location.href =
-          "calculators/bunker-mt/index.html";
-
-      } else {
-
-        /*
-          FREE / LOGGED OUT / EXPIRED
-          → Go to PRO page.
-        */
-
-        window.location.href =
-          "pro/index.html";
-
-      }
+      window.location.href =
+        "calculators/bunker-mt/index.html";
 
     }
   );
@@ -219,44 +189,15 @@ if (noonCalculationCard) {
 
   noonCalculationCard.addEventListener(
     "click",
-    async (event) => {
+    () => {
 
       /*
-        Stop normal navigation.
+        The calculator page handles its own
+        PRO preview and access behavior.
       */
 
-      event.preventDefault();
-
-
-      /*
-        Check subscription.
-      */
-
-      const isPro =
-        await hasActivePro();
-
-
-      if (isPro) {
-
-        /*
-          APPROVED PRO USER
-          → Go directly to calculator.
-        */
-
-        window.location.href =
-          "calculators/noon-calculation/index.html";
-
-      } else {
-
-        /*
-          FREE / LOGGED OUT / EXPIRED
-          → Go to PRO page.
-        */
-
-        window.location.href =
-          "pro/index.html";
-
-      }
+      window.location.href =
+        "calculators/noon-calculation/index.html";
 
     }
   );

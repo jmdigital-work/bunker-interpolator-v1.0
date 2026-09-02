@@ -217,7 +217,9 @@ a {
 
   color: var(--navy);
 
-  font-size: 22px;
+  font-size: 23px;
+
+  line-height: 1.2;
 }
 
 .calculator-heading p {
@@ -228,7 +230,9 @@ a {
 
   color: var(--muted);
 
-  font-size: 12px;
+  font-size: 13px;
+
+  line-height: 1.4;
 }
 
 .free-badge {

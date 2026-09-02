@@ -436,3 +436,53 @@ a {
   }
 
 }
+
+/* ACCOUNT MENU */
+.menu-toggle {
+  width: 44px;
+  height: 44px;
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 4px 14px rgba(19, 55, 70, 0.12);
+  cursor: pointer;
+}
+
+.menu-toggle span { width: 22px; height: 2px; display: block; background: var(--navy); }
+
+.account-menu {
+  width: min(320px, calc(100vw - 24px));
+  position: fixed;
+  top: 70px;
+  right: 12px;
+  z-index: 19;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 14px 34px rgba(19, 55, 70, 0.2);
+}
+
+.account-menu-header { display: flex; align-items: center; justify-content: space-between; color: var(--navy-dark); font-size: 17px; }
+.menu-close { width: 30px; height: 30px; border: 0; background: transparent; color: var(--muted); font-size: 25px; line-height: 1; cursor: pointer; }
+.menu-content { margin-top: 15px; }
+.menu-section-label, .menu-label, .menu-value, .menu-feature { display: block; margin: 0; }
+.menu-section-label { color: var(--navy); font-size: 12px; font-weight: 800; letter-spacing: .4px; }
+.menu-label { margin-top: 12px; color: var(--muted); font-size: 12px; }
+.menu-value { margin-top: 3px; font-size: 15px; }
+.pro-value { color: var(--orange); }
+.menu-feature { margin-top: 10px; color: var(--text); font-size: 13px; }
+.locked-feature { color: var(--orange); }
+.menu-divider { height: 1px; margin: 15px 0; background: var(--border); }
+.menu-action, .upgrade-action { width: 100%; display: block; margin-top: 12px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 6px; background: white; color: var(--navy); font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; }
+.upgrade-action { margin-top: 17px; border-color: var(--orange); background: var(--orange); color: white; text-align: center; }
+.menu-logout { margin-top: 15px; border: 0; padding-left: 0; }
+.menu-loading { margin: 0; color: var(--muted); font-size: 13px; }

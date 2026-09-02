@@ -160,6 +160,19 @@ document
   );
 
 
+function openSignupFromHash() {
+
+  if (window.location.hash === "#signup") {
+
+    loginPanel.hidden = true;
+
+    signupPanel.hidden = false;
+
+  }
+
+}
+
+
 /* =========================================================
    SIGN UP
    ========================================================= */
@@ -851,5 +864,7 @@ supabaseClient.auth.onAuthStateChange(
 /* =========================================================
    START
    ========================================================= */
+
+openSignupFromHash();
 
 checkSession();

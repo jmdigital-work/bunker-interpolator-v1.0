@@ -30,6 +30,22 @@
 
   <main class="app">
 
+    <button id="menuToggle" class="menu-toggle" type="button" aria-controls="accountMenu" aria-expanded="false" aria-label="Open account menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <aside id="accountMenu" class="account-menu" aria-label="MarineCalc account menu" hidden>
+      <div class="account-menu-header">
+        <strong>MarineCalc</strong>
+        <button id="menuClose" class="menu-close" type="button" aria-label="Close account menu">&times;</button>
+      </div>
+      <div id="menuContent" class="menu-content">
+        <p class="menu-section-label">&#128100; Account</p>
+        <div class="menu-divider"></div>
+        <p class="menu-loading">Checking account...</p>
+      </div>
+    </aside>
+
     <!-- HEADER -->
     <header class="app-header">
 
@@ -191,8 +207,94 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="sw.js"></script>
 <script src="js/offline-pro.js"></script>
+<script src="pro-access.js"></script>
 
 <script>
+  /* ACCOUNT MENU */
+
+  const menuToggle = document.getElementById("menuToggle");
+  const accountMenu = document.getElementById("accountMenu");
+  const menuClose = document.getElementById("menuClose");
+  const menuContent = document.getElementById("menuContent");
+
+  function setMenuOpen(isOpen) {
+    accountMenu.hidden = !isOpen;
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Close account menu" : "Open account menu");
+  }
+
+  function renderLoggedOutMenu() {
+    menuContent.innerHTML = `
+      <p class="menu-section-label">&#128100; Account</p>
+      <div class="menu-divider"></div>
+      <a class="menu-action" href="auth/index.html">Log In</a>
+      <a class="menu-action" href="auth/index.html#signup">Create Account</a>
+    `;
+  }
+
+  function renderAccountMenu(user, isPro) {
+    if (!user) {
+      renderLoggedOutMenu();
+      return;
+    }
+
+    menuContent.innerHTML = isPro ? `
+      <p class="menu-section-label">&#128100; Account</p>
+      <div class="menu-divider"></div>
+      <p class="menu-label">Subscription</p>
+      <strong class="menu-value pro-value">PRO &#11088;</strong>
+      <p class="menu-label">Status</p>
+      <strong class="menu-value">Active</strong>
+      <div class="menu-divider"></div>
+      <p class="menu-section-label">Available Features</p>
+      <p class="menu-feature">&#10003; PRO Access</p>
+      <p class="menu-feature">&#10003; All Calculators</p>
+      <p class="menu-feature">&#10003; PRO Features</p>
+      <div class="menu-divider"></div>
+      <button class="menu-action menu-logout" type="button">Log Out</button>
+    ` : `
+      <p class="menu-section-label">&#128100; Account</p>
+      <div class="menu-divider"></div>
+      <p class="menu-label">Subscription</p>
+      <strong class="menu-value">FREE</strong>
+      <p class="menu-label">Status</p>
+      <strong class="menu-value">Active</strong>
+      <div class="menu-divider"></div>
+      <p class="menu-section-label">Available Features</p>
+      <p class="menu-feature">&#10003; Basic Calculators</p>
+      <p class="menu-feature">&#10003; Online Access</p>
+      <p class="menu-feature locked-feature">&#128274; PRO Calculators</p>
+      <a class="upgrade-action" href="pro/index.html">Upgrade to PRO</a>
+      <button class="menu-action menu-logout" type="button">Log Out</button>
+    `;
+
+    menuContent.querySelector(".menu-logout").addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+      renderLoggedOutMenu();
+    });
+  }
+
+  async function updateAccountMenu() {
+    const { data, error } = await supabaseClient.auth.getSession();
+    if (error || !data.session || !data.session.user) {
+      renderLoggedOutMenu();
+      return;
+    }
+    renderAccountMenu(data.session.user, await hasActivePro());
+  }
+
+  menuToggle.addEventListener("click", async () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    setMenuOpen(!isOpen);
+    if (!isOpen) await updateAccountMenu();
+  });
+
+  menuClose.addEventListener("click", () => setMenuOpen(false));
+
+  supabaseClient.auth.onAuthStateChange(() => {
+    if (!accountMenu.hidden) updateAccountMenu();
+  });
+
   /*
      OFFLINE STATUS BANNER
   */
