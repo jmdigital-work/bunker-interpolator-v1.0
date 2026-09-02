@@ -1,4 +1,4 @@
-const CACHE_NAME = "marinecalc-v10";
+const CACHE_NAME = "marinecalc-v11";
 
 const APP_SHELL = [
 

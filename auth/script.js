@@ -746,18 +746,6 @@ function formatDate(
    ========================================================= */
 
 async function showAccount(user) {
-
-  loginPanel.hidden = true;
-
-  signupPanel.hidden = true;
-
-  accountPanel.hidden = false;
-
-
-  accountEmail.textContent =
-    user.email || "";
-
-
   /*
     Retrieve the user's MarineCalc
     profile.
@@ -795,15 +783,24 @@ if (error) {
 
   if (profile.is_admin) {
 
-    accountRole.textContent =
-      "MARINECALC ADMIN";
+    window.location.href =
+      "../admin/index.html";
 
-  } else {
-
-    accountRole.textContent =
-      "MARINECALC USER";
+    return;
 
   }
+
+  loginPanel.hidden = true;
+
+  signupPanel.hidden = true;
+
+  accountPanel.hidden = false;
+
+  accountEmail.textContent =
+    user.email || "";
+
+  accountRole.textContent =
+    "MARINECALC USER";
 
   await loadProStatus(user);
 
