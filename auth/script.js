@@ -391,6 +391,22 @@ document
       }
 
 
+      try {
+
+        localStorage.removeItem(
+          "marinecalc_offline_pro"
+        );
+
+      } catch (storageError) {
+
+        console.warn(
+          "Unable to clear cached PRO authorization on logout:",
+          storageError
+        );
+
+      }
+
+
       accountPanel.hidden = true;
 
       loginPanel.hidden = false;

@@ -1046,6 +1046,21 @@ async function checkProAccess() {
 
     if (!isPro) {
 
+      try {
+
+        localStorage.removeItem(
+          "marinecalc_offline_pro"
+        );
+
+      } catch (error) {
+
+        console.warn(
+          "MarineCalc: Unable to clear stale cached PRO authorization.",
+          error
+        );
+
+      }
+
       showProPreview();
 
       return;
