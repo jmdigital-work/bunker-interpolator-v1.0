@@ -125,11 +125,18 @@ a {
 
   border-radius: 50%;
 
-  background: var(--navy);
+  background: transparent;
 
-  color: #fff;
+  overflow: hidden;
+}
 
-  font-size: 19px;
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
 }
 
 .brand strong {

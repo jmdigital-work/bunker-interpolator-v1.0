@@ -938,7 +938,105 @@ const PREVIEW_DATA = {
 };
 
 
+function addPreviewStyles() {
+
+  if (
+    document.getElementById(
+      "marinecalc-bunker-preview-styles"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const style =
+    document.createElement("style");
+
+
+  style.id =
+    "marinecalc-bunker-preview-styles";
+
+
+  style.textContent = `
+
+    .marinecalc-preview-banner {
+      margin-bottom: 20px;
+      padding: 16px 17px;
+      border: 1px solid #B9D3DF;
+      border-radius: 10px;
+      background: #EAF4F8;
+    }
+
+    .marinecalc-preview-banner strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #003B5C;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .marinecalc-preview-banner p {
+      margin: 0 0 13px;
+      color: #496474;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .marinecalc-preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .marinecalc-preview-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .marinecalc-preview-pro {
+      background: #176C8E;
+      color: #FFFFFF;
+    }
+
+    .marinecalc-preview-pro:hover {
+      background: #125B78;
+    }
+
+    .marinecalc-preview-login {
+      border: 1px solid #176C8E;
+      background: #FFFFFF;
+      color: #176C8E;
+    }
+
+    .marinecalc-preview-login:hover {
+      background: #F2F8FA;
+    }
+
+    .marinecalc-preview-disabled {
+      opacity: 0.82;
+    }
+  `;
+
+
+  document.head.appendChild(style);
+
+}
+
+
 function showProPreview() {
+
+  addPreviewStyles();
 
   if (
     document.getElementById(
@@ -978,8 +1076,9 @@ function showProPreview() {
         element.disabled =
           true;
 
-        element.style.opacity =
-          "0.82";
+        element.classList.add(
+          "marinecalc-preview-disabled"
+        );
 
       }
     );
@@ -997,86 +1096,35 @@ function showProPreview() {
     "marinecalcPreviewBanner";
 
 
-  banner.style.cssText = `
-    margin-bottom:20px;
-    padding:16px 17px;
-    border:1px solid #B9D3DF;
-    border-radius:10px;
-    background:#EAF4F8;
-  `;
+  banner.className =
+    "marinecalc-preview-banner";
 
 
   banner.innerHTML = `
 
-    <strong
-      style="
-        display:block;
-        margin-bottom:6px;
-        color:#003B5C;
-        font-size:12px;
-        font-weight:900;
-      "
-    >
+    <strong>
       🔒 MARINECALC PRO PREVIEW
     </strong>
 
-    <p
-      style="
-        margin:0 0 13px;
-        color:#496474;
-        font-size:10px;
-        line-height:1.55;
-      "
-    >
+    <p>
       You're viewing a working demonstration of the
       Bunker (MT) Calculator. Sample data is shown for
       demonstration only. An active PRO subscription
       is required to enter your own vessel and fuel data.
     </p>
 
-    <div
-      style="
-        display:flex;
-        gap:8px;
-        flex-wrap:wrap;
-      "
-    >
+    <div class="marinecalc-preview-actions">
 
       <a
         href="../../pro/index.html"
-        style="
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          min-height:36px;
-          padding:0 14px;
-          border-radius:6px;
-          background:#176C8E;
-          color:#FFFFFF;
-          text-decoration:none;
-          font-size:10px;
-          font-weight:800;
-        "
+        class="marinecalc-preview-pro"
       >
         GET PRO — $9 / 1 YEAR
       </a>
 
       <a
         href="../../auth/index.html"
-        style="
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          min-height:36px;
-          padding:0 14px;
-          border-radius:6px;
-          border:1px solid #176C8E;
-          background:#FFFFFF;
-          color:#176C8E;
-          text-decoration:none;
-          font-size:10px;
-          font-weight:800;
-        "
+        class="marinecalc-preview-login"
       >
         LOGIN / MY ACCOUNT
       </a>
@@ -1086,9 +1134,35 @@ function showProPreview() {
   `;
 
 
-  card.prepend(
-    banner
-  );
+  const firstCalculator =
+    document.querySelector(
+      ".calculator-card"
+    );
+
+
+  if (firstCalculator && firstCalculator.parentNode) {
+
+    firstCalculator.parentNode.insertBefore(
+      banner,
+      firstCalculator
+    );
+
+  } else {
+
+    const main =
+      document.querySelector("main");
+
+    if (main) {
+
+      main.prepend(banner);
+
+    } else {
+
+      document.body.prepend(banner);
+
+    }
+
+  }
 
 
   /*
