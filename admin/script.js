@@ -85,6 +85,37 @@ const adminMessage =
     "adminMessage"
   );
 
+/* =========================================================
+   BETA APPLICATION ELEMENTS
+   ========================================================= */
+
+const betaApplicationsContainer =
+  document.getElementById(
+    "betaApplicationsContainer"
+  );
+
+const betaApprovedCount =
+  document.getElementById(
+    "betaApprovedCount"
+  );
+
+const betaPendingCount =
+  document.getElementById(
+    "betaPendingCount"
+  );
+
+const betaRemainingCount =
+  document.getElementById(
+    "betaRemainingCount"
+  );
+
+const betaAdminMessage =
+  document.getElementById(
+    "betaAdminMessage"
+  );
+
+const BETA_LIMIT = 50;
+
 
 /* =========================================================
    CHECK ADMIN ACCESS
@@ -169,6 +200,8 @@ async function checkAdminAccess() {
 
 
   await loadRequests();
+
+  await loadBetaApplications();
 
 }
 
@@ -1098,3 +1131,622 @@ supabaseClient.auth.onAuthStateChange(
    ========================================================= */
 
 checkAdminAccess();
+
+/* =========================================================
+   FOUNDING BETA TESTERS
+   ========================================================= */
+
+async function loadBetaApplications() {
+
+  if (!betaApplicationsContainer) {
+    return;
+  }
+
+  betaApplicationsContainer.innerHTML = `
+    <div class="empty-state">
+      Loading beta applications...
+    </div>
+  `;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("beta_applications")
+    .select(`
+      id,
+      user_id,
+      full_name,
+      email,
+      rank,
+      vessel_type,
+      feedback_interest,
+      notes,
+      status,
+      submitted_at,
+      reviewed_at,
+      reviewed_by
+    `)
+    .order(
+      "submitted_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    console.error(
+      "Beta application query error:",
+      error
+    );
+
+    betaApplicationsContainer.innerHTML = `
+      <div class="empty-state">
+        Unable to load beta applications.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  updateBetaSummary(
+    data || []
+  );
+
+
+  renderBetaApplications(
+    data || []
+  );
+
+}
+
+/* =========================================================
+   BETA SUMMARY
+   ========================================================= */
+
+function updateBetaSummary(
+  applications
+) {
+
+  const approved =
+    applications.filter(
+      application =>
+        application.status === "approved"
+    ).length;
+
+
+  const pending =
+    applications.filter(
+      application =>
+        application.status === "pending"
+    ).length;
+
+
+  const remaining =
+    Math.max(
+      BETA_LIMIT - approved,
+      0
+    );
+
+
+  betaApprovedCount.textContent =
+    approved;
+
+
+  betaPendingCount.textContent =
+    pending;
+
+
+  betaRemainingCount.textContent =
+    remaining;
+
+}
+
+/* =========================================================
+   RENDER BETA APPLICATIONS
+   ========================================================= */
+
+function renderBetaApplications(
+  applications
+) {
+
+  if (!applications.length) {
+
+    betaApplicationsContainer.innerHTML = `
+      <div class="empty-state">
+        No beta applications found.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  betaApplicationsContainer.innerHTML =
+    applications
+      .map(
+        application =>
+          createBetaApplicationCard(
+            application
+          )
+      )
+      .join("");
+
+
+  attachBetaActions();
+
+}
+
+/* =========================================================
+   BETA APPLICATION CARD
+   ========================================================= */
+
+function createBetaApplicationCard(
+  application
+) {
+
+  const status =
+    application.status ||
+    "pending";
+
+
+  const statusClass =
+    `status-${status}`;
+
+
+  const submittedDate =
+    application.submitted_at
+      ? formatDateTime(
+          application.submitted_at
+        )
+      : "—";
+
+
+  let actions = "";
+
+
+  if (status === "pending") {
+
+    actions = `
+      <div class="request-actions">
+
+        <button
+          class="action-button approve-button"
+          data-beta-action="approve"
+          data-id="${application.id}"
+        >
+          APPROVE BETA TESTER
+        </button>
+
+        <button
+          class="action-button reject-button"
+          data-beta-action="reject"
+          data-id="${application.id}"
+        >
+          REJECT
+        </button>
+
+      </div>
+    `;
+
+  }
+
+
+  return `
+    <article class="request-card">
+
+      <div class="request-top">
+
+        <div>
+
+          <h3 class="request-name">
+            ${escapeHtml(
+              application.full_name
+            )}
+          </h3>
+
+          <p class="request-email">
+            ${escapeHtml(
+              application.email
+            )}
+          </p>
+
+        </div>
+
+
+        <span
+          class="status-badge ${statusClass}"
+        >
+          ${escapeHtml(
+            status
+          )}
+        </span>
+
+      </div>
+
+
+      <div class="request-details">
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Rank
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              application.rank
+            ) || "—"}
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Vessel Type
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              application.vessel_type
+            ) || "—"}
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Applied
+          </span>
+
+          <span class="detail-value">
+            ${submittedDate}
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            What They Want to Test
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              application.feedback_interest
+            ) || "—"}
+          </span>
+
+        </div>
+
+
+        <div class="detail">
+
+          <span class="detail-label">
+            Additional Notes
+          </span>
+
+          <span class="detail-value">
+            ${escapeHtml(
+              application.notes
+            ) || "—"}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      ${actions}
+
+    </article>
+  `;
+
+}
+
+/* =========================================================
+   ATTACH BETA ACTIONS
+   ========================================================= */
+
+function attachBetaActions() {
+
+  document
+    .querySelectorAll(
+      "[data-beta-action]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          handleBetaAction
+        );
+
+      }
+    );
+
+}
+
+/* =========================================================
+   HANDLE BETA ACTION
+   ========================================================= */
+
+async function handleBetaAction(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const action =
+    button.dataset.betaAction;
+
+
+  const applicationId =
+    button.dataset.id;
+
+
+  if (
+    action === "approve"
+  ) {
+
+    await approveBetaApplication(
+      applicationId,
+      button
+    );
+
+    return;
+  }
+
+
+  if (
+    action === "reject"
+  ) {
+
+    await rejectBetaApplication(
+      applicationId,
+      button
+    );
+
+  }
+
+}
+
+/* =========================================================
+   APPROVE BETA APPLICATION
+   ========================================================= */
+
+async function approveBetaApplication(
+  applicationId,
+  button
+) {
+
+  const confirmed =
+    window.confirm(
+      "Approve this applicant as a Founding Beta Tester and activate FREE Lifetime PRO access?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  clearBetaAdminMessage();
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "APPROVING...";
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .rpc(
+          "approve_beta_application",
+          {
+            p_application_id:
+              applicationId
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data) {
+
+      throw new Error(
+        "The beta application could not be approved. The 50 tester limit may have been reached."
+      );
+
+    }
+
+
+    showBetaAdminSuccess(
+      "Beta tester approved. FREE Lifetime PRO access has been activated."
+    );
+
+
+    await loadBetaApplications();
+
+
+  } catch (error) {
+
+    console.error(
+      "Beta approval error:",
+      error
+    );
+
+
+    showBetaAdminError(
+      error.message ||
+      "Unable to approve beta application."
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "APPROVE BETA TESTER";
+
+  }
+
+}
+
+/* =========================================================
+   REJECT BETA APPLICATION
+   ========================================================= */
+
+async function rejectBetaApplication(
+  applicationId,
+  button
+) {
+
+  const confirmed =
+    window.confirm(
+      "Reject this beta application?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  clearBetaAdminMessage();
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "REJECTING...";
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("beta_applications")
+        .update({
+          status: "rejected",
+          reviewed_at:
+            new Date().toISOString()
+        })
+        .eq(
+          "id",
+          applicationId
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    showBetaAdminSuccess(
+      "Beta application rejected."
+    );
+
+
+    await loadBetaApplications();
+
+
+  } catch (error) {
+
+    console.error(
+      "Beta rejection error:",
+      error
+    );
+
+
+    showBetaAdminError(
+      error.message ||
+      "Unable to reject beta application."
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "REJECT";
+
+  }
+
+}
+
+/* =========================================================
+   BETA MESSAGES
+   ========================================================= */
+
+function showBetaAdminSuccess(
+  text
+) {
+
+  betaAdminMessage.textContent =
+    text;
+
+
+  betaAdminMessage.className =
+    "admin-message success";
+
+}
+
+
+function showBetaAdminError(
+  text
+) {
+
+  betaAdminMessage.textContent =
+    text;
+
+
+  betaAdminMessage.className =
+    "admin-message error";
+
+}
+
+
+function clearBetaAdminMessage() {
+
+  betaAdminMessage.textContent =
+    "";
+
+
+  betaAdminMessage.className =
+    "admin-message";
+
+}
+
+/* =========================================================
+   BETA REFRESH
+   ========================================================= */
+
+document
+  .getElementById(
+    "refreshBetaButton"
+  )
+  .addEventListener(
+    "click",
+    loadBetaApplications
+  );
