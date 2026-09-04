@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b3d5c" />
+  <meta name="description" content="Apply to become a MarineCalc Founding Beta Tester." />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="../icons/marinecalc-favicon-32.png" />
+  <title>MarineCalc Beta Testers</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="beta-app">
+    <header class="beta-header">
+      <a class="back-link" href="../index.html">← MarineCalc Home</a>
+      <img class="brand-icon" src="../icons/marinecalc-logo.png" alt="MarineCalc" />
+      <p class="eyebrow">MARINECALC FOUNDING PROGRAM</p>
+      <h1>BECOME A FOUNDING<br />BETA TESTER</h1>
+      <p class="intro">Help make MarineCalc more useful at sea.</p>
+    </header>
+
+    <section class="availability-card" aria-live="polite">
+      <p class="availability-label">FOUNDING BETA TESTERS</p>
+      <p id="availabilityCount" class="availability-count">Checking availability…</p>
+      <p id="availabilityMessage" class="availability-message">Loading the current number of places.</p>
+    </section>
+
+    <section class="benefits-card" aria-labelledby="benefitsHeading">
+      <h2 id="benefitsHeading">What you receive</h2>
+      <p><strong>FREE Lifetime PRO access</strong> in exchange for testing MarineCalc, reporting bugs, sharing feedback, and suggesting calculators.</p>
+    </section>
+
+    <section id="loginPanel" class="content-card" hidden>
+      <h2>Sign in to apply</h2>
+      <p>Please create or sign in to your MarineCalc account before applying.</p>
+      <div class="auth-actions">
+        <a class="primary-button" href="../auth/index.html?beta=1#signup">CREATE ACCOUNT</a>
+        <a class="secondary-button" href="../auth/index.html?beta=1">SIGN IN</a>
+      </div>
+    </section>
+
+    <section id="loadingPanel" class="content-card status-card" aria-live="polite">
+      <p>Checking your beta application…</p>
+    </section>
+
+    <section id="applicationStatusPanel" class="content-card status-card" hidden aria-live="polite">
+      <span id="statusBadge" class="status-badge"></span>
+      <h2 id="statusTitle"></h2>
+      <p id="statusDescription"></p>
+      <p id="submittedOn" class="submitted-on"></p>
+    </section>
+
+    <section id="formPanel" class="content-card" hidden>
+      <div class="form-heading">
+        <h2 id="feedback">Beta Tester Application</h2>
+        <p>Tell us a little about how you would like to help.</p>
+      </div>
+      <form id="betaApplicationForm">
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" readonly required />
+          <small>This is the email on your MarineCalc account.</small>
+        </div>
+        <div class="form-group">
+          <label for="rank">Rank / position</label>
+          <input id="rank" name="rank" type="text" autocomplete="organization-title" placeholder="e.g. Chief Engineer" required />
+        </div>
+        <div class="form-group">
+          <label for="vesselType">Vessel type</label>
+          <input id="vesselType" name="vesselType" type="text" placeholder="e.g. Bulk carrier, tanker" required />
+        </div>
+        <div class="form-group">
+          <label for="testingInterests">What would you like to help test?</label>
+          <textarea id="testingInterests" name="testingInterests" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="notes">Additional comments <span>(optional)</span></label>
+          <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+        <button id="submitButton" class="primary-button" type="submit">SUBMIT BETA APPLICATION</button>
+        <p id="formMessage" class="form-message" role="alert"></p>
+      </form>
+    </section>
+
+    <footer>
+      <strong>MarineCalc V1.0</strong>
+      <span>Built for marine engineers &amp; shipboard use</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>

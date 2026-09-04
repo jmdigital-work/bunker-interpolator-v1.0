@@ -321,6 +321,75 @@ a {
 
 
 /* =========================
+   BETA TESTER PROGRAM
+========================= */
+
+.beta-section {
+  margin-top: 28px;
+}
+
+.beta-card {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #a9d5c1;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f6fcf9, #ffffff);
+  box-shadow: 0 5px 18px rgba(19, 55, 70, 0.07);
+}
+
+.beta-card-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #e5f5ec;
+  font-size: 25px;
+}
+
+.beta-card-content {
+  flex: 1;
+}
+
+.beta-eyebrow {
+  margin: 0 0 5px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.beta-card h2 {
+  margin: 0 0 7px;
+  color: var(--navy);
+  font-size: 17px;
+}
+
+.beta-card-content > p:not(.beta-eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.beta-action {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.beta-action:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
    PRO CARD
 ========================= */
 
@@ -433,6 +502,23 @@ a {
 
   .card-arrow {
     font-size: 22px;
+  }
+
+  .beta-card {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 14px;
+  }
+
+  .beta-card-icon {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+    font-size: 22px;
+  }
+
+  .beta-card h2 {
+    font-size: 15px;
   }
 
 }

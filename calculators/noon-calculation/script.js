@@ -51,6 +51,10 @@ const NOON_PREVIEW_DATA = {
 };
 
 
+/* Set to "subscription" when the paid upgrade flow returns. */
+const PREVIEW_BANNER_MODE = "beta";
+
+
 /* =========================================================
    PRO PREVIEW STYLES
    ========================================================= */
@@ -207,6 +211,22 @@ function addPreviewStyles() {
 
     }
 
+    .marinecalc-preview-feedback {
+
+      display: inline-block;
+
+      margin-top: 12px;
+
+      color: #176C8E;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      text-decoration: underline;
+
+    }
+
 
     .marinecalc-preview-label {
 
@@ -355,7 +375,7 @@ function showProPreview() {
     "marinecalc-preview-banner";
 
 
-  banner.innerHTML = `
+  const subscriptionBannerMarkup = `
 
     <strong>
       🔒 MARINECALC PRO PREVIEW
@@ -387,6 +407,12 @@ function showProPreview() {
     </div>
 
   `;
+
+
+  banner.innerHTML =
+    PREVIEW_BANNER_MODE === "beta"
+      ? getBetaBannerMarkup()
+      : subscriptionBannerMarkup;
 
 
   const firstCalculator =
@@ -530,6 +556,21 @@ function showProPreview() {
   calculatePropeller();
 
   calculateSpeedSlip();
+
+}
+
+
+function getBetaBannerMarkup() {
+
+  return `
+    <strong>⚓ MARINECALC PRO — BETA</strong>
+    <p>You’re using an early beta version. Features and calculations may change as we improve the tool.</p>
+    <div class="marinecalc-preview-actions">
+      <a href="../../beta/index.html" class="marinecalc-preview-pro">JOIN BETA TESTING</a>
+      <a href="../../auth/index.html" class="marinecalc-preview-login">LOGIN / MY ACCOUNT</a>
+    </div>
+    <a href="../../beta/index.html#feedback" class="marinecalc-preview-feedback">Have feedback? Let us know.</a>
+  `;
 
 }
 

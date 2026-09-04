@@ -191,6 +191,24 @@
     </section>
 
 
+    <!-- BETA TESTER PROGRAM -->
+    <section class="beta-section" aria-labelledby="betaTesterHeading">
+      <div class="beta-card">
+        <div class="beta-card-icon" aria-hidden="true">⚓</div>
+        <div class="beta-card-content">
+          <p class="beta-eyebrow">FOUNDING PROGRAM</p>
+          <h2 id="betaTesterHeading">BECOME A FOUNDING BETA TESTER</h2>
+          <p>
+            Limited to 50 Founding Beta Testers. Get FREE Lifetime PRO access while helping test MarineCalc, report bugs, provide feedback, and suggest calculators.
+          </p>
+          <a id="betaTesterCta" class="beta-action" href="auth/index.html?beta=1#signup">
+            BECOME A BETA TESTER <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
     <!-- FOOTER -->
     <footer class="app-footer">
 
@@ -293,6 +311,18 @@
 
   supabaseClient.auth.onAuthStateChange(() => {
     if (!accountMenu.hidden) updateAccountMenu();
+  });
+
+  const betaTesterCta = document.getElementById("betaTesterCta");
+
+  betaTesterCta.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const { data, error } = await supabaseClient.auth.getUser();
+
+    window.location.href = !error && data.user
+      ? "beta/index.html"
+      : "auth/index.html?beta=1#signup";
   });
 
   /*

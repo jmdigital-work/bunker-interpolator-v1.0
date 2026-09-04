@@ -136,6 +136,9 @@ const getProSection =
     "getProSection"
   );
 
+const authParameters = new URLSearchParams(window.location.search);
+const isBetaOnboarding = authParameters.get("beta") === "1";
+
 
 /* =========================================================
    PANEL SWITCHING
@@ -175,13 +178,34 @@ document
 
 function openSignupFromHash() {
 
-  if (window.location.hash === "#signup") {
+  if (isBetaOnboarding || window.location.hash === "#signup") {
 
     loginPanel.hidden = true;
 
     signupPanel.hidden = false;
 
   }
+
+}
+
+
+function getBetaRedirectUrl() {
+
+  /* Preserve the app base path for Live Server and GitHub Pages. */
+  return new URL("../beta/index.html", window.location.href).href;
+
+}
+
+
+function redirectToBetaIfNeeded() {
+
+  if (!isBetaOnboarding) {
+    return false;
+  }
+
+  window.location.replace(getBetaRedirectUrl());
+
+  return true;
 
 }
 
@@ -251,6 +275,23 @@ signupForm.addEventListener(
       metadata when creating the profile.
     */
 
+    const signupOptions = {
+
+      data: {
+
+        full_name: fullName
+
+      }
+
+    };
+
+    if (isBetaOnboarding) {
+
+      signupOptions.emailRedirectTo = getBetaRedirectUrl();
+
+    }
+
+
     const {
       data,
       error
@@ -260,15 +301,7 @@ signupForm.addEventListener(
 
       password: password,
 
-      options: {
-
-        data: {
-
-          full_name: fullName
-
-        }
-
-      }
+      options: signupOptions
 
     });
 
@@ -296,14 +329,24 @@ signupForm.addEventListener(
       !data.session
     ) {
 
-      signupMessage.textContent =
-        "Account created. Please check your email to confirm your account.";
+      signupMessage.textContent = isBetaOnboarding
+        ? "Account created! Please check your email to confirm your MarineCalc account. After confirmation, you'll be taken directly to the Beta Tester application."
+        : "Account created. Please check your email to confirm your account.";
 
       signupMessage.classList.add(
         "success"
       );
 
       signupForm.reset();
+
+      return;
+
+    }
+
+
+    if (isBetaOnboarding) {
+
+      redirectToBetaIfNeeded();
 
       return;
 
@@ -377,6 +420,10 @@ loginForm.addEventListener(
 
 
     if (data.user) {
+
+      if (redirectToBetaIfNeeded()) {
+        return;
+      }
 
       await showAccount(
         data.user
@@ -487,7 +534,7 @@ async function loadProStatus(
     await supabaseClient
       .from("pro_subscriptions")
       .select(
-        "status, activated_at, expires_at"
+        "plan, status, activated_at, expires_at"
       )
       .eq(
         "user_id",
@@ -541,19 +588,21 @@ async function loadProStatus(
     Check both status and expiration.
   */
 
-  const expiresAt =
-    new Date(
-      subscription.expires_at
-    );
-
-
   const isActive =
     subscription.status === "active";
 
 
+  const isLifetimeBeta =
+    subscription.plan === "BETA_LIFETIME" &&
+    !subscription.expires_at;
+
+
   const isNotExpired =
-    expiresAt.getTime() >
-    Date.now();
+    isLifetimeBeta ||
+    (
+      subscription.expires_at &&
+      new Date(subscription.expires_at).getTime() > Date.now()
+    );
 
 
   if (
@@ -774,6 +823,11 @@ function formatDate(
    ========================================================= */
 
 async function showAccount(user) {
+
+  if (redirectToBetaIfNeeded()) {
+    return;
+  }
+
   /*
     Retrieve the user's MarineCalc
     profile.
@@ -877,6 +931,10 @@ supabaseClient.auth.onAuthStateChange(
       session &&
       session.user
     ) {
+
+      if (redirectToBetaIfNeeded()) {
+        return;
+      }
 
       await showAccount(
         session.user

@@ -86,7 +86,7 @@ async function hasActivePro() {
       await supabaseClient
         .from("pro_subscriptions")
         .select(
-          "status, expires_at"
+          "plan, status, expires_at"
         )
         .eq(
           "user_id",
@@ -119,8 +119,10 @@ async function hasActivePro() {
     if (
       data &&
       data.status === "active" &&
-      data.expires_at &&
-      new Date(data.expires_at) > new Date()
+      (
+        (data.plan === "BETA_LIFETIME" && !data.expires_at) ||
+        (data.expires_at && new Date(data.expires_at) > new Date())
+      )
     ) {
 
       return true;

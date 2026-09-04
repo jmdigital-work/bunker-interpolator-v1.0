@@ -1,4 +1,4 @@
-const CACHE_NAME = "marinecalc-v15";
+const CACHE_NAME = "marinecalc-v19";
 
 const APP_SHELL = [
 
@@ -22,6 +22,14 @@ const APP_SHELL = [
   // ================================
 
   "./js/offline-pro.js",
+
+  // ================================
+  // BETA TESTER PROGRAM
+  // ================================
+
+  "./beta/index.html",
+  "./beta/style.css",
+  "./beta/script.js",
 
   // ================================
   // ICONS
