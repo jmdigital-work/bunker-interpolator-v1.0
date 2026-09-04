@@ -73,6 +73,15 @@ const accountEmail =
 const accountRole =
   document.getElementById("accountRole");
 
+const betaTesterBadge =
+  document.getElementById("betaTesterBadge");
+
+const betaTesterMessage =
+  document.getElementById("betaTesterMessage");
+
+const proPlan =
+  document.getElementById("proPlan");
+
 const proStatusCard =
   document.getElementById(
     "proStatusCard"
@@ -638,24 +647,37 @@ function showActiveProStatus(
   subscription
 ) {
 
+  const isBetaTester =
+    subscription.plan === "BETA_LIFETIME";
+
   proStatusCard.className =
-    "pro-status-card pro-active";
+    isBetaTester
+      ? "pro-status-card pro-active beta-active"
+      : "pro-status-card pro-active";
 
 
   proStatusBadge.className =
-    "pro-status-badge active";
+    isBetaTester
+      ? "pro-status-badge active beta-badge"
+      : "pro-status-badge active";
 
 
   proStatusBadge.textContent =
-    "● ACTIVE";
+    isBetaTester
+      ? "🧪 FOUNDING BETA TESTER"
+      : "● ACTIVE";
 
 
   proStatusTitle.textContent =
-    "MARINECALC PRO";
+    isBetaTester
+      ? "MARINECALC LIFETIME PRO"
+      : "MARINECALC PRO";
 
 
   proStatusDescription.textContent =
-    "Your PRO subscription is active.";
+    isBetaTester
+      ? "You have complimentary Lifetime PRO access as a Founding Beta Tester."
+      : "Your PRO subscription is active.";
 
 
   proDetails.hidden = false;
@@ -664,34 +686,70 @@ function showActiveProStatus(
 
   accountHomeNavigation.hidden = false;
 
+
   proToolsTitle.textContent =
     "PRO TOOLS";
+
 
   proTools.className =
     "pro-tools";
 
+
   getProSection.hidden = true;
 
 
-  proActivated.textContent =
-    formatDate(
-      subscription.activated_at
-    );
+  /*
+     Show the correct plan.
+  */
 
+  if (isBetaTester) {
 
-  proExpires.textContent =
-    formatDate(
+    proPlan.textContent =
+      "FOUNDING BETA — LIFETIME PRO";
+
+    proActivated.textContent =
+      formatDate(
+        subscription.activated_at
+      );
+
+    proExpires.textContent =
+      "NEVER — LIFETIME ACCESS";
+
+    betaTesterBadge.hidden = false;
+
+    betaTesterMessage.hidden = false;
+
+  } else {
+
+    proPlan.textContent =
+      "LIFETIME PRO";
+
+    proActivated.textContent =
+      formatDate(
+        subscription.activated_at
+      );
+
+    proExpires.textContent =
       subscription.expires_at
-    );
+        ? formatDate(subscription.expires_at)
+        : "NEVER — LIFETIME ACCESS";
+
+    betaTesterBadge.hidden = true;
+
+    betaTesterMessage.hidden = true;
+
+  }
 
 }
-
 
 /* =========================================================
    FREE USER
    ========================================================= */
 
 function showFreeStatus() {
+
+  betaTesterBadge.hidden = true;
+  betaTesterMessage.hidden = true;
 
   proStatusCard.className =
     "pro-status-card pro-free";
@@ -743,6 +801,9 @@ function showFreeStatus() {
 function showExpiredStatus(
   subscription
 ) {
+
+  betaTesterBadge.hidden = true;
+  betaTesterMessage.hidden = true;
 
   proStatusCard.className =
     "pro-status-card pro-expired";

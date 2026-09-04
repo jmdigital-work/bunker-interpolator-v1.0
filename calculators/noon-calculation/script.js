@@ -10,7 +10,7 @@
    ========================================================= */
 
 const SUPABASE_URL =
-  "https://lasdhuckmemuukiqovy.supabase.co";
+  "https://lasdhuckmemuukiqovyw.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_39hL-GbiMsBs2zuJmGM6cg_g34fj8s6";
@@ -332,6 +332,10 @@ function addPreviewStyles() {
 
 function showProPreview() {
 
+  console.log(
+    "MarineCalc Noon: showing preview"
+  );
+
   addPreviewStyles();
 
 
@@ -585,7 +589,7 @@ function getBetaBannerMarkup() {
    GET CACHED PRO AUTHORIZATION
    ========================================================= */
 
-function getOfflineProAccess() {
+function getNoonOfflineProAccess() {
 
   try {
 
@@ -676,12 +680,12 @@ function getOfflineProAccess() {
    CHECK VALID OFFLINE PRO ACCESS
    ========================================================= */
 
-function hasValidOfflineProAccess(
+function hasValidNoonOfflineProAccess(
   userId = null
 ) {
 
   const authorization =
-    getOfflineProAccess();
+    getNoonOfflineProAccess();
 
 
   if (!authorization) {
@@ -715,6 +719,10 @@ function hasValidOfflineProAccess(
    ========================================================= */
 
 function enableProCalculator() {
+
+  console.log(
+    "MarineCalc Noon: enabling PRO"
+  );
 
   /*
      Remove any PRO preview banner.
@@ -784,8 +792,12 @@ function enableProCalculator() {
 
 function showOfflineProMode() {
 
+  console.log(
+    "MarineCalc Noon: offline fallback"
+  );
+
   const authorization =
-   getOfflineProAccess();
+  getNoonOfflineProAccess();
 
 
   if (!authorization) {
@@ -935,50 +947,80 @@ function showOfflineProMode() {
 
 async function checkProAccess() {
 
-  /*
-     =======================================================
-     STEP 1 — TRY NORMAL ONLINE VERIFICATION
-     =======================================================
-  */
+  let currentUser = null;
 
   try {
+
+    /*
+       =======================================================
+       STEP 1 — GET CURRENT SESSION
+       =======================================================
+    */
 
     const {
       data: sessionData,
       error: sessionError
-    } =
-      await supabaseClient
+    } = await supabaseClient
+      .auth
+      .getSession();
+
+    let sessionUser =
+      sessionData &&
+      sessionData.session &&
+      sessionData.session.user;
+
+    if (!sessionError && !sessionUser) {
+
+      const {
+        data: userData,
+        error: userError
+      } = await supabaseClient
         .auth
-        .getSession();
+        .getUser();
+
+      if (userData && userData.user) {
+        sessionUser = userData.user;
+      }
+
+      if (userError) {
+        console.warn(
+          "MarineCalc Noon: user lookup",
+          userError
+        );
+      }
+
+    }
 
 
     /*
-       -----------------------------------------------------
+       -------------------------------------------------------
        SESSION ERROR
-       -----------------------------------------------------
+       -------------------------------------------------------
     */
 
     if (sessionError) {
 
       console.warn(
-        "MarineCalc: Online session check failed."
+        "MarineCalc Noon: session",
+        {
+          userId: null,
+          exists: false,
+          error: sessionError
+        }
       );
 
+      console.warn(
+        "MarineCalc: Online session check failed.",
+        sessionError
+      );
 
-      /*
-         FALL BACK TO CACHED PRO.
-      */
-
-      if (
-        hasValidOfflineProAccess()
-      ) {
+      if (hasValidNoonOfflineProAccess()) {
 
         showOfflineProMode();
 
         return;
 
       }
-
 
       showProPreview();
 
@@ -988,33 +1030,28 @@ async function checkProAccess() {
 
 
     /*
-       -----------------------------------------------------
+       -------------------------------------------------------
        NO SESSION
-       -----------------------------------------------------
+       -------------------------------------------------------
     */
 
-    if (
-      !sessionData ||
-      !sessionData.session ||
-      !sessionData.session.user
-    ) {
+    if (!sessionUser) {
 
-      /*
-         Before showing the PRO preview,
-         check whether we have previously
-         verified PRO access.
-      */
+      console.log(
+        "MarineCalc Noon: session",
+        {
+          userId: null,
+          exists: false
+        }
+      );
 
-      if (
-        hasValidOfflineProAccess()
-      ) {
+      if (hasValidNoonOfflineProAccess()) {
 
         showOfflineProMode();
 
         return;
 
       }
-
 
       showProPreview();
 
@@ -1023,28 +1060,48 @@ async function checkProAccess() {
     }
 
 
-    const user =
-      sessionData.session.user;
+    /*
+       Logged-in user
+    */
+
+    currentUser =
+      sessionUser;
+
+    console.log(
+      "MarineCalc Noon: session",
+      currentUser.id,
+      {
+        exists: true
+      }
+    );
 
 
     /*
-       =====================================================
-       STEP 2 — CHECK PRO STATUS WITH SUPABASE
-       =====================================================
+       =======================================================
+       STEP 2 — CHECK PRO STATUS
+       =======================================================
     */
 
     const {
       data: isPro,
       error: proError
-    } =
-      await supabaseClient
-        .rpc("is_pro");
+    } = await supabaseClient
+      .rpc("is_pro");
+
+    console.log(
+      "MarineCalc Noon: is_pro result",
+      {
+        userId: currentUser.id,
+        isPro,
+        error: proError || null
+      }
+    );
 
 
     /*
-       -----------------------------------------------------
-       SUPABASE RPC FAILED
-       -----------------------------------------------------
+       -------------------------------------------------------
+       PRO CHECK FAILED
+       -------------------------------------------------------
     */
 
     if (proError) {
@@ -1054,14 +1111,9 @@ async function checkProAccess() {
         proError
       );
 
-
-      /*
-         NETWORK FAILURE / OFFLINE FALLBACK
-      */
-
       if (
-        hasValidOfflineProAccess(
-          user.id
+        hasValidNoonOfflineProAccess(
+          currentUser.id
         )
       ) {
 
@@ -1071,7 +1123,6 @@ async function checkProAccess() {
 
       }
 
-
       showProPreview();
 
       return;
@@ -1080,9 +1131,9 @@ async function checkProAccess() {
 
 
     /*
-       -----------------------------------------------------
-       USER IS NOT PRO
-       -----------------------------------------------------
+       =======================================================
+       STEP 3 — USER IS NOT PRO
+       =======================================================
     */
 
     if (!isPro) {
@@ -1110,83 +1161,111 @@ async function checkProAccess() {
 
 
     /*
-       =====================================================
-       STEP 3 — GET SUBSCRIPTION EXPIRY
-       =====================================================
+       =======================================================
+       STEP 4 — PRO CONFIRMED
+       =======================================================
+
+       IMPORTANT:
+
+       is_pro() is the authority for PRO access.
+
+       LIFETIME and BETA_LIFETIME subscriptions
+       have expires_at = NULL.
+
+       Therefore expires_at MUST NOT be required
+       to unlock the calculator.
+    */
+
+
+    /*
+       UNLOCK CALCULATOR
+    */
+
+    enableProCalculator();
+
+    console.log(
+      "MarineCalc PRO access confirmed."
+    );
+
+
+    /*
+       =======================================================
+       STEP 5 — GET SUBSCRIPTION FOR OFFLINE CACHE
+       =======================================================
+
+       This lookup is ONLY for caching.
+
+       It does NOT determine PRO access.
     */
 
     const {
       data: subscription,
       error: subscriptionError
-    } =
-      await supabaseClient
-        .from("pro_subscriptions")
-        .select(
-          "expires_at"
-        )
-        .eq(
-          "user_id",
-          user.id
-        )
-        .eq(
-          "status",
-          "active"
-        )
-        .order(
-          "expires_at",
-          {
-            ascending: false
-          }
-        )
-        .limit(1)
-        .maybeSingle();
+    } = await supabaseClient
+      .from("pro_subscriptions")
+      .select(
+        "plan, status, expires_at"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "status",
+        "active"
+      )
+      .order(
+        "activated_at",
+        {
+          ascending: false
+        }
+      )
+      .limit(1)
+      .maybeSingle();
+
+    console.log(
+      "MarineCalc Noon: subscription",
+      {
+        userId: currentUser.id,
+        plan: subscription && subscription.plan,
+        status: subscription && subscription.status,
+        expires_at: subscription && subscription.expires_at,
+        error: subscriptionError || null
+      }
+    );
 
 
     /*
-       -----------------------------------------------------
-       SUBSCRIPTION QUERY FAILED
-       -----------------------------------------------------
+       -------------------------------------------------------
+       SUBSCRIPTION LOOKUP FAILED
+       -------------------------------------------------------
     */
 
-    if (
-      subscriptionError
-    ) {
+    if (subscriptionError) {
 
       console.warn(
-        "MarineCalc: Subscription expiry lookup failed.",
+        "MarineCalc: Subscription lookup failed.",
         subscriptionError
       );
 
-
       /*
-         If cached PRO exists, allow offline operation.
+         PRO is already confirmed.
+
+         Do NOT lock the calculator.
       */
 
-      if (
-        hasValidOfflineProAccess(
-          user.id
-        )
-      ) {
-
-        showOfflineProMode();
-
-        return;
-
-      }
+      return;
 
     }
 
 
     /*
-       =====================================================
-       STEP 4 — CACHE PRO AUTHORIZATION
-       =====================================================
+       =======================================================
+       STEP 6 — CACHE PRO AUTHORIZATION
+       =======================================================
     */
 
-    if (
-      subscription &&
-      subscription.expires_at
-    ) {
+    if (subscription) {
 
       try {
 
@@ -1195,13 +1274,20 @@ async function checkProAccess() {
           JSON.stringify({
 
             userId:
-              user.id,
+              currentUser.id,
 
             email:
-              user.email || "",
+              currentUser.email || "",
+
+            /*
+               NULL is correct for:
+
+               LIFETIME
+               BETA_LIFETIME
+            */
 
             expiresAt:
-              subscription.expires_at,
+              subscription.expires_at || null,
 
             verifiedAt:
               new Date().toISOString()
@@ -1211,7 +1297,8 @@ async function checkProAccess() {
 
 
         console.log(
-          "MarineCalc PRO access confirmed and cached for offline use."
+          "MarineCalc PRO authorization cached for offline use.",
+          subscription.plan
         );
 
 
@@ -1228,26 +1315,25 @@ async function checkProAccess() {
 
 
     /*
-       =====================================================
-       STEP 5 — ONLINE PRO ACCESS
-       =====================================================
+       =======================================================
+       STEP 7 — ONLINE PRO ACCESS CONFIRMED
+       =======================================================
     */
-
-    enableProCalculator();
-
 
     console.log(
-      "MarineCalc PRO access confirmed."
+      "MarineCalc: PRO calculator fully unlocked."
     );
 
+  }
 
-  } catch (error) {
 
-    /*
-       =====================================================
-       FINAL FALLBACK
-       =====================================================
-    */
+  /*
+     =========================================================
+     FINAL FALLBACK
+     =========================================================
+  */
+
+  catch (error) {
 
     console.warn(
       "MarineCalc: Online PRO verification failed.",
@@ -1256,25 +1342,23 @@ async function checkProAccess() {
 
 
     /*
-       CRITICAL:
+       Supabase unreachable.
 
-       If Supabase is unreachable, use the cached
-       authorization and UNLOCK the calculator.
+       Use cached PRO authorization if available.
     */
 
     if (
-      hasValidOfflineProAccess(
-				user.id
-			)
+      currentUser &&
+      hasValidNoonOfflineProAccess(
+        currentUser.id
+      )
     ) {
 
       console.log(
         "MarineCalc PRO access confirmed from cached authorization."
       );
 
-
       showOfflineProMode();
-
 
       return;
 
@@ -1291,7 +1375,6 @@ async function checkProAccess() {
 
 }
 
-
 /* =========================================================
    START PRO ACCESS CHECK
    ========================================================= */
@@ -1303,6 +1386,22 @@ setTimeout(
 
  },
  0
+);
+
+supabaseClient.auth.onAuthStateChange(
+  (event, session) => {
+
+    console.log(
+      "MarineCalc Noon: auth state",
+      event,
+      session && session.user && session.user.id
+    );
+
+    if (session && session.user) {
+      checkProAccess();
+    }
+
+  }
 );
 
 

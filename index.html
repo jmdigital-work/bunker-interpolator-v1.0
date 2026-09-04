@@ -245,11 +245,19 @@
     menuContent.innerHTML = `
       <p class="menu-section-label">&#128100; Account</p>
       <div class="menu-divider"></div>
+
       <a class="menu-action" href="auth/index.html">Log In</a>
       <a class="menu-action" href="auth/index.html#signup">Create Account</a>
+
+      <div class="menu-divider"></div>
+
+      <p class="menu-section-label">🧪 Beta Program</p>
+      <a class="menu-action" href="auth/index.html?beta=1#signup">
+        Become a Founding Beta Tester
+      </a>
     `;
   }
-
+  
   function renderAccountMenu(user, isPro) {
     if (!user) {
       renderLoggedOutMenu();
@@ -268,7 +276,14 @@
       <p class="menu-feature">&#10003; PRO Access</p>
       <p class="menu-feature">&#10003; All Calculators</p>
       <p class="menu-feature">&#10003; PRO Features</p>
+
       <div class="menu-divider"></div>
+
+      <p class="menu-section-label">🧪 Beta Program</p>
+      <a class="menu-action" href="beta/index.html">
+        Founding Beta Tester
+      </a>
+      
       <button class="menu-action menu-logout" type="button">Log Out</button>
     ` : `
       <p class="menu-section-label">&#128100; Account</p>
@@ -283,6 +298,16 @@
       <p class="menu-feature">&#10003; Online Access</p>
       <p class="menu-feature locked-feature">&#128274; PRO Calculators</p>
       <a class="upgrade-action" href="pro/index.html">Upgrade to PRO</a>
+
+      <div class="menu-divider"></div>
+
+      <p class="menu-section-label">🧪 Beta Program</p>
+      <a class="menu-action" href="beta/index.html">
+        Become a Founding Beta Tester
+      </a>
+
+      <div class="menu-divider"></div>
+
       <button class="menu-action menu-logout" type="button">Log Out</button>
     `;
 

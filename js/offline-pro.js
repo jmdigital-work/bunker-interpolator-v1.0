@@ -135,12 +135,8 @@ function hasValidOfflineProAccess(
      Check subscription expiry.
   */
 
-  if (
-    !authorization.expiresAt
-  ) {
-
-    return false;
-
+  if (!authorization.expiresAt) {
+    return true;
   }
 
 
