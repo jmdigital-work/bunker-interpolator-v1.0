@@ -812,25 +812,6 @@ function showOfflineProMode() {
 
 
   /*
-    VERY IMPORTANT:
-    If user is actually ONLINE, just enable calculator
-    without showing the offline banner.
-  */
-
-  if (navigator.onLine === true) {
-
-   enableProCalculator();
-
-   console.log(
-     "MarineCalc PRO access enabled from cache (online)."
-   );
-
-   return true;
-
-  }
-
-
-  /*
     User is OFFLINE - show the offline banner.
   */
 
@@ -1014,7 +995,10 @@ async function checkProAccess() {
         sessionError
       );
 
-      if (hasValidNoonOfflineProAccess()) {
+      if (
+        navigator.onLine === false &&
+        hasValidNoonOfflineProAccess()
+      ) {
 
         showOfflineProMode();
 
@@ -1045,7 +1029,10 @@ async function checkProAccess() {
         }
       );
 
-      if (hasValidNoonOfflineProAccess()) {
+      if (
+        navigator.onLine === false &&
+        hasValidNoonOfflineProAccess()
+      ) {
 
         showOfflineProMode();
 
@@ -1112,6 +1099,7 @@ async function checkProAccess() {
       );
 
       if (
+        navigator.onLine === false &&
         hasValidNoonOfflineProAccess(
           currentUser.id
         )
@@ -1348,6 +1336,7 @@ async function checkProAccess() {
     */
 
     if (
+      navigator.onLine === false &&
       currentUser &&
       hasValidNoonOfflineProAccess(
         currentUser.id
